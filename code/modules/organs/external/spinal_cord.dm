@@ -1,0 +1,5 @@
+/obj/item/organ/external/head/fracture()
+	..()
+	var/obj/item/organ/internal/spine/S=owner.internal_organs_by_name[BP_SPINE_UPPER]//owner.get_organ(BP_SPINE_UPPER)
+	if(!S.is_broken()&&S)
+		S.take_damage(rand(5,75))
