@@ -155,8 +155,8 @@
 			// No heart? You are going to have a very bad time. Not 100% lethal because heart transplants should be a thing.
 			var/blood_volume = owner.get_blood_oxygenation()
 			if(blood_volume < BLOOD_VOLUME_SURVIVE)
-				if(!owner.chem_effects[CE_STABLE] || prob(60))
-					oxygen_reserve = max(0, oxygen_reserve-1)
+				//if(!owner.chem_effects[CE_STABLE] || prob(60))
+				oxygen_reserve = max(0, oxygen_reserve-1)
 			else
 				oxygen_reserve = min(initial(oxygen_reserve), oxygen_reserve+1)
 			if(!oxygen_reserve) //(hardcrit)

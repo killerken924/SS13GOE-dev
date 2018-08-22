@@ -23,16 +23,15 @@
 	Init_Elevator()
 
 /datum/elevator/proc/Init_Elevator()
+	//Add Buttons
+	Button+=new/obj/machinery/elevator_button(mainturf,src)
 	//create starting floor
-
 	for(var/turf/T in block(locate(mainturf.x-x_size,mainturf.y-y_size,mainturf.z),locate(mainturf.x+x_size,mainturf.y+y_size,mainturf.z)))
-		if(T==mainturf)
-			Floors+=T
-			continue
-		T.ChangeTurf(/turf/simulated/floor/elevator_floor)
+		T.ChangeTurf(/turf/simulated/floor/elevator_floor,1,1)
 		Floors+=T
 		for(var/atom/A in T)
-			qdel(T)
+			if(!Button.Find(A))
+				qdel(T)
 		/*
 		switch(direction)
 			if(NORTH)
@@ -52,7 +51,7 @@
 		for(var/turf/T in block(locate(mainturf.x-x_size,mainturf.y-y_size,mainturf.z+zcalc),locate(mainturf.x+x_size,mainturf.y+y_size,mainturf.z+zcalc)))
 			if(T.z==mainturf.z)
 				continue
-			T.ChangeTurf(/turf/simulated/open)
+			T.ChangeTurf(/turf/simulated/open,1,1)
 			Floors+=T
 		SelectableFloor+=new/datum/elevatorfloor(mainturf.z+zcalc)
 		for(var/turf/T in Floors)
@@ -62,19 +61,35 @@
 			if(!flr.area_ref)
 				flr.area_ref=A.type
 	current_floor=SelectableFloor[mainturf.z]
-	Button+=new/obj/structure/elevator/button(mainturf,src)
 
 
-/datum/elevator/proc/Do_Elevator()
+
+
+
+/datum/elevator/proc/Do_Elevator(obj/machinery/elevator_button/B)
+	if(!next_floor)
+		next_floor=B.selected
 	var/area/origin = locate(current_floor.area_ref)
 	var/area/turbolift/destination = locate(next_floor.area_ref)
 	if(origin==destination)
 		return
-	spawn(10)
 	moving=1
+
+	for(var/turf/T in destination)
+		for(var/atom/movable/AM in T)
+			if(istype(AM, /mob/living))
+				var/mob/living/M = AM
+				if(next_floor._z<current_floor._z)//if the mob is getting smashed, then it gets gibbed
+					M.gib()
+			else if(AM.simulated)
+				qdel(AM)
+
 	origin.move_contents_to(destination)
 	current_floor=next_floor
 	moving=0
+	B.activated=0
+	B.selected=null
+	next_floor=null
 //datum/elevator/proc/Replace_Floors
 /datum/elevatorfloor
 	var/_z
