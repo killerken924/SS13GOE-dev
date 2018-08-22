@@ -31,7 +31,7 @@
 		sanity-=rand(1,5)
 	else
 		InTheDark=0
-		if(T.get_lumcount()>0.1)
+		if(T&&T.get_lumcount()>0.1)
 			sanity+=T.get_lumcount()*10
 	if(!(T==Last_dark_tile_in)||!Last_dark_tile_in)
 		if(T)

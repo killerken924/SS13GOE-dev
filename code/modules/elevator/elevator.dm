@@ -1,13 +1,3 @@
-/datum/elevator
-	var/name="Elevator"
-	var/list/Doors=list()
-	var/list/Floors=list()
-	var/list/Button=list()
-	var/floornumber=0
-
-/datum/elevator/proc/Do_Elevator(floornumber)
-	for(var/obj/structure/elevator_doors/D in Doors)
-		D.Toggle_door(1)
 
 /obj/structure/elevator_doors
 	name="Elevator Door"

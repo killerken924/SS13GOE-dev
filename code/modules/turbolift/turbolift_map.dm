@@ -4,8 +4,8 @@
 	icon = 'icons/obj/turbolift_preview_3x3.dmi'
 	dir = SOUTH         // Direction of the holder determines the placement of the lift control panel and doors.
 	var/depth = 1       // Number of floors to generate, including the initial floor.
-	var/lift_size_x = 2 // Number of turfs on each axis to generate in addition to the first
-	var/lift_size_y = 2 // ie. a 3x3 lift would have a value of 2 in each of these variables.
+	var/lift_size_x = 4 // Number of turfs on each axis to generate in addition to the first
+	var/lift_size_y = 4 // ie. a 3x3 lift would have a value of 2 in each of these variables.
 
 	// Various turf and door types used when generating the turbolift floors.
 	var/wall_type =  /turf/simulated/wall/elevator
@@ -126,7 +126,8 @@
 
 	// Generate each floor and store it in the controller datum.
 	for(var/cz = uz;cz<=ez;cz++)
-
+		//to_chat(world,"cz=[cz],uz=[uz],ez=[ez]")
+		world.log<<"cz=[cz],uz=[uz],ez=[ez]"
 		var/datum/turbolift_floor/cfloor = new()
 		lift.floors += cfloor
 

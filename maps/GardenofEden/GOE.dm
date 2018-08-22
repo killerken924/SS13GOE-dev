@@ -1,9 +1,10 @@
 #if !defined(using_map_DATUM)
 
 	#include "goe_areas.dm"
-
+	#include "GOE_elevator.dm"
 	#include "GOE1.dmm"
 	#include "GOE2.dmm"
+
 	//#include "example-2.dmm"
 	//#include "example-3.dmm"
 

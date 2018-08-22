@@ -1442,6 +1442,8 @@
 #include "code\modules\elevator\elevator.dm"
 #include "code\modules\elevator\elevator_floors.dm"
 #include "code\modules\elevator\elevator_walls.dm"
+#include "code\modules\elevator\elevatordatums.dm"
+#include "code\modules\elevator\map.dm"
 #include "code\modules\emotes\emote_define.dm"
 #include "code\modules\emotes\emote_mob.dm"
 #include "code\modules\emotes\definitions\_mob.dm"

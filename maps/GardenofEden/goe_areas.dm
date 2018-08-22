@@ -54,11 +54,20 @@
 	icon_state="Miningunexplored"
 	area_flags = AREA_FLAG_EXTERNAL
 	has_gravity = FALSE
-
 /area/goe/miningexplored
 	name="Mining explored"
 	icon_state="Miningexplored"
 	area_flags = AREA_FLAG_EXTERNAL
 	has_gravity = FALSE
+
+/area/goe/mining_lift_1
+	name="mining_lift_1"
+	icon_state="Mining1"
+	base_turf = /turf/simulated/floor
+
+/area/goe/mining_lift_2
+	name="mining_lift_1"
+	icon_state="Mining2"
+	base_turf = /turf/simulated/open
 
 

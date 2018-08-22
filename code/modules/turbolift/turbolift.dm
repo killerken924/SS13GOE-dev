@@ -66,7 +66,7 @@
 
 	if(target_floor == current_floor)
 
-		playsound(control_panel_interior.loc, origin.arrival_sound, 50, 1)
+		//playsound(control_panel_interior.loc, origin.arrival_sound, 50, 1)
 		target_floor.arrived(src)
 		target_floor = null
 
