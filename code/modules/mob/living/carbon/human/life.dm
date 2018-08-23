@@ -84,6 +84,8 @@
 
 		Handle_Sanity()
 
+		handle_mood()
+
 		if(!client && !mind)
 			species.handle_npc(src)
 

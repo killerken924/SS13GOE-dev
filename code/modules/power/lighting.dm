@@ -563,7 +563,7 @@
 	b_inner_range = 2
 	//b_outer_range = 8
 	b_outer_range = 5
-	b_curve = 4//2.5
+	b_curve = 2.5//4//2.5
 
 /obj/item/weapon/light/bulb
 	name = "light bulb"
@@ -571,15 +571,15 @@
 	icon_state = "lbulb"
 	base_state = "lbulb"
 	item_state = "contvapour"
-	broken_chance = 5
+	broken_chance = 2//5
 	matter = list("glass" = 100)
 
 	b_max_bright = 0.6
 	b_inner_range = 0.1
 	//b_outer_range = 4
 	b_outer_range=3
-	//b_curve = 3
-	b_curve=4
+	b_curve = 3
+	//b_curve=4
 	b_colour = "#fcfcc7"
 	lighting_modes = list(
 		LIGHTMODE_EMERGENCY = list(l_outer_range = 3, l_max_bright = 1, l_color = "#da0205"),

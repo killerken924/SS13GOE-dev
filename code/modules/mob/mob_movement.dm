@@ -342,22 +342,16 @@
 							direct = turn(direct, pick(90, -90))
 							n = get_step(mob, direct)
 			. = mob.SelfMove(n, direct)
-
-		/*for (var/obj/item/grab/G in mob)
-			if (G.attacker_reverse_facing())
-				mob.set_dir(GLOB.reverse_dir[direct])
-			G.assailant_moved()
-		for (var/obj/item/grab/G in mob.grabbed_by)
-			G.adjust_position()*/
-
 		moving = 0
-		mob.On_Move()
+		if(.)//This way it only takes stamina once you actually move.
+			mob.On_Move()
 		return .
 
 	return
 
 /mob/proc/SelfMove(turf/n, direct)
 	return Move(n, direct)
+
 
 
 ///Process_Incorpmove

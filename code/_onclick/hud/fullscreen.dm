@@ -44,6 +44,12 @@
 		if(client)
 			client.screen -= screen
 		qdel(screen)
+//NEW PROC FOR GETTING FULLSCREEN
+/mob/proc/get_fullscreen(category)
+	var/obj/screen/fullscreen/screen = screens[category]
+	if(!screen)
+		return 0
+	return screen
 
 /mob/proc/clear_fullscreens()
 	for(var/category in screens)

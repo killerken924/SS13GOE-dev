@@ -20,6 +20,7 @@
 
 	var/needs_update = FALSE
 
+
 /atom/movable/lighting_overlay/Initialize()
 	// doesn't need special init
 	initialized = TRUE

@@ -122,7 +122,8 @@
 			owner.organs -= null
 
 	if(autopsy_data)    autopsy_data.Cut()
-	owner.update_body()
+	if(owner)
+		owner.update_body()
 	return ..()
 
 /obj/item/organ/external/set_dna(var/datum/dna/new_dna)
