@@ -363,9 +363,7 @@ var/list/global/slot_to_slot_flags_enumeration = list(
 
 	if(H.species && !(slot in mob_equip))
 		return 0
-	to_chat(world,"[src.type]")
 	if(istype(src,/obj/item/clothing/bra)||istype(src,/obj/item/clothing/underwear))
-		to_chat(world,"yes")
 		if(!H.Clothing_Check(src,slot))
 			return 0
 		if(istype(src,/obj/item/clothing/underwear))
@@ -386,7 +384,6 @@ var/list/global/slot_to_slot_flags_enumeration = list(
 						return 0
 					return 1
 		return 0
-	to_chat(world,"bleh")
 	if("[slot]" in _slot_flags_enumeration)
 		var/req_flags = _slot_flags_enumeration["[slot]"]
 		if(!(req_flags & slot_flags))
@@ -471,7 +468,6 @@ var/list/global/slot_to_slot_flags_enumeration = list(
 					if (!disable_warning)
 						to_chat(H, "<span class='warning'>You cannot equip \the [src] to \the [suit].</span>")
 					return 0
-	to_chat(world,"slot=[slot],slot_flags=[slot_flags]")
 	return 1
 
 /obj/item/proc/mob_can_unequip(mob/M, slot, disable_warning = 0)
