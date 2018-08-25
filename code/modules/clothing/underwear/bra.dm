@@ -4,7 +4,7 @@
 	desc="Thats a bra!"
 	icon_state="bra"
 	body_parts_covered = UPPER_TORSO
-	slot_flags = SLOT_BRA
+	slot_flags = slot_bra
 	var/hasalt=0
 	var/usingalt=0
 	var/org_icon_state

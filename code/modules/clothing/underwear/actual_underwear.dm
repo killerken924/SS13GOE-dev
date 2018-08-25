@@ -5,7 +5,7 @@
 	icon_state="briefs"
 	var/FemaleUndie=0
 	body_parts_covered = LOWER_TORSO
-	slot_flags = SLOT_UNDERWEAR
+	slot_flags = slot_underwear
 	var/hasalt=0
 	var/usingalt=0
 	var/org_icon_state

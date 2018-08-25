@@ -325,11 +325,25 @@ var/list/global/slot_flags_enumeration = list(
 	"[slot_r_ear]" = SLOT_EARS|SLOT_TWOEARS,
 	"[slot_w_uniform]" = SLOT_ICLOTHING,
 	"[slot_wear_id]" = SLOT_ID,
-	"[slot_tie]" = SLOT_TIE,
-	"[slot_bra]" = SLOT_BRA,
-	"[slot_underwear]"= SLOT_UNDERWEAR
+	"[slot_tie]" = SLOT_TIE
 	)
-
+var/list/global/slot_to_slot_flags_enumeration = list(
+	"[slot_wear_mask]" = slot_wear_mask,
+	"[slot_back]" = slot_back,
+	"[slot_wear_suit]" = slot_wear_suit,
+	"[slot_gloves]" = slot_gloves,
+	"[slot_shoes]" = slot_shoes,
+	"[slot_belt]" = slot_belt,
+	"[slot_glasses]" = slot_glasses,
+	"[slot_head]" = slot_head,
+	"[slot_l_ear]" = slot_l_ear,
+	"[slot_r_ear]" = slot_r_ear,
+	"[slot_w_uniform]" = slot_w_uniform,
+	"[slot_wear_id]" = slot_wear_id,
+	"[slot_tie]" = slot_tie,
+	"[slot_underwear]" = slot_underwear,
+	"[slot_bra]" = slot_bra
+	)
 //the mob M is attempting to equip this item into the slot passed through as 'slot'. Return 1 if it can do this and 0 if it can't.
 //If you are making custom procs but would like to retain partial or complete functionality of this one, include a 'return ..()' to where you want this to happen.
 //Set disable_warning to 1 if you wish it to not give you outputs.
@@ -343,17 +357,42 @@ var/list/global/slot_flags_enumeration = list(
 		return 0
 	var/mob/living/carbon/human/H = M
 	var/list/mob_equip = list()
+	var/list/_slot_flags_enumeration=slot_flags_enumeration
 	if(H.species.hud && H.species.hud.equip_slots)
 		mob_equip = H.species.hud.equip_slots
 
 	if(H.species && !(slot in mob_equip))
 		return 0
-
-	//First check if the item can be equipped to the desired slot.
-	if("[slot]" in slot_flags_enumeration&&!istype(src,/obj/item/clothing/underwear)&&!istype(src,/obj/item/clothing/bra))
-		var/req_flags = slot_flags_enumeration["[slot]"]
+	to_chat(world,"[src.type]")
+	if(istype(src,/obj/item/clothing/bra)||istype(src,/obj/item/clothing/underwear))
+		to_chat(world,"yes")
+		if(!H.Clothing_Check(src,slot))
+			return 0
+		if(istype(src,/obj/item/clothing/underwear))
+			switch(slot)
+				if(slot_underwear)
+					if(H.w_uniform)
+						to_chat(H, "<span class='warning'>You have to take \the [H.w_uniform] off first.</span>")
+						return 0
+					return 1
+		if(istype(src,/obj/item/clothing/bra))
+			switch(slot)
+				if(slot_bra)
+					if(H.wear_suit||H.w_uniform)
+						if(H.wear_suit&&H.w_uniform)
+							to_chat(H, "<span class='warning'>You have to take \the [H.w_uniform] and \the [H.wear_suit] off first.</span>")
+						else
+							to_chat(H, "<span class='warning'>You have to take \the [H.wear_suit ? "[H.wear_suit]" : "[H.w_uniform]"  ] off first.</span>")
+						return 0
+					return 1
+		return 0
+	to_chat(world,"bleh")
+	if("[slot]" in _slot_flags_enumeration)
+		var/req_flags = _slot_flags_enumeration["[slot]"]
 		if(!(req_flags & slot_flags))
 			return 0
+	else
+		return 0
 	if(!H.Clothing_Check(src,slot))
 		return 0
 	if(!force)
@@ -432,6 +471,7 @@ var/list/global/slot_flags_enumeration = list(
 					if (!disable_warning)
 						to_chat(H, "<span class='warning'>You cannot equip \the [src] to \the [suit].</span>")
 					return 0
+	to_chat(world,"slot=[slot],slot_flags=[slot_flags]")
 	return 1
 
 /obj/item/proc/mob_can_unequip(mob/M, slot, disable_warning = 0)
