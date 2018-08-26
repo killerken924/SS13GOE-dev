@@ -76,3 +76,46 @@
 			chnc +=10
 	return chnc
 
+/mob/living/carbon/human/proc/armed_parry_chance(mob/living/carbon/human/attacker)
+
+	to_chat(world,"Armed_parry_chance, src=[src]")
+	var/agility=Skills.get_skill(/datum/realskills/agility).points
+	var/attacker_agility=attacker.Skills.get_skill(/datum/realskills/agility).points
+
+	var/obj/item/Attacker_Weapon=attacker.get_active_hand()
+	var/obj/item/Defender_Weapon=get_active_hand()
+
+	var/attacker_weapon_skill=attacker.get_apropriate_weapon_skill(Attacker_Weapon)
+	var/defender_weapon_skill=get_apropriate_weapon_skill(Defender_Weapon)
+	var/chnc=10
+	//WEAPONS
+	if(!Attacker_Weapon&&Defender_Weapon)//Attacker has no weapon, defender has one
+		chnc += 20*defender_weapon_skill/4
+		to_chat(world,"Defenderweapon and no attacker weapon mod =[20*defender_weapon_skill/4]")
+	if(Attacker_Weapon&&!Defender_Weapon)//Defender has no weapon, attacker has one
+		chnc -= 20*attacker_weapon_skill/4
+		to_chat(world,"Attackerweapon and no defender weapon mod =[-20*attacker_weapon_skill/4]")
+	//SKILLS
+	if(attacker_weapon_skill>defender_weapon_skill)
+		var/weaponskill_delta=attacker_weapon_skill-defender_weapon_skill
+		chnc -= 10 * weaponskill_delta/2
+		to_chat(world,"weaponskill mod =[-10 * weaponskill_delta/2]")
+	if(defender_weapon_skill>attacker_weapon_skill)
+		var/weaponskill_delta=defender_weapon_skill-attacker_weapon_skill
+		chnc += 10 * weaponskill_delta/2
+		to_chat(world,"weaponskill mod =[10 * weaponskill_delta/2]")
+	//agility
+	if(attacker_agility>agility)
+		var/agilitydelta=attacker_agility-agility
+		chnc -= 5 * agilitydelta/2
+		to_chat(world,"agility mod =[-5 * agilitydelta/2]")
+	if(agility>attacker_agility)
+		var/agilitydelta=agility-attacker_agility
+		chnc += 5 * agilitydelta/2
+		to_chat(world,"agility mod =[5 * agilitydelta/2]")
+	to_chat(world,"chnc=[chnc]")
+	if(chnc<=0)
+		return 0
+	return chnc
+
+

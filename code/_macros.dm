@@ -33,6 +33,10 @@
 
 #define isitem(A) istype(A, /obj/item)
 
+#define isweapon(A) istype(A, /obj/item/weapon)
+
+#define isadvancedweapon(A) istype(A, /obj/item/weapon/advanced_weapon)
+
 #define islist(A) istype(A, /list)
 
 #define isliving(A) istype(A, /mob/living)

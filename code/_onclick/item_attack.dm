@@ -42,6 +42,7 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		return 0
 	if(can_operate(src,user) && I.do_surgery(src,user)) //Surgery
 		return 1
+	to_chat(world,"attack")
 	return I.attack(src, user, user.zone_sel.selecting)
 
 /mob/living/carbon/human/attackby(obj/item/I, mob/user)
@@ -52,6 +53,8 @@ avoid code duplication. This includes items that may sometimes act as a standard
 			return 1
 		else if(devour(I))
 			return 1
+	if(attempt_defence(user)&&!sleeping&&!stat==UNCONSCIOUS)
+		return 0
 	return ..()
 
 // Proximity_flag is 1 if this afterattack was called on something adjacent, in your square, or on your person.
@@ -103,11 +106,14 @@ avoid code duplication. This includes items that may sometimes act as a standard
 	return 1
 
 //Called when a weapon is used to make a successful melee attack on a mob. Returns the blocked result
-/obj/item/proc/apply_hit_effect(mob/living/target, mob/living/user, var/hit_zone)
+/obj/item/proc/apply_hit_effect(mob/living/target, mob/living/user, var/hit_zone,var/powermod)
 	if(hitsound)
 		playsound(loc, hitsound, 50, 1, -1)
 
 	var/power = force
+	if(powermod)
+		power*=powermod
+
 	if(HULK in user.mutations)
 		power *= 2
 	return target.hit_with_weapon(src, user, power, hit_zone)

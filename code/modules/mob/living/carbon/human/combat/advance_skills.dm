@@ -18,10 +18,24 @@
 	return
 
 /datum/advance_skills/melee_fighting
-	name="Melee"
-	desc="You melee fighting ability"
-
+	name="Unarmed Melee"
+	desc="You Unarmed melee fighting ability"
 /datum/advance_skills/melee_fighting/calculate_base()
+	if(owner&&owner.Skills)
+		var/Str=owner.Skills.get_skill(/datum/realskills/strength).points
+		var/End=owner.Skills.get_skill(/datum/realskills/endurance).points
+		var/Agi=owner.Skills.get_skill(/datum/realskills/agility).points
+		var/pnt_total=0
+		pnt_total+=Agi/2
+		pnt_total+=End/2
+		pnt_total+=Str/3
+		points=max(0,round(pnt_total,1))
+
+/datum/advance_skills/sword_fighting
+	name="Sword Fighting"
+	desc="Your Sword Fighting Ability"
+
+/datum/advance_skills/sword_fighting/calculate_base()
 	if(owner&&owner.Skills)
 		var/Str=owner.Skills.get_skill(/datum/realskills/strength).points
 		var/End=owner.Skills.get_skill(/datum/realskills/endurance).points
