@@ -1,3 +1,5 @@
+#define PERPENDICULAR_DIR(D) turn(D, 90)
+#define NEGPERPENDICULAR_DIR(D) turn(D, -90)
 /proc/is_A_behind_B(atom/A,atom/B)//If A is behind B
 	var/Bdir=B.dir
 	switch(Bdir)
@@ -14,17 +16,10 @@
 			if(A.x>B.x)//if A is more east than B, and B is looking west.
 				return TRUE
 	return FALSE
+
 /proc/is_A_perpendicular_to_B(atom/A,atom/B)//If A is looking at B and B is looking perpendicular to A
-	var/Adir=A.dir
 	var/Bdir=B.dir
-	switch(Bdir)
-		if(NORTH||SOUTH)//B is looking north or south
-			if(A.y==B.y)//They are at the same y level
-				if(Adir==get_dir(A,B))//If A is looking towards B
-					return TRUE
-		if(EAST||WEST)//B is looking east or west
-			if(A.x==B.x)//They are at the same x level
-				if(Adir==get_dir(A,B))//If A is looking towards B
-					return TRUE
+	if(Bdir==PERPENDICULAR_DIR(get_dir(A,B))||Bdir==NEGPERPENDICULAR_DIR(get_dir(A,B)))
+		return TRUE
 	return FALSE
 

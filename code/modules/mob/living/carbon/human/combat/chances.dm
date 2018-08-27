@@ -116,18 +116,16 @@
 		if(isadvancedweapon(Attacker_Weapon)&&isadvancedweapon(Defender_Weapon))
 			var/obj/item/weapon/advanced_weapon/advanced_attacker_weapon=Attacker_Weapon
 			var/obj/item/weapon/advanced_weapon/advanced_defender_weapon=Defender_Weapon
-			var/weapon_quality_delta=advanced_defender_weapon-advanced_attacker_weapon
+			var/weapon_quality_delta=advanced_defender_weapon.weapon_quality-advanced_attacker_weapon.weapon_quality
 			chnc+=3*(weapon_quality_delta)/2
 
 	//directional stuff
 	if(is_A_behind_B(attacker,src))//if the attacker is behind us, we can't really do much
 		chnc-=80
-		to_chat(world,"BEHIND ATTACK")
 
 	else if(is_A_perpendicular_to_B(attacker,src))//if the attacker is us and we are not looking directly at him(perpendicular), he has a better chance
 		chnc-=20
-		to_chat(world,"PERPENDICULAR ATTACK")
-
+	to_chat(world,"chnc=[chnc]")
 	if(chnc<=0)
 		return 0
 	return chnc

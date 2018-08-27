@@ -93,6 +93,7 @@
 	//var/Attacker_Skill=attacker.get_apropriate_weapon_skill(Attacker_Weapon)
 	var/Defender_Skill=get_apropriate_weapon_skill(Defender_Weapon)
 	if(prob(10)*Defender_Skill/4)// the higher the skill, the more devistating the out come will be
+		visible_message("<span class='danger'>[src] critically counters [attacker] attack!!</span>")
 		var/hit_zone=ran_zone(BP_HEAD,50)
 		var/pwrmod=(Defender_Skill/5)*3
 		if(Defender_Weapon.counter_sounds&&Defender_Weapon.counter_sounds.len)
@@ -100,9 +101,9 @@
 		else
 			playsound(src,'sound/weapons/thudswoosh.ogg', 50, 1)
 		Defender_Weapon.apply_hit_effect(attacker,src,hit_zone,pwrmod)
-		visible_message("<span class='danger'>[src] critically counters [attacker] attack!!</span>")
 		return 1
 	else if(prob(25)*Defender_Skill/4)
+		visible_message("<span class='danger'>[src] counters [attacker] attack!</span>")
 		var/hit_zone=ran_zone(BP_CHEST,70)
 		var/pwrmod=(Defender_Skill/5)
 		if(Defender_Weapon.counter_sounds&&Defender_Weapon.counter_sounds.len)
@@ -110,7 +111,6 @@
 		else
 			playsound(src,'sound/weapons/thudswoosh.ogg', 50, 1)
 		Defender_Weapon.apply_hit_effect(attacker,src,hit_zone,pwrmod)
-		visible_message("<span class='danger'>[src] counters [attacker] attack!</span>")
 		return 1
 	else
 		visible_message("<span class='danger'>[src] blocks [attacker]'s [Attacker_Weapon ? Attacker_Weapon.name : "Fist"]</span>")
