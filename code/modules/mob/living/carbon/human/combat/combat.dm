@@ -113,7 +113,7 @@
 		visible_message("<span class='danger'>[src] counters [attacker] attack!</span>")
 		return 1
 	else
-		visible_message("<span class='danger'>[src] blocks [attacker]'s [Attacker_Weapon.name]</span>")
+		visible_message("<span class='danger'>[src] blocks [attacker]'s [Attacker_Weapon ? Attacker_Weapon.name : "Fist"]</span>")
 		if(Defender_Weapon.counter_sounds&&Defender_Weapon.counter_sounds.len)
 			playsound(src,pick(Defender_Weapon.counter_sounds), 50, 1)
 		else
@@ -125,8 +125,13 @@
 		if(isweapon(O))
 			if(isadvancedweapon(O))
 				var/obj/item/weapon/advanced_weapon/W=O
-				return Get_Adv_Skill(W.weapon_skill).points
-	return Get_Adv_Skill(/datum/advance_skills/melee_fighting).points
+				if(Get_Adv_Skill(W.weapon_skill))
+					to_chat(world,"cunt")
+					return Get_Adv_Skill(W.weapon_skill).points
+				else
+					return 0
+	if(Get_Adv_Skill(/datum/advance_skills/melee_fighting))
+		return Get_Adv_Skill(/datum/advance_skills/melee_fighting).points
 
 
 

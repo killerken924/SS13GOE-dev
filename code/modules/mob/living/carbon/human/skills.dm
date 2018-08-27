@@ -36,6 +36,7 @@
 	for(var/datum/realskills/T in skills)
 		if(T.type==type)
 			return T
+	return 0
 
 /mob/living/carbon/human/proc/get_effective_skills()
 	return

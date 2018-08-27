@@ -1745,6 +1745,7 @@
 #include "code\modules\mob\living\carbon\human\combat\attacktypes.dm"
 #include "code\modules\mob\living\carbon\human\combat\chances.dm"
 #include "code\modules\mob\living\carbon\human\combat\combat.dm"
+#include "code\modules\mob\living\carbon\human\combat\visualprocs.dm"
 #include "code\modules\mob\living\carbon\human\species\species.dm"
 #include "code\modules\mob\living\carbon\human\species\species_attack.dm"
 #include "code\modules\mob\living\carbon\human\species\species_getters.dm"

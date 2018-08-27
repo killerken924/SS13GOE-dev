@@ -81,10 +81,11 @@ proc/show_advance_skills_window(var/mob/user, var/mob/living/carbon/human/M)
 	advance_skills=advcskill
 	return
 /mob/living/carbon/human/proc/Get_Adv_Skill(t)
-	for(t in advance_skills)
-		var/datum/advance_skills/S=t
-		return S
-		break
+	for(var/datum/advance_skills/S in advance_skills)
+		if(S.type==t)
+			return S
+			break
+	return 0
 /datum/job
 	//These are the base skills that come with the job.These add on to each individual skills points
 	var/Strskill=0
