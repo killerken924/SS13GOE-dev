@@ -740,6 +740,7 @@
 #include "code\game\objects\auras\radiant_aura.dm"
 #include "code\game\objects\auras\regenerating_aura.dm"
 #include "code\game\objects\auras\personal_shields\personal_shield.dm"
+#include "code\game\objects\combat\swing.dm"
 #include "code\game\objects\effects\aliens.dm"
 #include "code\game\objects\effects\bump_teleporter.dm"
 #include "code\game\objects\effects\deepwater.dm"

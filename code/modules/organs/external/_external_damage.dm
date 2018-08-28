@@ -100,6 +100,7 @@
 				if(laser)
 					burn /= 2
 				damage_amt /= 2
+				to_chat(world,"organ victim=[victim],damage_amt=[damage_amt]")
 				victim.take_damage(damage_amt)
 
 	if(status & ORGAN_BROKEN && brute)

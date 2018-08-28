@@ -85,11 +85,11 @@
 		//	ap+=(nutrition_hydation_avg*ep)
 			ap+=(nutrition_hydation_avg*f)*ep/4
 		if(ap<=1)
-			ep-=0.5
+			ep-=0.05
 		else
 			ep-=0.01
 	if(ap<=1)
-		if(prob(30))
+		if(prob(15))
 			Weaken(5)
 	if(endurance_skill&&endurance_skill.points)
 		ap+=endurance_skill.points/20
@@ -143,6 +143,14 @@
 	if(ap-amount<=0)//if you did to much, you fall
 		Weaken(5)
 		ep-=0.5
+		var/g=(gender==MALE ? "M" : "F")
+		var/list/tiredsounds=list()
+		if(g=="F")
+			tiredsounds=list('sound/vocaleffects/F_fatigue1.ogg')
+		else if(g =="M")
+			tiredsounds=list('sound/vocaleffects/M_fatigue1.ogg','sound/vocaleffects/M_fatigue2.ogg','sound/vocaleffects/M_fatigue3.ogg')
+		if(tiredsounds&&tiredsounds.len)
+			playsound(src.loc,pick(tiredsounds), 50, 1)
 	ap=max(0,ap-amount)
 	ep=max(0,ep-amount/25)
 	return

@@ -197,7 +197,7 @@ meteor_act
 	if(effective_force > 10 || effective_force >= 5 && prob(33))
 		forcesay(GLOB.hit_appends)	//forcesay checks stat already
 	if((I.damtype == BRUTE || I.damtype == PAIN) && prob(25 + (effective_force * 2)))
-		if(!stat)
+		/*if(!stat)
 			if(headcheck(hit_zone))
 				//Harder to score a stun but if you do it lasts a bit longer
 				if(prob(effective_force))
@@ -209,7 +209,7 @@ meteor_act
 				if(prob(effective_force + 10))
 					apply_effect(6, WEAKEN, blocked)
 					if(lying)
-						visible_message("<span class='danger'>[src] has been knocked down!</span>")
+						visible_message("<span class='danger'>[src] has been knocked down!</span>")*/
 
 		//Apply blood
 		attack_bloody(I, user, effective_force, hit_zone)

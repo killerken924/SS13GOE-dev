@@ -16,6 +16,7 @@
 	weapon_skill=/datum/advance_skills/sword_fighting
 	counter_sounds=list('sound/weapons/counters/blade_parry1.ogg','sound/weapons/counters/blade_parry2.ogg','sound/weapons/counters/blade_parry3.ogg')
 	sharp = 1
+	edge  = 1
 
 /obj/item/weapon/advanced_weapon/sword/short
 	name="Short Sword"
