@@ -107,7 +107,7 @@ var/global/list/sparring_attack_cache = list()
 	user.visible_message("<span class='danger'>[user] attempts to press \his [eye_attack_text] into [target]'s eyes, but they don't have any!</span>")
 
 /datum/unarmed_attack/proc/damage_flags()
-	return (src.sharp? DAM_SHARP : 0)|(src.edge? DAM_EDGE : 0)
+	return (src.sharp? DAM_SHARP : 0)|(src.edge? DAM_EDGE : 0)//|(src.point? DAM_POINT : 0)
 
 /datum/unarmed_attack/bite
 	attack_verb = list("bit")
@@ -134,7 +134,7 @@ var/global/list/sparring_attack_cache = list()
 	eye_attack_text = "fingers"
 	eye_attack_text_victim = "digits"
 	damage = 0
-	stamina_drain=0.3
+	stamina_drain=1
 
 
 /datum/unarmed_attack/punch/show_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone, var/attack_damage)
@@ -179,7 +179,7 @@ var/global/list/sparring_attack_cache = list()
 	attack_noun = list("kick", "kick", "kick", "knee strike")
 	attack_sound = "swing_hit"
 	damage = 0
-	stamina_drain=0.7
+	stamina_drain=2
 
 /datum/unarmed_attack/kick/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone)
 	if(!(zone in list(BP_L_LEG, BP_R_LEG, BP_L_FOOT, BP_R_FOOT, BP_GROIN)))
@@ -217,7 +217,7 @@ var/global/list/sparring_attack_cache = list()
 	attack_noun = list("stomp")
 	attack_sound = "swing_hit"
 	damage = 15
-	stamina_drain=1.3
+	stamina_drain=3
 
 /datum/unarmed_attack/stomp/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone)
 	if(!istype(target))
@@ -267,4 +267,4 @@ var/global/list/sparring_attack_cache = list()
 	damage = 0
 	sharp = 0
 	edge = 0
-	stamina_drain=0.1
+	stamina_drain=0.3

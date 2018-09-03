@@ -77,6 +77,26 @@
 
 	if(message_type == AUDIBLE_MESSAGE)
 		user.audible_message(message = use_3p, self_message = use_1p, deaf_message = emote_message_impaired, checkghosts = /datum/client_preference/ghost_sight)
+		if(istype(src,/decl/emote/audible))
+			var/decl/emote/audible/A=src
+			if(A.emote_sounds&&A.emote_sounds.len)
+				if(A.gendered_sound)
+					var/list/sounds_2_play=A.emote_sounds
+					switch(user.gender)
+						if(MALE)
+							for(var/B in sounds_2_play)
+								var/C="[B]"
+								if(findtext(C,"female"))
+									sounds_2_play-=B
+						if(FEMALE)
+							for(var/B in sounds_2_play)
+								var/C="[B]"
+								if(!(findtext(C,"female")))
+									sounds_2_play-=B
+					playsound(user.loc,pick(sounds_2_play), 50, 0)//findtext
+				else
+					playsound(user.loc,pick(A.emote_sounds), 50, 0)
+
 	else
 		user.visible_message(message = use_3p, self_message = use_1p, blind_message = emote_message_impaired, checkghosts = /datum/client_preference/ghost_sight)
 

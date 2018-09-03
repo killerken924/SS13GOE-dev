@@ -26,6 +26,8 @@
 #define DAM_SHARP (1<<0)
 #define DAM_EDGE  (1<<1)
 #define DAM_LASER (1<<2)
+//
+//#define DAM_POINT (1<<3)//am i doing this right?
 
 #define FIRE_DAMAGE_MODIFIER 0.0215 // Higher values result in more external fire damage to the skin. (default 0.0215)
 #define  AIR_DAMAGE_MODIFIER 2.025  // More means less damage from hot air scalding lungs, less = more damage. (default 2.025)
@@ -74,3 +76,8 @@
 #define BLOOD_VOLUME_OKAY    75
 #define BLOOD_VOLUME_BAD     60
 #define BLOOD_VOLUME_SURVIVE 40
+
+#define INTERNAL_BLEEDING_SEVERITY_MINIMAL 1
+#define INTERNAL_BLEEDING_SEVERITY_LIGHT 3
+#define INTERNAL_BLEEDING_SEVERITY_MED 6
+#define INTERNAL_BLEEDING_SEVERITY_SEVERE 12

@@ -367,6 +367,14 @@
 			table += "Minor"
 		else
 			table += "None"
+		if(I.bleeding)
+			switch(I.bleeding)
+				if(INTERNAL_BLEEDING_SEVERITY_MINIMAL to INTERNAL_BLEEDING_SEVERITY_LIGHT)//Minor
+					table += " Minor Bleeding"
+				if(INTERNAL_BLEEDING_SEVERITY_LIGHT to INTERNAL_BLEEDING_SEVERITY_MED)//Acute
+					table += " Moderate Bleeding"
+				if(INTERNAL_BLEEDING_SEVERITY_SEVERE to INFINITY)//Severe
+					table += " Severe Bleeding"
 		table += "</td><td>[english_list(I.get_scan_results(), nothing_text = "", and_text = ", ")]</td></tr>"
 	table += "</table>"
 	dat += jointext(table,null)

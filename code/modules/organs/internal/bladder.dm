@@ -7,8 +7,8 @@
 	min_bruised_damage = 15
 	min_broken_damage = 30
 	max_damage = 50
-	relative_size = 60
-	var/release_damage=1
+	relative_size = 20
+	var/release_damage=5
 
 	var/datum/reagents/metabolism/Bladder_Contents = null
 	var/max_units=40
@@ -28,8 +28,7 @@
 /obj/item/organ/internal/bladder/take_damage(amount, var/silent=0)
 	..(amount,silent)
 	if(amount>=release_damage)
-		return
-		//owner.piss()
+		owner.DoPee()
 
 /obj/item/organ/internal/bladder/Process()
 	..()
@@ -37,6 +36,8 @@
 		do_bladder()
 		if(is_bruised())
 			max_units=max(1,max_units-=10)
+			if(prob(5))
+				owner.DoPee()
 
 /obj/item/organ/internal/bladder/proc/do_bladder()
 	if(!owner.get_organ(parent_organ).has_control&&Bladder_Contents.total_volume)

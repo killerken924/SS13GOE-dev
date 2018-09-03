@@ -166,7 +166,25 @@ meteor_act
 	if(!affecting)
 		return //should be prevented by attacked_with_item() but for sanity.
 
-	visible_message("<span class='danger'>[src] has been [I.attack_verb.len? pick(I.attack_verb) : "attacked"] in the [affecting.name] with [I.name] by [user]!</span>")
+	var/dmg_flgs=I.damage_flags()
+
+	var/brute=0
+	if(I.damtype == BRUTE)
+		brute=1
+
+	var/sharp = (dmg_flgs & DAM_SHARP)
+	var/edge  = (dmg_flgs & DAM_EDGE)
+	var/pointy = brute && sharp &&!edge
+	if(!I.attack_verb.len&&brute)
+		if(sharp)//sharp
+			if(pointy)//stabbing
+				visible_message("<span class='danger'>[src] has been [pick(GLOB.attack_verbs_pointy)] in the [affecting.name] with [I.name] by [user]!</span>")
+			else//slashing
+				visible_message("<span class='danger'>[src] has been [pick(GLOB.attack_verbs_edge)] in the [affecting.name] with [I.name] by [user]!</span>")
+		else//blunt
+			visible_message("<span class='danger'>[src] has been [pick(GLOB.attack_verbs_blunt)] in the [affecting.name] with [I.name] by [user]!</span>")
+	else
+		visible_message("<span class='danger'>[src] has been [I.attack_verb.len? pick(I.attack_verb) : "attacked"] in the [affecting.name] with [I.name] by [user]!</span>")
 
 	var/blocked = run_armor_check(hit_zone, "melee", I.armor_penetration, "Your armor has protected your [affecting.name].", "Your armor has softened the blow to your [affecting.name].")
 	standard_weapon_hit_effects(I, user, effective_force, blocked, hit_zone)
@@ -197,19 +215,6 @@ meteor_act
 	if(effective_force > 10 || effective_force >= 5 && prob(33))
 		forcesay(GLOB.hit_appends)	//forcesay checks stat already
 	if((I.damtype == BRUTE || I.damtype == PAIN) && prob(25 + (effective_force * 2)))
-		/*if(!stat)
-			if(headcheck(hit_zone))
-				//Harder to score a stun but if you do it lasts a bit longer
-				if(prob(effective_force))
-					apply_effect(20, PARALYZE, blocked)
-					if(lying)
-						visible_message("<span class='danger'>[src] [species.knockout_message]</span>")
-			else
-				//Easier to score a stun but lasts less time
-				if(prob(effective_force + 10))
-					apply_effect(6, WEAKEN, blocked)
-					if(lying)
-						visible_message("<span class='danger'>[src] has been knocked down!</span>")*/
 
 		//Apply blood
 		attack_bloody(I, user, effective_force, hit_zone)

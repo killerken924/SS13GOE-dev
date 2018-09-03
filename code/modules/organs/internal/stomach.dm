@@ -8,7 +8,7 @@
 	min_broken_damage = 45
 	max_damage = 70
 	relative_size = 60
-	var/vomit_damage=1
+	var/vomit_damage=5
 
 	var/datum/reagents/metabolism/Digested_Contents = null
 	var/max_units=50

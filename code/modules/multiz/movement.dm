@@ -214,13 +214,19 @@
 
 /atom/movable/proc/handle_fall_effect(var/turf/landing)
 	if(istype(landing, /turf/simulated/open))
-		visible_message("\The [src] falls from the deck above through \the [landing]!", "You hear a whoosh of displaced air.")
+		visible_message("<span class = 'danger'>\The [src] falls from the deck above through \the [landing]!</span>", "<span class = 'warning'>You hear a whoosh of displaced air.</span>")
 	else
-		visible_message("\The [src] falls from the deck above and slams into \the [landing]!", "You hear something slam into the deck.")
+		visible_message("<span class = 'danger'>\The [src] falls from the deck above and slams into \the [landing]!</span>", "<span class = 'warning'>You hear something slam into the deck.</span>")
 		if(fall_damage())
 			for(var/mob/living/M in landing.contents)
-				visible_message("\The [src] hits \the [M.name]!")
-				M.take_overall_damage(fall_damage())
+				var/dmg_zone
+				if(!M.lying)
+					dmg_zone=ran_zone(BP_HEAD,80)//if something is falling from above, and you are standing, chances are. It hits your head.
+				else
+					dmg_zone=ran_zone(BP_CHEST,50)
+				visible_message("<span class = 'danger'>\The [src] hits \the [M.name] in the [dmg_zone]!</span>")
+				M.apply_damage(fall_damage(),BRUTE,dmg_zone)
+				//M.take_overall_damage(fall_damage())
 
 /atom/movable/proc/fall_damage()
 	return 0
@@ -251,10 +257,6 @@
 		return
 	else
 		apply_damage(rand(10, damage), BRUTE, pick(BP_HEAD,BP_CHEST,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM))
-	/*apply_damage(rand(0, damage), BRUTE, BP_CHEST)
-	apply_damage(rand(0, damage), BRUTE, BP_L_LEG)
-	apply_damage(rand(0, damage), BRUTE, BP_R_LEG)
-	apply_damage(rand(0, damage), BRUTE, BP_L_ARM)
-	apply_damage(rand(0, damage), BRUTE, BP_R_ARM)*/
+	playsound(src,'sound/effects/fallsmash.ogg', 50, 1)
 	weakened = max(weakened,2)
 	updatehealth()

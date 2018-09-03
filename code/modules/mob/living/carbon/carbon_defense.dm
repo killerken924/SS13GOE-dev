@@ -21,6 +21,9 @@
 	//Melee weapon embedded object code.
 	if(istype(created_wound) && I && I.damtype == BRUTE && !I.anchored && !is_robot_module(I))
 		var/weapon_sharp = (damage_flags & DAM_SHARP)
+		var/weapon_edge = (damage_flags & DAM_EDGE)
+		//var/weapon_point = weapon_sharp &&!weapon_edge
+
 		var/damage = effective_force //just the effective damage used for sorting out embedding, no further damage is applied here
 		if (blocked)
 			damage *= blocked_mult(blocked)
@@ -28,8 +31,15 @@
 		//blunt objects should really not be embedding in things unless a huge amount of force is involved
 		var/embed_chance = weapon_sharp? damage/I.w_class : damage/(I.w_class*3)
 		var/embed_threshold = weapon_sharp? 5*I.w_class : 15*I.w_class
+		var/datum/realskills/attacker_strength_skill=0
+		if(weapon_edge)//if your slashing, low chance of getting it stuck, but if you are stabbing, higher chance.
+			embed_chance = embed_chance/4
 
-		//
+		if(ishuman(user))
+			var/mob/living/carbon/human/H=user
+			attacker_strength_skill=H.Skills.get_skill(/datum/realskills/strength).points
+			embed_chance-=attacker_strength_skill*10
+
 		if((weapon_sharp && damage > (10*I.w_class)) || (damage > embed_threshold && prob(embed_chance)))
 			src.embed(I, hit_zone, supplied_wound = created_wound)
 	if(!ishuman(src))

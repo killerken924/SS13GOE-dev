@@ -37,7 +37,50 @@ mob/living/carbon/proc/custom_pain(var/message, var/power, var/force, var/obj/it
 			to_chat(src, "<span class='warning'>[message]</span>")
 	next_pain_time = world.time + (100-power)
 
-mob/living/carbon/human/proc/handle_pain()
+/mob/living/carbon/human/proc/do_pain_sounds(dam,damage_type)
+	var/list/sounds2play=list()
+	if(stat)
+		return 0
+	if(!dam||!damage_type)
+		return 0
+	var/msg
+	switch(damage_type)
+		if("burn")
+			switch(dam)
+				if(11 to 30)
+					sounds2play=list('sound/vocaleffects/pain/man_pain1.ogg','sound/vocaleffects/pain/man_pain2.ogg','sound/vocaleffects/pain/man_pain3.ogg',
+									 'sound/vocaleffects/pain/woman_pain1.ogg','sound/vocaleffects/pain/woman_pain2.ogg','sound/vocaleffects/pain/woman_pain3.ogg','sound/vocaleffects/pain/woman_pain4.ogg')
+					msg="<span class ='warning'>[src] screams in [pick("pain","discomfort")]</span>"
+				if(30 to INFINITY)
+					sounds2play=list('sound/vocaleffects/pain/man_agony1.ogg','sound/vocaleffects/pain/man_agony2.ogg','sound/vocaleffects/pain/man_agony3.ogg',
+									 'sound/vocaleffects/pain/woman_agony1.ogg','sound/vocaleffects/pain/woman_agony2.ogg','sound/vocaleffects/pain/woman_agony3.ogg')
+					msg="<span class ='danger'>[src] screams in [pick("agony","extreme pain")]</span>"
+		if("brute")
+			switch(dam)
+				if(11 to 50)
+					sounds2play=list('sound/vocaleffects/pain/man_pain1.ogg','sound/vocaleffects/pain/man_pain2.ogg','sound/vocaleffects/pain/man_pain3.ogg',
+									 'sound/vocaleffects/pain/woman_pain1.ogg','sound/vocaleffects/pain/woman_pain2.ogg','sound/vocaleffects/pain/woman_pain3.ogg','sound/vocaleffects/pain/woman_pain4.ogg')
+					msg="<span class ='danger'>[src] screams in [pick("pain","discomfort")]</span>"
+				if(50 to INFINITY)
+					sounds2play=list('sound/vocaleffects/pain/man_agony1.ogg','sound/vocaleffects/pain/man_agony2.ogg','sound/vocaleffects/pain/man_agony3.ogg',
+									 'sound/vocaleffects/pain/woman_agony1.ogg','sound/vocaleffects/pain/woman_agony2.ogg','sound/vocaleffects/pain/woman_agony3.ogg')
+					msg="<span class ='warning'>[src] screams in [pick("agony","extreme pain")]</span>"
+	if(sounds2play&&sounds2play.len)
+		for(var/A in sounds2play)
+			switch(gender)
+				if(MALE)
+					var/B="[A]"
+					if(findtext(B,"woman"))
+						sounds2play-=A
+				if(FEMALE)
+					var/B="[A]"
+					if(!(findtext(B,"woman")))
+						sounds2play-=A
+		playsound(src.loc,pick(sounds2play),50,0)
+		src.visible_message("[msg]")
+
+
+/mob/living/carbon/human/proc/handle_pain()
 	if(stat)
 		return
 	if(!can_feel_pain())
@@ -71,6 +114,9 @@ mob/living/carbon/human/proc/handle_pain()
 			if(91 to 10000)
 				msg = "OH GOD! Your [damaged_organ.name] is [burning ? "on fire" : "hurting terribly"]!"
 				DoScreenJitter(rand(1,5),rand(1,50),rand(1,50))
+		if(prob(maxdam/10))
+			do_pain_sounds(maxdam,"[burning ? "burn" : "brute"]")
+
 		custom_pain(msg, maxdam, prob(10), damaged_organ, TRUE)
 	// Damage to internal organs hurts a lot.
 	for(var/obj/item/organ/internal/I in internal_organs)

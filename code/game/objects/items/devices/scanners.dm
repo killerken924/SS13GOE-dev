@@ -178,7 +178,14 @@ proc/medical_scan_results(var/mob/living/carbon/human/H, var/verbose)
 				found_tendon = TRUE
 		if(found_disloc && found_bleed && found_tendon)
 			break
-
+	var/found_internal_bleed
+	for(var/obj/item/organ/internal/I in H.internal_organs)
+		if(I)
+			if(!found_internal_bleed&&I.bleeding)
+				. += "<span class='warning'>Internal bleeding detected. Advanced scanner required for location.</span>"
+				found_internal_bleed=TRUE
+		if(found_internal_bleed)
+			break
 	if(verbose)
 
 		// Limb status.

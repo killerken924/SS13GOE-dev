@@ -149,7 +149,7 @@
 			tiredsounds=list('sound/vocaleffects/F_fatigue1.ogg')
 		else if(g =="M")
 			tiredsounds=list('sound/vocaleffects/M_fatigue1.ogg','sound/vocaleffects/M_fatigue2.ogg','sound/vocaleffects/M_fatigue3.ogg')
-		if(tiredsounds&&tiredsounds.len)
+		if(tiredsounds&&tiredsounds.len&&prob(25))
 			playsound(src.loc,pick(tiredsounds), 50, 1)
 	ap=max(0,ap-amount)
 	ep=max(0,ep-amount/25)

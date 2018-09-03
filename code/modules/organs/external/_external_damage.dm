@@ -14,6 +14,7 @@
 
 	var/sharp = (damage_flags & DAM_SHARP)
 	var/edge  = (damage_flags & DAM_EDGE)
+	var/pointy = brute && sharp &&!edge
 	var/laser = (damage_flags & DAM_LASER)
 	var/blunt = brute && !sharp && !edge
 
@@ -37,8 +38,8 @@
 		if(!cannot_amputate && config.limbs_can_break)
 			if((brute_dam + burn_dam + brute + burn + spillover) >= (max_damage * config.organ_health_multiplier))
 				var/force_droplimb = 0
-				if((brute_dam + burn_dam + brute + burn + spillover) >= (max_damage * config.organ_health_multiplier * 4))
-					force_droplimb = 1
+				//if((brute_dam + burn_dam + brute + burn + spillover) >= (max_damage * config.organ_health_multiplier * 4))
+				//	force_droplimb = 1
 				//organs can come off in three cases
 				//1. If the damage source is edge_eligible and the brute damage dealt exceeds the edge threshold, then the organ is cut off.
 				//2. If the damage amount dealt exceeds the disintegrate threshold, the organ is completely obliterated.
@@ -55,10 +56,10 @@
 						edge_eligible = 1
 				brute = pure_brute
 				if(edge_eligible && brute >= max_damage / DROPLIMB_THRESHOLD_EDGE)
-					if(prob(brute) || force_droplimb)
+					if(edge_tearoff_chnc(brute)||force_droplimb)//if(prob(brute) || force_droplimb)
 						droplimb(0, DROPLIMB_EDGE)
 						return
-				else if(burn >= max_damage / DROPLIMB_THRESHOLD_DESTROY)
+				else if(burn >=max_damage / DROPLIMB_THRESHOLD_DESTROY) //burn >= max_damage / DROPLIMB_THRESHOLD_DESTROY)
 					if(prob(burn/3) || force_droplimb)
 						droplimb(0, DROPLIMB_BURN)
 						return
@@ -67,7 +68,7 @@
 						droplimb(0, DROPLIMB_BLUNT)
 						return
 				else if(brute >= max_damage / DROPLIMB_THRESHOLD_TEAROFF)
-					if(prob(brute/3) || force_droplimb)
+					if(tearoff_chnc(brute,damage_flags))
 						droplimb(0, DROPLIMB_EDGE)
 						return
 				else if(force_droplimb)
@@ -84,24 +85,26 @@
 		var/organ_damage_threshold = 10
 		if(sharp)
 			organ_damage_threshold *= 0.5
+		if(pointy)
+			organ_damage_threshold *= 0.5
 		var/organ_damage_prob = 5 * damage_amt/organ_damage_threshold //more damage, higher chance to damage
+		if(pointy)
+			organ_damage_prob*=4
+		else if(edge)
+			organ_damage_prob*=0.85
 		if(encased && !(status & ORGAN_BROKEN)) //ribs protect
 			organ_damage_prob *= 0.5
-		if ((cur_damage + damage_amt >= max_damage || damage_amt >= organ_damage_threshold) && prob(organ_damage_prob))
-			// Damage an internal organ
-			var/list/victims = list()
-			for(var/obj/item/organ/internal/I in internal_organs)
-				if(I.damage < I.max_damage && prob(I.relative_size))
-					victims += I
-			if(!victims.len)
-				victims += pick(internal_organs)
-			for(var/obj/item/organ/victim in victims)
-				brute /= 2
-				if(laser)
-					burn /= 2
-				damage_amt /= 2
-				to_chat(world,"organ victim=[victim],damage_amt=[damage_amt]")
-				victim.take_damage(damage_amt)
+		//if ((cur_damage + damage_amt >= max_damage ||damage_amt >= organ_damage_threshold&& prob(organ_damage_prob)||)//|| damage_amt >= organ_damage_threshold) && prob(organ_damage_prob))
+		if(cur_damage + damage_amt >= max_damage)
+			damage_internal(brute, burn, damage_flags,used_weapon)
+
+		if(pointy)
+			if(prob(organ_damage_prob))
+				damage_internal(brute, burn, damage_flags,used_weapon)
+
+		else if (edge)
+			if(damage_amt >= organ_damage_threshold	&& prob(organ_damage_prob))
+				damage_internal(brute, burn, damage_flags,used_weapon)
 
 	if(status & ORGAN_BROKEN && brute)
 		jostle_bone(brute)
@@ -121,7 +124,7 @@
 			if(!block_cut)
 				to_create = CUT
 			//need to check sharp again here so that blunt damage that was strong enough to break skin doesn't give puncture wounds
-			if(sharp && !edge)
+			if(pointy)
 				to_create = PIERCE
 		created_wound = createwound(to_create, brute)
 

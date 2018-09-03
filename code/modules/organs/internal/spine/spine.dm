@@ -7,7 +7,7 @@
 	min_bruised_damage = 15
 	min_broken_damage = 45
 	max_damage = 70
-	relative_size = 60
+	relative_size = 20
 	var/list/controled_limbs =list()
 	var/have_felt_last=0
 /obj/item/organ/internal/spine/is_broken()

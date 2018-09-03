@@ -118,6 +118,7 @@
 		//Bleeding out
 		var/blood_max = 0
 		var/list/do_spray = list()
+		handle_internal_bleeding()
 		for(var/obj/item/organ/external/temp in owner.organs)
 
 			if(temp.robotic >= ORGAN_ROBOT)

@@ -9,6 +9,8 @@
 	var/list/datum/language/assists_languages = list()
 	var/min_bruised_damage = 10       // Damage before considered bruised
 
+	var/bleeding = 0
+
 /obj/item/organ/internal/New(var/mob/living/carbon/holder)
 	if(max_damage)
 		min_bruised_damage = Floor(max_damage / 4)
@@ -124,6 +126,9 @@
 	if(isrobotic())
 		damage = between(0, src.damage + (amount * 0.8), max_damage)
 	else
+		if(is_bruised()&&!bleeding)
+			if(prob(33))
+				bleeding=1
 		damage = between(0, src.damage + amount, max_damage)
 
 		//only show this if the organ is not robotic
@@ -136,6 +141,7 @@
 				if(damage < 5)
 					degree = " a bit"
 				owner.custom_pain("Something inside your [parent.name] hurts[degree].", amount, affecting = parent)
+
 
 /obj/item/organ/internal/proc/get_visible_state()
 	if(damage > max_damage)

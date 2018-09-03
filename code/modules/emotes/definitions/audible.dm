@@ -3,6 +3,8 @@
 	emote_message_3p = "USER burps."
 	message_type = AUDIBLE_MESSAGE
 	var/emote_sound
+	var/list/emote_sounds
+	var/gendered_sound=1
 
 /decl/emote/audible/do_extra(var/atom/user)
 	if(emote_sound)
@@ -20,6 +22,11 @@
 	key ="gasp"
 	emote_message_3p = "USER gasps."
 	conscious = 0
+	emote_sounds=list('sound/vocaleffects/gasp_female1.ogg','sound/vocaleffects/gasp_female2.ogg','sound/vocaleffects/gasp_female3.ogg','sound/vocaleffects/gasp_female4.ogg',
+					  'sound/vocaleffects/gasp_female5.ogg','sound/vocaleffects/gasp_female6.ogg','sound/vocaleffects/gasp_female7.ogg','sound/vocaleffects/gasp_male1.ogg',
+					  'sound/vocaleffects/gasp_male2.ogg','sound/vocaleffects/gasp_male3.ogg','sound/vocaleffects/gasp_male4.ogg','sound/vocaleffects/gasp_male5.ogg',
+					  'sound/vocaleffects/gasp_male6.ogg','sound/vocaleffects/gasp_male7.ogg')
+
 
 /decl/emote/audible/scretch
 	key ="scretch"
@@ -80,6 +87,8 @@
 /decl/emote/audible/whimper
 	key = "whimper"
 	emote_message_3p = "USER whimpers."
+	emote_sounds=list('sound/vocaleffects/whimper_female1.ogg','sound/vocaleffects/whimper_female2.ogg','sound/vocaleffects/whimper_female3.ogg',
+					  'sound/vocaleffects/whimper_male1.ogg','sound/vocaleffects/whimper_male2.ogg','sound/vocaleffects/whimper_male3.ogg')
 
 /decl/emote/audible/yawn
 	key = "yawn"
@@ -97,7 +106,9 @@
 	key = "cough"
 	emote_message_3p = "USER coughs!"
 	conscious = 0
-
+	emote_sounds=list('sound/vocaleffects/male_cough1.ogg','sound/vocaleffects/male_cough2.ogg','sound/vocaleffects/male_cough3.ogg','sound/vocaleffects/male_cough4.ogg',
+					  'sound/vocaleffects/female_cough1.ogg','sound/vocaleffects/female_cough2.ogg','sound/vocaleffects/female_cough3.ogg','sound/vocaleffects/female_cough4.ogg',
+					  'sound/vocaleffects/female_cough5.ogg','sound/vocaleffects/female_cough6.ogg')
 /decl/emote/audible/cry
 	key = "cry"
 	emote_message_3p = "USER cries."
@@ -135,6 +146,7 @@
 /decl/emote/audible/scream
 	key = "scream"
 	emote_message_3p = "USER screams!"
+	emote_sounds=list('sound/vocaleffects/male_scream1.ogg','sound/vocaleffects/male_scream2.ogg','sound/vocaleffects/male_scream3.ogg','sound/vocaleffects/female_scream1.ogg','sound/vocaleffects/female_scream2.ogg')
 
 /decl/emote/audible/grunt
 	key = "grunt"

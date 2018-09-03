@@ -83,7 +83,7 @@ avoid code duplication. This includes items that may sometimes act as a standard
 			return 0
 		var/clickcooldown=src.w_class*3+swing_stamina
 		clickcooldown-=H.ap/5// so if you have full stamina you would be 2 faster, if you had 1 stamina it would be .2 faster
-		to_chat(world,"clickcooldown=[clickcooldown]")
+
 		user.setClickCooldown(clickcooldown)
 		//Taking stamina
 		var/stamina_take=src.w_class+swing_stamina//if the item size was LARGE, it would take 2 stamina, if it was normal, 1.5
@@ -91,7 +91,6 @@ avoid code duplication. This includes items that may sometimes act as a standard
 			stamina_take-=strength_skill.points/10//if you had max strength it would take 1.5 less, so if it was an large item, it would take 0.5 stamina, if it was normal
 
 		stamina_take=max(src.w_class/10,stamina_take)//so it will always take a tenth the w_class or more.
-		to_chat(world,"stamina_take=[stamina_take]")
 		H.Do_Stamina(stamina_take)
 		//if(H.ap<1
 	else
