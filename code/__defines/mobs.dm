@@ -77,6 +77,7 @@
 //Defence
 #define I_DODGE		"dodge"
 #define I_PARRY		"parry"
+#define I_NONE		"none"
 //Attack
 #define I_STRONG	"strong"
 #define I_WEAK		"weak"

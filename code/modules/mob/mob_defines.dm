@@ -48,6 +48,9 @@
 	var/obj/screen/rest_icon =null
 	var/obj/screen/fov_icon =null
 	var/obj/screen/combat_icon=null
+	var/obj/screen/set_direction_icon=null
+	var/obj/screen/Defence_Mode_Parry/defence_mode_parry_icon=null
+	var/obj/screen/Defence_Mode_Dodge/defence_mode_dodge_icon=null
 	//
 	var/obj/screen/movable/ability_master/ability_master = null
 

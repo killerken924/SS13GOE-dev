@@ -35,7 +35,7 @@
 	return
 /obj/item/organ/internal/proc/internal_bleeding_check()
 	var/dmg_amt=max_damage/5
-	if(!bleeding)
+	if(!bleeding&&can_internal_bleed)
 		switch(damage)
 			if(dmg_amt*2 to dmg_amt*3)
 				if(prob(1))
@@ -50,7 +50,11 @@
 					bleeding=INTERNAL_BLEEDING_SEVERITY_MED
 					return
 
+/obj/item/organ/internal
+	var/can_internal_bleed=1
 /obj/item/organ/internal/proc/make_internal_bleed(amount)
+	if(!can_internal_bleed)
+		return 0
 	if(amount&&amount>0)
 		bleeding+=amount
 		bleeding=max(INTERNAL_BLEEDING_SEVERITY_SEVERE,bleeding)

@@ -185,12 +185,12 @@
 		mymob.oxygen.screen_loc = ui_nutrition// ui_oxygen
 		hud_elements |= mymob.oxygen
 
-		mymob.toxin = new /obj/screen()
+		/*mymob.toxin = new /obj/screen()
 		mymob.toxin.icon = ui_style
 		mymob.toxin.icon_state = "tox0"
 		mymob.toxin.SetName("toxin")
 		mymob.toxin.screen_loc = ui_toxin
-		hud_elements |= mymob.toxin
+		hud_elements |= mymob.toxin*/
 
 		mymob.fire = new /obj/screen()
 		mymob.fire.icon = ui_style
@@ -298,12 +298,31 @@
 	mymob.fov_icon.mouse_opacity = 0
 	mymob.fov_icon.layer = UNDER_HUD_LAYER
 	hud_elements |= mymob.fov_icon//combat_icon
-
+	//combat
 	mymob.combat_icon = new /obj/screen/Combat_Mode()
 	mymob.combat_icon.color = ui_color
 	mymob.combat_icon.alpha = ui_alpha
 	src.hotkeybuttons += mymob.combat_icon
-	hud_elements |= mymob.rest_icon
+	hud_elements |= mymob.combat_icon//rest_icon
+	//Set Direction
+
+	mymob.set_direction_icon = new /obj/screen/Fixed_Eye()
+	mymob.set_direction_icon.color = ui_color
+	mymob.set_direction_icon.alpha = ui_alpha
+	src.hotkeybuttons += mymob.set_direction_icon
+	hud_elements |= mymob.set_direction_icon
+
+	mymob.defence_mode_dodge_icon = new /obj/screen/Defence_Mode_Dodge()
+	mymob.defence_mode_dodge_icon.color = ui_color
+	mymob.defence_mode_dodge_icon.alpha = ui_alpha
+	src.hotkeybuttons += mymob.defence_mode_dodge_icon
+	hud_elements |= mymob.defence_mode_dodge_icon
+
+	mymob.defence_mode_parry_icon = new /obj/screen/Defence_Mode_Parry()
+	mymob.defence_mode_parry_icon.color = ui_color
+	mymob.defence_mode_parry_icon.alpha = ui_alpha
+	src.hotkeybuttons += mymob.defence_mode_parry_icon
+	hud_elements |= mymob.defence_mode_parry_icon
 
 	//Handle the gun settings buttons
 	mymob.gun_setting_icon = new /obj/screen/gun/mode(null)

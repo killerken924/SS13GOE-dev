@@ -143,14 +143,15 @@
 	if(ap-amount<=0)//if you did to much, you fall
 		Weaken(5)
 		ep-=0.5
-		var/g=(gender==MALE ? "M" : "F")
-		var/list/tiredsounds=list()
-		if(g=="F")
-			tiredsounds=list('sound/vocaleffects/F_fatigue1.ogg')
-		else if(g =="M")
-			tiredsounds=list('sound/vocaleffects/M_fatigue1.ogg','sound/vocaleffects/M_fatigue2.ogg','sound/vocaleffects/M_fatigue3.ogg')
-		if(tiredsounds&&tiredsounds.len&&prob(25))
-			playsound(src.loc,pick(tiredsounds), 50, 1)
+		if(!stat)
+			var/g=(gender==MALE ? "M" : "F")
+			var/list/tiredsounds=list()
+			if(g=="F")
+				tiredsounds=list('sound/vocaleffects/F_fatigue1.ogg')
+			else if(g =="M")
+				tiredsounds=list('sound/vocaleffects/M_fatigue1.ogg','sound/vocaleffects/M_fatigue2.ogg','sound/vocaleffects/M_fatigue3.ogg')
+			if(tiredsounds&&tiredsounds.len&&prob(25))
+				playsound(src.loc,pick(tiredsounds), 50, 1)
 	ap=max(0,ap-amount)
 	ep=max(0,ep-amount/25)
 	return

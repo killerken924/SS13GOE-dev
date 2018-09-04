@@ -10,9 +10,11 @@
 	relative_size = 20
 	var/list/controled_limbs =list()
 	var/have_felt_last=0
+	can_internal_bleed=0
 /obj/item/organ/internal/spine/is_broken()
 	if(damage>=min_broken_damage)
 		return TRUE
+	return FALSE
 	//return (damage >= min_broken_damage
 /obj/item/organ/internal/spine/take_damage(amount, var/silent=0)
 	..(amount,silent)
@@ -72,16 +74,20 @@
 
 /obj/item/organ/internal/spine/Process()
 	if(owner)
-		if(is_broken())
+		if(is_broken()||has_control==NO_SPINAL_CONTROL)
 			for(var/bptag in controled_limbs)
 				var/obj/item/organ/external/E=owner.get_organ(bptag)
 				if(E)
 					E.has_control=NO_SPINAL_CONTROL
+					for(var/obj/item/organ/internal/I in E.internal_organs)
+						I.has_control=NO_SPINAL_CONTROL
 		else
 			for(var/bptag in controled_limbs)
 				var/obj/item/organ/external/E=owner.get_organ(bptag)
 				if(E)
 					E.has_control=SPINAL_CONTROL
+					for(var/obj/item/organ/internal/I in E.internal_organs)
+						I.has_control=SPINAL_CONTROL
 	..()
 /obj/item/organ/internal/spine/upper/Process()
 	//owner.stat  |=INCAPACITATION_FORCELYING//Sorry kid, you can't do anything ...

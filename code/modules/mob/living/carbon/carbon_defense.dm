@@ -34,14 +34,14 @@
 		var/datum/realskills/attacker_strength_skill=0
 		if(weapon_edge)//if your slashing, low chance of getting it stuck, but if you are stabbing, higher chance.
 			embed_chance = embed_chance/4
-
 		if(ishuman(user))
 			var/mob/living/carbon/human/H=user
 			attacker_strength_skill=H.Skills.get_skill(/datum/realskills/strength).points
-			embed_chance-=attacker_strength_skill*10
-
-		if((weapon_sharp && damage > (10*I.w_class)) || (damage > embed_threshold && prob(embed_chance)))
-			src.embed(I, hit_zone, supplied_wound = created_wound)
+			embed_chance-=attacker_strength_skill*5
+		if(embed_chance>0)
+			if(damage > embed_threshold && prob(embed_chance))//(weapon_sharp && damage > (10*I.w_class))
+				src.embed(I, hit_zone, supplied_wound = created_wound)
 	if(!ishuman(src))
-		Do_Stamina(effective_force/4)
+		Do_Stamina(effective_force/10)
+	to_chat(world,"effective force =[effective_force]")
 	return 1

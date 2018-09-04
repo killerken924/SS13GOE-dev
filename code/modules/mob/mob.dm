@@ -57,6 +57,12 @@
 
 	combat_icon=null
 
+	set_direction_icon=null
+
+	defence_mode_dodge_icon=null
+
+	defence_mode_parry_icon=null
+
 
 
 /mob/Initialize()

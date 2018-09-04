@@ -68,6 +68,7 @@
 #define ui_sleep 				"EAST-1:28,SOUTH:5"//:5
 //combat
 #define ui_combat	"EAST-4:24,SOUTH:5"
+#define ui_defence	"EAST-4:24,SOUTH:35"
 //
 #define ui_borg_pull "EAST-3:24,SOUTH+1:7"
 #define ui_borg_module "EAST-2:26,SOUTH+1:7"

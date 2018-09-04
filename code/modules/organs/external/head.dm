@@ -16,6 +16,8 @@
 	artery_name = "cartoid artery"
 	cavity_name = "cranial"
 
+	arterial_bleed_severity=5
+
 	var/can_intake_reagents = 1
 	var/eye_icon = "eyes_s"
 	var/eye_icon_location = 'icons/mob/human_face.dmi'

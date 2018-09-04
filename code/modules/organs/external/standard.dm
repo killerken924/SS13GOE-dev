@@ -99,7 +99,7 @@
 	has_tendon = TRUE
 	tendon_name = "palmaris longus tendon"
 	artery_name = "basilic vein"
-	arterial_bleed_severity = 0.75
+	arterial_bleed_severity = 2//0.75
 	ontop=1
 
 /obj/item/organ/external/arm/stun_act(var/stun_amount, var/agony_amount)
@@ -132,7 +132,7 @@
 	has_tendon = TRUE
 	tendon_name = "cruciate ligament"
 	artery_name = "femoral artery"
-	arterial_bleed_severity = 0.75
+	arterial_bleed_severity = 4//0.75
 	gendered_icon=1
 
 /obj/item/organ/external/leg/stun_act(var/stun_amount, var/agony_amount)

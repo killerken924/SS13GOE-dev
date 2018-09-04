@@ -430,10 +430,20 @@ This function completely restores a damaged organ to perfect condition.
 	if(!surgical && (type in list(CUT, PIERCE, BRUISE)) && damage > 15 && local_damage > 30)
 
 		var/internal_damage
-		if(prob(damage) && sever_artery())
+		if(type==BRUISE)
+			if(prob(damage/4) && sever_artery())
+				internal_damage = TRUE
+				playsound(owner.loc,pick('sound/effects/gore/chop4.ogg','sound/effects/gore/chop2.ogg','sound/effects/gore/blood_splat.ogg'),50,0)
+		else if(prob(damage) && sever_artery())
 			internal_damage = TRUE
-		if(prob(ceil(damage/4)) && sever_tendon())
+			playsound(owner.loc,pick('sound/effects/gore/chop4.ogg','sound/effects/gore/chop2.ogg','sound/effects/gore/blood_splat.ogg'),50,0)
+		if(type==BRUISE)
+			if(prob(ceil(damage/5)) && sever_tendon())
+				internal_damage = TRUE
+				playsound(owner.loc,pick('sound/effects/gore/trauma3.ogg','sound/effects/bonebreak1.ogg','sound/effects/bonebreak2.ogg','sound/effects/bonebreak3.ogg'),50,0)
+		else if(prob(ceil(damage/4)) && sever_tendon())
 			internal_damage = TRUE
+			playsound(owner.loc,pick('sound/effects/gore/trauma3.ogg','sound/effects/bonebreak1.ogg','sound/effects/bonebreak2.ogg','sound/effects/bonebreak3.ogg'),50,0)
 		if(internal_damage)
 			owner.custom_pain("You feel something rip in your [name]!", 50, affecting = src)
 
@@ -757,12 +767,16 @@ Note that amputating the affected organ does in fact remove the infection from t
 					"<span class='danger'>\The [owner]'s [src.name] flies off in an arc!</span>",\
 					"<span class='moderate'><b>Your [src.name] goes flying off!</b></span>",\
 					"<span class='danger'>You hear a terrible sound of [gore_sound].</span>")
+				if(!owner.stat)
+					owner.do_pain_sounds(100,"brute")
 		if(DROPLIMB_BURN)
 			var/gore = "[(robotic >= ORGAN_ROBOT) ? "": " of burning flesh"]"
 			owner.visible_message(
 				"<span class='danger'>\The [owner]'s [src.name] flashes away into ashes!</span>",\
 				"<span class='moderate'><b>Your [src.name] flashes away into ashes!</b></span>",\
 				"<span class='danger'>You hear a crackling sound[gore].</span>")
+			if(!owner.stat)
+				owner.do_pain_sounds(100,"burn")
 		if(DROPLIMB_BLUNT)
 			var/gore = "[(robotic >= ORGAN_ROBOT) ? "": " in shower of gore"]"
 			var/gore_sound = "[(robotic >= ORGAN_ROBOT) ? "rending sound of tortured metal" : "sickening splatter of gore"]"
@@ -771,6 +785,8 @@ Note that amputating the affected organ does in fact remove the infection from t
 				"<span class='danger'>\The [owner]'s [src.name] explodes[gore]!</span>",\
 				"<span class='moderate'><b>Your [src.name] explodes[gore]!</b></span>",\
 				"<span class='danger'>You hear the [gore_sound].</span>")
+			if(!owner.stat)
+				owner.do_pain_sounds(100,"brute")
 
 	var/mob/living/carbon/human/victim = owner //Keep a reference for post-removed().
 	var/obj/item/organ/external/parent_organ = parent

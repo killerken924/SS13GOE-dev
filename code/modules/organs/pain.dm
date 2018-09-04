@@ -114,7 +114,7 @@ mob/living/carbon/proc/custom_pain(var/message, var/power, var/force, var/obj/it
 			if(91 to 10000)
 				msg = "OH GOD! Your [damaged_organ.name] is [burning ? "on fire" : "hurting terribly"]!"
 				DoScreenJitter(rand(1,5),rand(1,50),rand(1,50))
-		if(prob(maxdam/10))
+		if(prob(maxdam/5))
 			do_pain_sounds(maxdam,"[burning ? "burn" : "brute"]")
 
 		custom_pain(msg, maxdam, prob(10), damaged_organ, TRUE)

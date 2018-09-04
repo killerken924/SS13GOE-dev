@@ -79,9 +79,14 @@ avoid code duplication. This includes items that may sometimes act as a standard
 	if(ishuman(user))
 		var/mob/living/carbon/human/H=user
 		var/datum/realskills/strength_skill=H.Skills.get_skill(/datum/realskills/strength)
+		var/wep_skll=H.get_apropriate_weapon_skill(src)
 		if(!Swing(H))
 			return 0
-		var/clickcooldown=src.w_class*3+swing_stamina
+		var/clickcooldown
+		if(attack_delay)
+			clickcooldown=attack_delay//+swing_stamina
+		else
+			clickcooldown=src.w_class*3+swing_stamina
 		clickcooldown-=H.ap/5// so if you have full stamina you would be 2 faster, if you had 1 stamina it would be .2 faster
 
 		user.setClickCooldown(clickcooldown)
@@ -89,7 +94,8 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		var/stamina_take=src.w_class+swing_stamina//if the item size was LARGE, it would take 2 stamina, if it was normal, 1.5
 		if(strength_skill&&strength_skill.points)
 			stamina_take-=strength_skill.points/10//if you had max strength it would take 1.5 less, so if it was an large item, it would take 0.5 stamina, if it was normal
-
+		if(wep_skll)
+			stamina_take-=wep_skll/5
 		stamina_take=max(src.w_class/10,stamina_take)//so it will always take a tenth the w_class or more.
 		H.Do_Stamina(stamina_take)
 		//if(H.ap<1
@@ -107,8 +113,12 @@ avoid code duplication. This includes items that may sometimes act as a standard
 
 //Called when a weapon is used to make a successful melee attack on a mob. Returns the blocked result
 /obj/item/proc/apply_hit_effect(mob/living/target, mob/living/user, var/hit_zone,var/powermod)
-	if(hitsound)
-		playsound(loc, hitsound, 50, 1, -1)
+	if(hitsound||hitsounds&&hitsounds.len)
+		if(hitsounds&&hitsounds.len)
+			playsound(loc, pick(hitsounds), 50, 1, -1)
+		else if(hitsound)
+			playsound(loc,hitsound, 50, 1, -1)
+
 
 	var/power = force
 	if(powermod)

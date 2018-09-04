@@ -56,7 +56,7 @@
 						edge_eligible = 1
 				brute = pure_brute
 				if(edge_eligible && brute >= max_damage / DROPLIMB_THRESHOLD_EDGE)
-					if(edge_tearoff_chnc(brute)||force_droplimb)//if(prob(brute) || force_droplimb)
+					if(edge_tearoff_chnc(brute,used_weapon)||force_droplimb)//if(prob(brute) || force_droplimb)
 						droplimb(0, DROPLIMB_EDGE)
 						return
 				else if(burn >=max_damage / DROPLIMB_THRESHOLD_DESTROY) //burn >= max_damage / DROPLIMB_THRESHOLD_DESTROY)

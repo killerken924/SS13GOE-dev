@@ -215,7 +215,10 @@
 
 	if(!mob.canmove)
 		return
-
+	if(iscarbon(mob))
+		var/mob/living/carbon/C=mob
+		if(!(C.organs_by_name[BP_L_LEG].is_usable())||!(C.organs_by_name[BP_R_LEG].is_usable()))
+			return
 	if(isliving(mob))
 		var/mob/living/L = mob
 		if(L.incorporeal_move)//Move though walls

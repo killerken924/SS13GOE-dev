@@ -84,6 +84,8 @@
 	if(randpixel && (!pixel_x && !pixel_y) && isturf(loc)) //hopefully this will prevent us from messing with mapper-set pixel_x/y
 		pixel_x = rand(-randpixel, randpixel)
 		pixel_y = rand(-randpixel, randpixel)
+	if(sharp&&edge)
+		can_chng_attack_type=1
 
 /obj/item/Destroy()
 	qdel(hidden_uplink)

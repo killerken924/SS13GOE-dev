@@ -26,8 +26,12 @@
 		return 1
 	return 0
 
-/obj/item/organ/external/proc/edge_tearoff_chnc(var/brute)
+/obj/item/organ/external/proc/edge_tearoff_chnc(var/brute,used_weapon)
 	var/tearprob=brute
+	if(isadvancedweapon(used_weapon))
+		var/obj/item/weapon/advanced_weapon/A=used_weapon
+		if(A.weapon_quality)
+			tearprob=max(0,tearprob+A.weapon_quality*5)
 	for(var/datum/wound/W in wounds)//cut wounds, will make it more likely to fall off...
 		if(W.damage_type==CUT)
 			switch(W.type)
