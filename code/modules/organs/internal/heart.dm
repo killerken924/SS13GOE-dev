@@ -92,6 +92,8 @@
 		else
 			heartbeat++
 
+
+//obj/item/organ/internal/heart/var/blood_ox_timer=0
 /obj/item/organ/internal/heart/proc/handle_blood()
 
 	if(!owner)
@@ -114,6 +116,7 @@
 				owner.pale=2
 		if((owner.Applied_Pale_Mod&&!owner.pale)||(!owner.Applied_Pale_Mod&&owner.pale))
 			owner.update_body()
+
 	if(pulse != PULSE_NONE || robotic >= ORGAN_ROBOT)
 		//Bleeding out
 		var/blood_max = 0

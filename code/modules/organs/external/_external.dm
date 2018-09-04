@@ -431,16 +431,19 @@ This function completely restores a damaged organ to perfect condition.
 
 		var/internal_damage
 		if(type==BRUISE)
-			if(prob(damage/4) && sever_artery())
+			if(prob(damage/8) && sever_artery())
 				internal_damage = TRUE
 				playsound(owner.loc,pick('sound/effects/gore/chop4.ogg','sound/effects/gore/chop2.ogg','sound/effects/gore/blood_splat.ogg'),50,0)
+
 		else if(prob(damage) && sever_artery())
 			internal_damage = TRUE
 			playsound(owner.loc,pick('sound/effects/gore/chop4.ogg','sound/effects/gore/chop2.ogg','sound/effects/gore/blood_splat.ogg'),50,0)
+
 		if(type==BRUISE)
 			if(prob(ceil(damage/5)) && sever_tendon())
 				internal_damage = TRUE
 				playsound(owner.loc,pick('sound/effects/gore/trauma3.ogg','sound/effects/bonebreak1.ogg','sound/effects/bonebreak2.ogg','sound/effects/bonebreak3.ogg'),50,0)
+
 		else if(prob(ceil(damage/4)) && sever_tendon())
 			internal_damage = TRUE
 			playsound(owner.loc,pick('sound/effects/gore/trauma3.ogg','sound/effects/bonebreak1.ogg','sound/effects/bonebreak2.ogg','sound/effects/bonebreak3.ogg'),50,0)

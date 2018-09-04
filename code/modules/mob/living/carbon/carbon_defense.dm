@@ -14,7 +14,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H=user
 		var/datum/realskills/strength_skill=H.Skills.get_skill(/datum/realskills/strength)
-		if(strength_skill)
+		if(strength_skill.points>=5)
 			effective_force*=strength_skill.points/5
 	var/datum/wound/created_wound = apply_damage(effective_force, I.damtype, hit_zone, blocked, damage_flags, used_weapon=I)
 

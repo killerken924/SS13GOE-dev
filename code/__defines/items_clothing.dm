@@ -178,7 +178,10 @@
 #define       ARMOR_MAX_HEAT_PROTECTION_TEMPERATURE 600   // For armor.
 #define      GLOVES_MAX_HEAT_PROTECTION_TEMPERATURE 1500  // For some gloves.
 #define        SHOE_MAX_HEAT_PROTECTION_TEMPERATURE 1500  // For shoes.
-
+//ARMOR STUFF
+#define        SLASH_PROTECTION 1  // For shoes
+#define        STAB_PROTECTION  2  // For shoes
+#define        BLUNT_PROTECTION 3  // For shoes
 // Fire.
 #define FIRE_MIN_STACKS          -20
 #define FIRE_MAX_STACKS           25

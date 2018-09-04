@@ -99,6 +99,7 @@
 								visible_message("<span class='danger'>[src] Screams!</span>")
 								if(prob(30))
 									src.PleaseSex(rand(1,60)/10)
+		src.Sex(C)
 	if(href_list["RemoveFromGenitals"])
 		if(!held)
 			if(!(src.w_uniform&&src.wear_underwear))
@@ -114,14 +115,16 @@
 								playsound(src,pick('sound/sex/splat.ogg','sound/sex/squish.ogg'), 10, 1)
 								src.PleaseSex(rand(1,20)/10)
 							itemsgot++
+		src.Sex(C)
 	if(href_list["Anal_Sex"])
 		if(get_dist(src,C)<1)
 			if(!held)
 				if(Can_Sex("Anal",src,C))
 					Anal_Sex(src,C,C)
+		src.Sex(C)
 	else
 		..()
-	src.Sex(C)
+
 
 /mob/living/carbon/human/proc/Put_In_Genitals(obj/item/I,mob/living/carbon/human/user)
 	var/obj/item/organ/external/groin/G=organs_by_name[BP_GROIN]

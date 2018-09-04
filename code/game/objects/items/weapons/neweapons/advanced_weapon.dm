@@ -61,6 +61,7 @@
 		to_chat(user,"<span class='notice'>You will now slash with the [src]</span>")
 		handle_advanced_sounds()
 		return 1
+
 /obj/item/weapon/advanced_weapon/proc/handle_advanced_sounds()
 	if(sharp)
 		if(edge)
