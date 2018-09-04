@@ -1,6 +1,7 @@
 #define SHORT_SWORD 1
 #define LONG_SWORD 2
 #define BASTARD_SWORD 3
+#define SPEAR 4
 /obj/item
 	var/list/counter_sounds
 	var/list/hitsounds=list()
@@ -49,6 +50,13 @@
 	sharp = 1
 	edge  = 1
 
+/obj/item/weapon/advanced_weapon/spear
+	name="Weapon"
+	weapon_type =SPEAR
+	weapon_skill=/datum/advance_skills/spear_fighting
+	counter_sounds=list('sound/weapons/counters/blade_parry1.ogg','sound/weapons/counters/blade_parry2.ogg','sound/weapons/counters/blade_parry3.ogg')
+	sharp = 1
+
 /obj/item/weapon/advanced_weapon/sword/change_attack_type(mob/living/carbon/human/user as mob)
 	user<<'sound/effects/ui_toggle.ogg'
 	if(edge&&sharp)
@@ -82,3 +90,10 @@
 	icon_state="sword"
 	force=20
 	attack_delay=9
+/obj/item/weapon/advanced_weapon/spear/long
+	name="Spear"
+	weapon_type =SPEAR
+	icon_state="Spear"
+	sharp = 1
+	force = 25
+	attack_delay=18
