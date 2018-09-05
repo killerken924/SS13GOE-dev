@@ -54,27 +54,7 @@ meteor_act
 
 	..(stun_amount, agony_amount, def_zone)
 
-/mob/living/carbon/human/getarmor(var/def_zone, var/type)
-	var/armorval = 0
-	var/total = 0
 
-	if(def_zone)
-		if(isorgan(def_zone))
-			return getarmor_organ(def_zone, type)
-		var/obj/item/organ/external/affecting = get_organ(def_zone)
-		if(affecting)
-			return getarmor_organ(affecting, type)
-		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
-
-	//If you don't specify a bodypart, it checks ALL your bodyparts for protection, and averages out the values
-	for(var/organ_name in organs_by_name)
-		if (organ_name in organ_rel_size)
-			var/obj/item/organ/external/organ = organs_by_name[organ_name]
-			if(organ)
-				var/weight = organ_rel_size[organ_name]
-				armorval += (getarmor_organ(organ, type) * weight) //use plain addition here because we are calculating an average
-				total += weight
-	return (armorval/max(total, 1))
 
 //this proc returns the Siemens coefficient of electrical resistivity for a particular external organ.
 /mob/living/carbon/human/proc/get_siemens_coefficient_organ(var/obj/item/organ/external/def_zone)
@@ -90,23 +70,6 @@ meteor_act
 
 	return siemens_coefficient
 
-//this proc returns the armour value for a particular external organ.
-/mob/living/carbon/human/proc/getarmor_organ(var/obj/item/organ/external/def_zone, var/type)
-	if(!type || !def_zone) return 0
-	if(!istype(def_zone))
-		def_zone = get_organ(check_zone(def_zone))
-	if(!def_zone)
-		return 0
-	var/protection = def_zone.species.natural_armour_values ? def_zone.species.natural_armour_values[type] : 0
-	var/list/protective_gear = list(head, wear_mask, wear_suit, w_uniform, gloves, shoes)
-	for(var/obj/item/clothing/gear in protective_gear)
-		if(gear.body_parts_covered & def_zone.body_part)
-			protection = add_armor(protection, gear.armor[type])
-		if(gear.accessories.len)
-			for(var/obj/item/clothing/accessory/bling in gear.accessories)
-				if(bling.body_parts_covered & def_zone.body_part)
-					protection = add_armor(protection, bling.armor[type])
-	return Clamp(protection,0,100)
 
 /mob/living/carbon/human/proc/check_head_coverage()
 
@@ -186,7 +149,8 @@ meteor_act
 	else
 		visible_message("<span class='danger'>[src] has been [I.attack_verb.len? pick(I.attack_verb) : "attacked"] in the [affecting.name] with [I.name] by [user]!</span>")
 
-	var/blocked = run_armor_check(hit_zone, "melee", I.armor_penetration, "Your armor has protected your [affecting.name].", "Your armor has softened the blow to your [affecting.name].")
+	var/blocked = run_real_armor_check(hit_zone,"melee",dmg_flgs,I,effective_force)
+
 	standard_weapon_hit_effects(I, user, effective_force, blocked, hit_zone)
 
 	return blocked
@@ -207,11 +171,15 @@ meteor_act
 		attack_joint(affecting, I, effective_force, 0.5, blocked) //...but can dislocate joints
 	else if(!..())
 		return 0
+
 	var/datum/realskills/strength_skill=Skills.get_skill(/datum/realskills/strength)
 	var/staminadmg=effective_force/10
+
 	if(strength_skill&&strength_skill.points)
 		staminadmg=max(effective_force/10,(effective_force/3)-(strength_skill.points/10))//stronger you are, the less stamina it takes
+	to_chat(world,"staminadmg=[staminadmg]")
 	Do_Stamina(staminadmg)
+
 	if(effective_force > 10 || effective_force >= 5 && prob(33))
 		forcesay(GLOB.hit_appends)	//forcesay checks stat already
 	if((I.damtype == BRUTE || I.damtype == PAIN) && prob(25 + (effective_force * 2)))

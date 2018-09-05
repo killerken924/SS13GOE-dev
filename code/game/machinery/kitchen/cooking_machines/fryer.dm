@@ -37,7 +37,7 @@
 			to_chat(user, "<span class='warning'>They are missing that body part!</span>")
 		else
 			visible_message("<span class='danger'>\The [user] shoves \the [victim][E ? "'s [E.name]" : ""] into \the [src]!</span>")
-			var/blocked = H.run_armor_check(target_zone, "energy")
+			var/blocked =H.run_armor_check(target_zone, "energy")
 			H.apply_damage(rand(20,30), BURN, target_zone, blocked)
 
 	else

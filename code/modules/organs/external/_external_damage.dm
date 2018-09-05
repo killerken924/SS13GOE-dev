@@ -6,7 +6,7 @@
 	//Continued damage to vital organs can kill you, and robot organs don't count towards total damage so no need to cap them.
 	return ((robotic >= ORGAN_ROBOT) || brute_dam + burn_dam + additional_damage < max_damage * 4)
 
-/obj/item/organ/external/take_damage(brute, burn, damage_flags, used_weapon = null)
+/obj/item/organ/external/take_damage(brute, burn, damage_flags, used_weapon = null,blocked)
 	brute = round(brute * species.brute_mod, 0.1)
 	burn = round(burn * species.burn_mod, 0.1)
 	if((brute <= 0) && (burn <= 0))

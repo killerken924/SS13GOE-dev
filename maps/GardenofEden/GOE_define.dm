@@ -4,7 +4,7 @@
 	path = "GOE"
 
 	lobby_icon = 'maps/GardenofEden/GOE_lobby.dmi'
-	lobby_tracks = list(/music_track/absconditus)//Firestarter
+	lobby_tracks = list(/music_track/firestarter)//Firestarter
 
 	station_levels = list(1, 2, 3)
 	contact_levels = list(1, 2, 3)

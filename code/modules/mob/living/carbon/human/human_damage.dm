@@ -365,13 +365,14 @@ This function restores all organs.
 /mob/living/carbon/human/apply_damage(var/damage = 0, var/damagetype = BRUTE, var/def_zone = null, var/blocked = 0, var/damage_flags = 0, var/obj/used_weapon = null, var/obj/item/organ/external/given_organ = null)
 
 	var/obj/item/organ/external/organ = given_organ
+	var/obj/item/organ/external/real_def_zone
 	if(!organ)
 		if(isorgan(def_zone))
 			organ = def_zone
 		else
 			if(!def_zone)	def_zone = ran_zone(def_zone)
 			organ = get_organ(check_zone(def_zone))
-
+	real_def_zone=organ
 	//Handle other types of damage
 	if(!(damagetype in list(BRUTE, BURN, PAIN, CLONE)))
 		..(damage, damagetype, def_zone, blocked)
@@ -384,7 +385,16 @@ This function restores all organs.
 	if(!organ)	return 0
 
 	if(blocked)
+		var/old_damage=damage
 		damage *= blocked_mult(blocked)
+		if(old_damage>damage*3)
+			if(prob(50))
+				to_chat(src,"<span class='warning'>Your armor softened the attack</span>")
+		if(used_weapon)
+			var/list/protective_gear = list(head, wear_mask, wear_suit, w_uniform, gloves, shoes)
+			for(var/obj/item/clothing/A in protective_gear)
+				if(A.body_parts_covered & real_def_zone.body_part)
+					A.Hitby(used_weapon,used_weapon.damage_flags(),damage)
 
 	if(damage > 15 && prob(damage*4))
 		make_adrenaline(round(damage/10))
@@ -393,10 +403,10 @@ This function restores all organs.
 	switch(damagetype)
 		if(BRUTE)
 			damage = damage*species.brute_mod
-			created_wound = organ.take_damage(damage, 0, damage_flags, used_weapon)
+			created_wound = organ.take_damage(damage, 0, damage_flags, used_weapon,blocked)
 		if(BURN)
 			damage = damage*species.burn_mod
-			created_wound = organ.take_damage(0, damage, damage_flags, used_weapon)
+			created_wound = organ.take_damage(0, damage, damage_flags, used_weapon,blocked)
 		if(PAIN)
 			organ.add_pain(damage)
 		if(CLONE)

@@ -39,8 +39,10 @@
 /obj/item/weapon/advanced_weapon/attack_self(mob/living/carbon/human/user as mob)//attack_hand
 	change_attack_type(user)
 	//..()
+
 /obj/item/weapon/advanced_weapon/change_attack_type(mob/living/carbon/human/user as mob)
 	..()
+
 /obj/item/weapon/advanced_weapon/sword
 	name="Weapon"
 	weapon_type =SHORT_SWORD

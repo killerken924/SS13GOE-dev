@@ -42,6 +42,6 @@
 			if(damage > embed_threshold && prob(embed_chance))//(weapon_sharp && damage > (10*I.w_class))
 				src.embed(I, hit_zone, supplied_wound = created_wound)
 	if(!ishuman(src))
+		//var/stamina_take
 		Do_Stamina(effective_force/10)
-	to_chat(world,"effective force =[effective_force]")
 	return 1

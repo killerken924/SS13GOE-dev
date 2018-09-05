@@ -97,7 +97,7 @@
 	var/hit_zone = G.assailant.zone_sel.selecting
 	var/obj/item/organ/external/damaging = G.affecting.get_organ(hit_zone)
 
-	var/armor = G.affecting.run_armor_check(hit_zone, "melee")
+	var/armor = 0// G.affecting.run_armor_check(hit_zone, "melee") FIX RUN ARMOR CHECK
 
 	G.affecting.apply_damage(attack_damage, BRUTE, hit_zone, armor, DAM_SHARP|DAM_EDGE, "mandibles")
 	G.affecting.visible_message("<span class='danger'>[G.assailant] chews on [G.affecting]'s [damaging.name]!</span>")
