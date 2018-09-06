@@ -32,9 +32,20 @@
 	var/datum/advance_skills/weapon_skill=null
 	var/weapon_quality=5
 	var/weapon_type
+	var/weapon_health=100
+	var/blocking_power=0
 
 	var/list/slashsounds=list('sound/weapons/swords/slash.ogg','sound/weapons/swords/slash1.ogg','sound/weapons/swords/slash2.ogg','sound/weapons/swords/slash3.ogg')
 	var/list/stabsounds=list('sound/weapons/swords/stab.ogg','sound/weapons/swords/stab1.ogg','sound/weapons/swords/stab2.ogg')
+
+	item_icons = list(
+		slot_l_hand_str = 'icons/mob/onmob/items/advancedweapons_l.dmi',
+		slot_r_hand_str = 'icons/mob/onmob/items/advancedweapons_r.dmi',
+		)
+
+/obj/item/weapon/advanced_weapon/proc/Break_Weapon(var/mob/living/carbon/human/defender)
+	visible_message("<span class='danger'>[defender]'s [src] breaks!</span>")
+	return
 
 
 /obj/item/weapon/advanced_weapon/attack_self(mob/living/carbon/human/user as mob)//attack_hand
@@ -56,7 +67,7 @@
 	name="Weapon"
 	weapon_type =SPEAR
 	weapon_skill=/datum/advance_skills/spear_fighting
-	counter_sounds=list('sound/weapons/counters/blade_parry1.ogg','sound/weapons/counters/blade_parry2.ogg','sound/weapons/counters/blade_parry3.ogg')
+	counter_sounds=list('sound/weapons/counters/blunt_parry1.ogg','sound/weapons/counters/blunt_parry2.ogg','sound/weapons/counters/blunt_parry3.ogg')
 	sharp = 1
 
 /obj/item/weapon/advanced_weapon/sword/change_attack_type(mob/living/carbon/human/user as mob)
@@ -90,8 +101,10 @@
 	name="Short Sword"
 	weapon_type =SHORT_SWORD
 	icon_state="sword"
+	item_state="steel_short_sword"
 	force=20
 	attack_delay=9
+	blocking_power=2
 /obj/item/weapon/advanced_weapon/spear/long
 	name="Spear"
 	weapon_type =SPEAR
@@ -99,3 +112,4 @@
 	sharp = 1
 	force = 25
 	attack_delay=18
+	blocking_power=2

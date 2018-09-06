@@ -173,7 +173,7 @@ meteor_act
 		return 0
 
 	var/datum/realskills/strength_skill=Skills.get_skill(/datum/realskills/strength)
-	var/staminadmg=effective_force/10
+	var/staminadmg=effective_force/20
 
 	if(strength_skill&&strength_skill.points)
 		staminadmg=max(effective_force/10,(effective_force/3)-(strength_skill.points/10))//stronger you are, the less stamina it takes

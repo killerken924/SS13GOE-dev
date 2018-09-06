@@ -953,6 +953,8 @@
 #include "code\game\objects\items\weapons\melee\energy.dm"
 #include "code\game\objects\items\weapons\melee\misc.dm"
 #include "code\game\objects\items\weapons\neweapons\advanced_weapon.dm"
+#include "code\game\objects\items\weapons\neweapons\parry.dm"
+#include "code\game\objects\items\weapons\neweapons\shields.dm"
 #include "code\game\objects\items\weapons\storage\backpack.dm"
 #include "code\game\objects\items\weapons\storage\bags.dm"
 #include "code\game\objects\items\weapons\storage\belt.dm"
