@@ -52,6 +52,7 @@
 	update_body()
 	Create_Advance_Skills()//
 	Skills= new/datum/realskill_set(src)
+	Generate_Craftable_Items()
 
 /mob/living/carbon/human/Destroy()
 	GLOB.human_mob_list -= src
