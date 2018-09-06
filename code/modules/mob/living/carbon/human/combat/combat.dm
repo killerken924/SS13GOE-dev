@@ -24,6 +24,20 @@
 				else if(prob(10*parry_chance()))
 					do_parry()
 					return 1
+		if(Find_In_Hands(/obj/item/weapon/advanced_weapon/shield,src))
+			var/hnd=Find_In_Hands(/obj/item/weapon/advanced_weapon/shield,src)
+			var/obj/item/weapon/advanced_weapon/shield/S
+			switch(hnd)
+				if(2)//ACTIVEHAND
+					S=get_active_hand()
+				if(1)//INACTIVEHAND
+					S=get_inactive_hand()
+			if(S)
+				var/shieldblockchance=shield_block_chance(S,attacker)
+				if(prob(shieldblockchance))
+					do_shield_block(attacker,S)
+					return 1
+
 	return 0
 /mob/living/carbon/human/proc/do_dodge(var/mob/living/carbon/human/attacker)
 	var/dodge_loc=pick(GLOB.cardinal-get_dir(src,attacker))
@@ -85,6 +99,32 @@
 
 
 
+/mob/living/carbon/human/proc/do_shield_block(var/mob/living/carbon/human/attacker,var/obj/item/weapon/advanced_weapon/shield/S)
+	var/obj/item/Attacker_Weapon=attacker.get_active_hand()
+	visible_message("<span class='danger'>[src] blocks [attacker]'s [Attacker_Weapon ? Attacker_Weapon.name : "Fist"] with the [S]</span>")
+	if(S.counter_sounds&&S.counter_sounds.len)
+		playsound(src,pick(S.counter_sounds), 50, 1)
+	else
+		playsound(src,'sound/weapons/thudswoosh.ogg', 50, 1)
+	S.On_Weapon_Block(src,attacker)
+	var/attacker_effective_pwr=0
+	if(Attacker_Weapon)
+		var/attacker_strength
+		if(attacker.Skills.get_skill(/datum/realskills/strength))
+			attacker_strength=attacker.Skills.get_skill(/datum/realskills/strength).points
+		attacker_effective_pwr=	Attacker_Weapon.force
+		if(attacker_strength)
+			attacker_effective_pwr*=attacker_strength/5
+
+	var/staminadmg=attacker_effective_pwr/15
+	var/strength_skill=0
+	if(Skills.get_skill(/datum/realskills/strength))
+		strength_skill=Skills.get_skill(/datum/realskills/strength).points
+	if(strength_skill)
+		staminadmg=max(attacker_effective_pwr/10,(attacker_effective_pwr/3)-(strength_skill/10))//stronger you are, the less stamina it takes
+	Do_Stamina(staminadmg)
+
+	return 1
 
 /mob/living/carbon/human/proc/do_weapon_parry(var/mob/living/carbon/human/attacker)
 	var/obj/item/Attacker_Weapon=attacker.get_active_hand()
@@ -101,6 +141,7 @@
 		else
 			playsound(src,'sound/weapons/thudswoosh.ogg', 50, 1)
 		Defender_Weapon.apply_hit_effect(attacker,src,hit_zone,pwrmod)
+		Defender_Weapon.On_Weapon_Parry(src,attacker)
 		return 1
 	else if(prob(25)*Defender_Skill/4)
 		visible_message("<span class='danger'>[src] counters [attacker] attack!</span>")
@@ -111,6 +152,7 @@
 		else
 			playsound(src,'sound/weapons/thudswoosh.ogg', 50, 1)
 		Defender_Weapon.apply_hit_effect(attacker,src,hit_zone,pwrmod)
+		Defender_Weapon.On_Weapon_Parry(src,attacker)
 		return 1
 	else
 		visible_message("<span class='danger'>[src] blocks [attacker]'s [Attacker_Weapon ? Attacker_Weapon.name : "Fist"]</span>")
@@ -118,6 +160,7 @@
 			playsound(src,pick(Defender_Weapon.counter_sounds), 50, 1)
 		else
 			playsound(src,'sound/weapons/thudswoosh.ogg', 50, 1)
+		Defender_Weapon.On_Weapon_Block(src,attacker)
 		return 1
 
 /mob/living/carbon/human/proc/get_apropriate_weapon_skill(obj/O)

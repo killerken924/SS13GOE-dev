@@ -131,6 +131,10 @@
 #define HAND_RIGHT  0x1000
 #define HANDS       0x1800 // HAND_LEFT | HAND_RIGHT
 #define FULL_BODY   0xFFFF
+//ARMOR STUFF
+#define SLASH_PROTECTION 0x1
+#define STAB_PROTECTION  0x2
+#define BLUNT_PROTECTION 0x4
 
 // Bitflags for the percentual amount of protection a piece of clothing which covers the body part offers.
 // Used with human/proc/get_heat_protection() and human/proc/get_cold_protection().
@@ -179,9 +183,7 @@
 #define      GLOVES_MAX_HEAT_PROTECTION_TEMPERATURE 1500  // For some gloves.
 #define        SHOE_MAX_HEAT_PROTECTION_TEMPERATURE 1500  // For shoes.
 //ARMOR STUFF
-#define        SLASH_PROTECTION 1  // For shoes
-#define        STAB_PROTECTION  2  // For shoes
-#define        BLUNT_PROTECTION 3  // For shoes
+
 // Fire.
 #define FIRE_MIN_STACKS          -20
 #define FIRE_MAX_STACKS           25

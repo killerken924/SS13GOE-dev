@@ -3,6 +3,14 @@
 	if(istype(src,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H=src
 		H.Handle_Real_Vision()
+		var/list/protective_gear = list(H.head, H.wear_mask, H.wear_suit, H.w_uniform, H.gloves, H.shoes)
+		//for(var/obj/item/clothing/gear in protective_gear)
+		for(var/obj/item/clothing/A in protective_gear )
+			if(A.move_sounds&&A.move_sounds.len)
+				if(prob(75))
+					playsound(src.loc,pick(A.move_sounds),50,1)
+
+
 	for(var/mob/living/carbon/human/H in oview(src))
 		H.Handle_Real_Vision()
 

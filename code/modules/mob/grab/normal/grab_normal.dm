@@ -181,7 +181,7 @@
 
 	var/armor = target.run_armor_check(BP_HEAD, "melee")
 	target.apply_damage(damage, BRUTE, BP_HEAD, armor, damage_flags)
-	attacker.apply_damage(10, BRUTE, BP_HEAD, attacker.run_armor_check(BP_HEAD, "melee"))
+	attacker.apply_damage(10, BRUTE, BP_HEAD,run_armor_check(BP_HEAD, "melee"))
 
 	if(armor < 50 && target.headcheck(BP_HEAD) && prob(damage))
 		target.apply_effect(20, PARALYZE)

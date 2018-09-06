@@ -10,40 +10,38 @@
 	Returns
 	a blocked amount between 0 - 100, representing the success of the armor check.
 */
-/mob/living/proc/run_armor_check(var/def_zone = null, var/attack_flag = "melee", var/armour_pen = 0, var/absorb_text = null, var/soften_text = null)
-	if(armour_pen >= 100)
+//mob/living/proc/run_armor_check(var/def_zone = null,var/attack_flag = "melee", var/damage_flags,var/armour_pen=0,var/obj/item/W,var/attackforce)//, var/attack_flag = "melee", var/armour_pen = 0, var/absorb_text = null, var/soften_text = null)
+/mob/living/proc/run_armor_check(var/def_zone = null, var/attack_flag = "melee", var/armour_pen = 0, var/absorb_text = null, var/soften_text = null,var/damage_flags,var/obj/item/W,var/attackforce)
+	return 0
+	/*if(armour_pen >= 100)
 		return 0 //might as well just skip the processing
 
-	var/armor = getarmor(def_zone, attack_flag)
-
-	if(armour_pen >= armor)
-		return 0 //effective_armor is going to be 0, fullblock is going to be 0, blocked is going to 0, let's save ourselves the trouble
-
+	var/armor = getarmor(def_zone,attack_flag, damage_flags)
 	var/effective_armor = (armor - armour_pen)/100
 	var/fullblock = (effective_armor*effective_armor) * ARMOR_BLOCK_CHANCE_MULT
+	if(ishuman(src))
+		var/mob/living/carbon/human/H=src
+		if(def_zone)
+			if(isorgan(def_zone))
+				var/obj/item/organ/external/affecting = H.get_organ(def_zone)
+				var/list/protective_gear = list(H.head, H.wear_mask, H.wear_suit, H.w_uniform, H.gloves, H.shoes)
+				if(affecting)
+					for(var/obj/item/clothing/gear in protective_gear)
+						if(gear.body_parts_covered & affecting.body_part)
+							if(istype(gear,/obj/item/clothing/suit/real_armor))
+								var/obj/item/clothing/suit/real_armor/RA=gear
+								RA.Hitby(W,damage_flags,attackforce)
 
 	if(fullblock >= 1 || prob(fullblock*100))
-		if(absorb_text)
-			show_message("<span class='warning'>[absorb_text]</span>")
-		else
-			show_message("<span class='warning'>Your armor absorbs the blow!</span>")
+		show_message("<span class='warning'>Your armor absorbs the blow!</span>")
 		return 100
 
-	//this makes it so that X armour blocks X% damage, when including the chance of hard block.
-	//I double checked and this formula will also ensure that a higher effective_armor
-	//will always result in higher (non-fullblock) damage absorption too, which is also a nice property
-	//In particular, blocked will increase from 0 to 50 as effective_armor increases from 0 to 0.999 (if it is 1 then we never get here because ofc)
-	//and the average damage absorption = (blocked/100)*(1-fullblock) + 1.0*(fullblock) = effective_armor
 	var/blocked = (effective_armor - fullblock)/(1 - fullblock)*100
-
 	if(blocked > 20)
 		//Should we show this every single time?
-		if(soften_text)
-			show_message("<span class='warning'>[soften_text]</span>")
-		else
-			show_message("<span class='warning'>Your armor softens the blow!</span>")
+		show_message("<span class='warning'>Your armor softens the blow!</span>")
+	return round(blocked, 1)*/
 
-	return round(blocked, 1)
 
 //Adds two armor values together.
 //If armor_a and armor_b are between 0-100 the result will always also be between 0-100.
@@ -139,8 +137,9 @@
 //Called when the mob is hit with an item in combat. Returns the blocked result
 /mob/living/proc/hit_with_weapon(obj/item/I, mob/living/user, var/effective_force, var/hit_zone)
 	visible_message("<span class='danger'>[src] has been [I.attack_verb.len? pick(I.attack_verb) : "attacked"] with [I.name] by [user]!</span>")
+	var/damage_flags = I.damage_flags()
 
-	var/blocked = run_armor_check(hit_zone, "melee")
+	var/blocked= run_real_armor_check(hit_zone,"melee",damage_flags,I,effective_force)//= run_armor_check(hit_zone,"melee",damage_flags=I.damage_flags(),W=I,attackforce=effective_force)
 	standard_weapon_hit_effects(I, user, effective_force, blocked, hit_zone)
 
 	if(I.damtype == BRUTE && prob(33)) // Added blood for whacking non-humans too

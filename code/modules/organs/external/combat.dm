@@ -1,4 +1,4 @@
-/obj/item/organ/external/proc/damage_internal(brute, burn, damage_flags, used_weapon = null)
+/obj/item/organ/external/proc/damage_internal(brute, burn, damage_flags, used_weapon = null,blocked)
 	var/damage_amt=brute
 	var/sharp = (damage_flags & DAM_SHARP)
 	var/edge  = (damage_flags & DAM_EDGE)
@@ -7,8 +7,12 @@
 	var/blunt = brute && !sharp && !edge
 
 	var/list/victims = list()
+	var/organ_prob_mod=0
+	if(blocked)
+		organ_prob_mod=blocked/4//Armor can help stop these things.
 	for(var/obj/item/organ/internal/I in internal_organs)
-		if(I.damage < I.max_damage && prob(I.relative_size))
+
+		if(I.damage < I.max_damage && prob(I.relative_size-organ_prob_mod))
 			victims += I
 			if(pointy)//pointy is direct, so only one organ
 				break

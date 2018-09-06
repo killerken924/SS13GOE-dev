@@ -61,6 +61,22 @@
 		pnt_total+=Str/3
 		points=max(0,round(pnt_total,1))
 
+/datum/advance_skills/shields
+	name="Shield Defence"
+	desc="Your Shield Defence Ability"
+
+/datum/advance_skills/shields/calculate_base()
+	if(owner&&owner.Skills)
+		var/Str=owner.Skills.get_skill(/datum/realskills/strength).points
+		var/End=owner.Skills.get_skill(/datum/realskills/endurance).points
+		var/Agi=owner.Skills.get_skill(/datum/realskills/agility).points
+		var/pnt_total=0
+		pnt_total+=Agi/2
+		pnt_total+=End/2
+		pnt_total+=Str/3
+		points=max(0,round(pnt_total,1))
+
+
 proc/show_advance_skills_window(var/mob/user, var/mob/living/carbon/human/M)
 	if(!istype(M)) return
 
