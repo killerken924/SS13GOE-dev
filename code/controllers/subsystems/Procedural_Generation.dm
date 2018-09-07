@@ -15,4 +15,15 @@ SUBSYSTEM_DEF(procedural)
 	start_generate_mines()//generate_mines(start,end)
 	..()
 /datum/controller/subsystem/procedural/proc/start_generate_mines()
-	new/datum/procgenerator(startx,starty,endx,endy,z)
+	if(GLOB.using_map.procgeneration_levels.len)
+		for(var/Z in GLOB.using_map.procgeneration_levels)
+			var/start_xcord=GLOB.using_map.procgeneration_cords["xmin"]
+			var/end_xcord=GLOB.using_map.procgeneration_cords["xmax"]
+			var/start_ycord=GLOB.using_map.procgeneration_cords["ymin"]
+			var/end_ycord=GLOB.using_map.procgeneration_cords["ymax"]
+			if(start_xcord&&end_xcord&&start_ycord&&end_ycord)
+				new/datum/procgenerator(start_xcord,start_ycord,end_xcord,end_ycord,Z)
+			else
+				new/datum/procgenerator(startx,starty,endx,endy,Z)
+		return
+

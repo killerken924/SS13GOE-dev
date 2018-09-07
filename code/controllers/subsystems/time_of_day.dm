@@ -9,6 +9,7 @@ PROCESSING_SUBSYSTEM_DEF(time_of_day)
 	flags = SS_POST_FIRE_TIMING
 	priority = SS_PRIORITY_MACHINERY//SS_PRIORITY_AIR
 	var/change_by=0.1
+	wait = 1
 
 /datum/controller/subsystem/processing/time_of_day/Initialize()
 	var/list/turfs2pickfrm=turfs.Copy()//outside
@@ -27,7 +28,6 @@ PROCESSING_SUBSYSTEM_DEF(time_of_day)
 		time_of_day=1
 	var/turfs_len=outside_turfs.len
 	#define DIVISOR 200
-	//while(GLOB.outside_turfs.len)
 	for(var/v=1;v<turfs_len;v++)// in 1 to turfs_len)
 		spawn ceil(v/DIVISOR) // 100,000 turfs = 50 seconds (when DIVISOR = 200)
 			var/turf/T=outside_turfs[v]
@@ -56,8 +56,8 @@ PROCESSING_SUBSYSTEM_DEF(time_of_day)
 		if(MidNight to Early_Morning)
 			return "Midnight"
 
-#define BASIC_LIGHT_AMOUNT 1//0.05
-#define MAX_LIGHT_AMOUNT 5//1.00
+#define BASIC_LIGHT_AMOUNT 0.05
+#define MAX_LIGHT_AMOUNT 1.00
 var/list/time_of_day2luminosity = list(
 	"Early Morning" = BASIC_LIGHT_AMOUNT * 10,
 	"Morning" = BASIC_LIGHT_AMOUNT * 15,

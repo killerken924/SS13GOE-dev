@@ -16,10 +16,11 @@
 	var/Wall=/turf/simulated/mineral
 	var/list/map=list()
 	var/initial_wall_cell=55
-	var/iterations=5
+	var/iterations=1
 	var/cell_live_value = WALL_CHAR
 	var/cell_dead_value = FLOOR_CHAR
-	var/cell_threshold = 12
+	var/cell_threshold = 6
+	var/area/proc_area
 
 /datum/procgenerator/New(sx,sy,lx,ly,_z)
 	startx=sx
@@ -27,11 +28,25 @@
 	limit_x=lx
 	limit_y=ly
 	z=_z
+	if(GLOB.using_map.procgeneration_materials.len)
+		var/list/typelist=GLOB.using_map.procgeneration_materials[z]
+		Floor=typelist["Floor"]
+		Wall=typelist["Wall"]
+		if(Wall==Floor)
+			Wall=null
+			Floor=null
+		if(!Wall)
+			Wall=initial(Wall)
+		if(!Floor)
+			Floor=initial(Floor)
+	if(GLOB.using_map.procgeneration_areas.len)
+		proc_area=GLOB.using_map.procgeneration_areas[z]
+	world.log<<"Started generation"
 	set_map_size()
 	seed_map()
 	automata_generate_map()
 	generate()
-	//world.log<<"Started generation"
+
 
 /datum/procgenerator/proc/automata_generate_map()
 	for(var/iter = 1 to iterations)
@@ -90,6 +105,8 @@
 	var/new_path
 	var/tmp_cell
 	for(var/turf/T in block(locate(startx, starty, z), locate(limit_x, limit_y, z)))
+		if(proc_area&&get_area(T).type!=proc_area)
+			continue
 		tmp_cell = TRANSLATE_COORD(T.x, T.y)
 
 		switch (map[tmp_cell])
