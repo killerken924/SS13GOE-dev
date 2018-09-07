@@ -40,7 +40,7 @@
 		luminosity = 0
 	else
 		luminosity = 1
-
+	turfs+=src
 /turf/Destroy()
 	remove_cleanables()
 	..()

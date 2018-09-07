@@ -12,7 +12,7 @@
 /turf/New()
 	opaque_counter = opacity
 	..()
-	
+
 /turf/set_opacity()
 	. = ..()
 	handle_opacity_change(src)
@@ -60,6 +60,8 @@
 	var/totallums = 0
 	for(var/datum/lighting_corner/L in corners)
 		totallums += max(L.lum_r, L.lum_g, L.lum_b)
+		//totallums += max(TOD_lum_r + TOD_lum_g + TOD_lum_b)
+		//totallums += L.getLumR(src) + L.getLumB(src) + L.getLumG(src)
 
 	totallums /= 4 // 4 corners, max channel selected, return the average
 
@@ -73,7 +75,7 @@
 	if(Obj && Obj.opacity)
 		if(!opaque_counter++)
 			reconsider_lights()
-		
+
 
 /turf/Exited(var/atom/movable/Obj, var/atom/newloc)
 	. = ..()
@@ -109,5 +111,4 @@
 			opaque_counter--
 			if(old_counter && !opaque_counter)
 				reconsider_lights()
-	
-	
+

@@ -54,6 +54,13 @@
 	icon_state="Miningunexplored"
 	area_flags = AREA_FLAG_EXTERNAL
 	has_gravity = FALSE
+
+/area/goe/miningunexplored_procedural
+	name="Mining unexplored"
+	icon_state="Miningunexplored_procedural"
+	area_flags = AREA_FLAG_EXTERNAL
+	has_gravity = FALSE
+
 /area/goe/miningexplored
 	name="Mining explored"
 	icon_state="Miningexplored"

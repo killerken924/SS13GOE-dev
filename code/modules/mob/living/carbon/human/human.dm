@@ -63,7 +63,7 @@
 /mob/living/carbon/human/Stat()
 	. = ..()
 	if(statpanel("Status"))
-
+		stat("Time Of Day:","[time_of_day]")
 		if(Skills&&Skills.skills.len)
 			stat("ST:","[Skills.get_skill(/datum/realskills/strength).points]")
 			stat("IT:","[Skills.get_skill(/datum/realskills/intelligence).points]")
