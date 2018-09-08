@@ -26,3 +26,9 @@
 	emergency_shuttle_called_message = "An emergency escape shuttle has been sent."
 	emergency_shuttle_recall_message = "The emergency shuttle has been recalled"
 	welcome_sound = 'sound/effects/cowboysting.ogg'
+	Default_Shuttle_Docked=/area/goe/Escape_shuttle_Station
+	Default_Shuttle_Landed=/area/goe/Escape_shuttle_Landing
+
+	procgeneration_levels=list(3)
+	procgeneration_materials=list(1=list("Floor"=/turf/simulated/floor/asteroid,"Wall"=/turf/simulated/mineral))
+	procgeneration_areas=list(1=/area/goe/miningunexplored_procedural)
