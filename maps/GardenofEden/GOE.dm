@@ -4,6 +4,7 @@
 	#include "GOE_elevator.dm"
 	#include "GOE1.dmm"
 	#include "GOE2.dmm"
+	#include "GOE3.dmm"
 
 	//#include "example-2.dmm"
 	//#include "example-3.dmm"

@@ -20,6 +20,7 @@
 	var/lum_g = 0
 	var/lum_b = 0
 
+
 	var/needs_update = FALSE
 
 	var/cache_r  = LIGHTING_SOFT_THRESHOLD
@@ -89,9 +90,11 @@
 
 // God that was a mess, now to do the rest of the corner code! Hooray!
 /datum/lighting_corner/proc/update_lumcount(var/delta_r, var/delta_g, var/delta_b)
+
 	lum_r += delta_r
 	lum_g += delta_g
 	lum_b += delta_b
+
 
 	if (!needs_update)
 		needs_update = TRUE
@@ -99,11 +102,17 @@
 
 /datum/lighting_corner/proc/update_overlays()
 	// Cache these values a head of time so 4 individual lighting overlays don't all calculate them individually.
-	var/lum_r = src.lum_r > 0 ? LIGHTING_MULT_FACTOR * sqrt(src.lum_r) : src.lum_r
-	var/lum_g = src.lum_g > 0 ? LIGHTING_MULT_FACTOR * sqrt(src.lum_g) : src.lum_g
-	var/lum_b = src.lum_b > 0 ? LIGHTING_MULT_FACTOR * sqrt(src.lum_b) : src.lum_b
+	//	 		DANGEROUS!!
+	//var/lum_r = src.lum_r > 0 ? LIGHTING_MULT_FACTOR * sqrt(src.lum_r) : src.lum_r
+	//var/lum_g = src.lum_g > 0 ? LIGHTING_MULT_FACTOR * sqrt(src.lum_g) : src.lum_g
+	//var/lum_b = src.lum_b > 0 ? LIGHTING_MULT_FACTOR * sqrt(src.lum_b) : src.lum_b
 
-	var/mx = max(lum_r, lum_g, lum_b) // Scale it so 1 is the strongest lum, if it is above 1.
+	var/_lum_r = src.getLumR()> 0 ? LIGHTING_MULT_FACTOR * sqrt(src.getLumR()) : src.getLumR()
+	var/_lum_g = src.getLumG()> 0 ? LIGHTING_MULT_FACTOR * sqrt(src.getLumG()) : src.getLumG()
+	var/_lum_b = src.getLumB() > 0 ? LIGHTING_MULT_FACTOR * sqrt(src.getLumB()) : src.getLumB()
+
+	//var/mx = max(lum_r, lum_g, lum_b) // Scale it so 1 is the strongest lum, if it is above 1.
+	var/mx = max(_lum_r,_lum_g,_lum_b)
 	. = 1 // factor
 	if (mx > 1)
 		. = 1 / mx
@@ -112,14 +121,15 @@
 	else if (mx < LIGHTING_SOFT_THRESHOLD)
 		. = 0 // 0 means soft lighting.
 
-	cache_r  = round(lum_r * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
-	cache_g  = round(lum_g * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
-	cache_b  = round(lum_b * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_r  = round(_lum_r * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_g  = round(_lum_g * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_b  = round(_lum_b * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
 	#else
-	cache_r  = round(lum_r * ., LIGHTING_ROUND_VALUE)
-	cache_g  = round(lum_g * ., LIGHTING_ROUND_VALUE)
-	cache_b  = round(lum_b * ., LIGHTING_ROUND_VALUE)
+	cache_r  = round(_lum_r * ., LIGHTING_ROUND_VALUE)
+	cache_g  = round(_lum_g * ., LIGHTING_ROUND_VALUE)
+	cache_b  = round(_lum_b * ., LIGHTING_ROUND_VALUE)
 	#endif
+
 	cache_mx = round(mx, LIGHTING_ROUND_VALUE)
 
 	for (var/TT in masters)

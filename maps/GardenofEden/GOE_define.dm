@@ -6,8 +6,8 @@
 	lobby_icon = 'maps/GardenofEden/GOE_lobby.dmi'
 	lobby_tracks = list(/music_track/firestarter)//Firestarter
 
-	station_levels = list(1, 2, 3)
-	contact_levels = list(1, 2, 3)
+	station_levels = list(1, 2)//, 3)
+	contact_levels = list(1, 2)//, 3)
 	player_levels = list(1, 2, 3)
 
 	//allowed_spawns = list("Arrivals Shuttle")
@@ -25,3 +25,4 @@
 	emergency_shuttle_leaving_dock = "The emergency escape shuttle has departed from %dock_name%."
 	emergency_shuttle_called_message = "An emergency escape shuttle has been sent."
 	emergency_shuttle_recall_message = "The emergency shuttle has been recalled"
+	welcome_sound = 'sound/effects/cowboysting.ogg'

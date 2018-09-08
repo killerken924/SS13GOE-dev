@@ -9,10 +9,11 @@
 	var/y_size=1
 	var/list/SelectableFloor=list()
 	var/direction=NORTH
-	var/list/areas_to_use = list(
+	/*var/list/areas_to_use = list(
 		/area/goe/mining_lift_1,
 		/area/goe/mining_lift_2
-		)
+		)*/
+	var/list/areas_to_use=list()
 	var/datum/elevatorfloor/current_floor=null
 	var/datum/elevatorfloor/next_floor=null
 	var/moving=0

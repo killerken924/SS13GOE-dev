@@ -3,6 +3,9 @@
 
 /mob/Stat()
 	. = ..()
+	if(statpanel("Status"))
+		stat("Time Of Day:","[time_of_day]")
+
 	if(. && ability_master && ability_master.spell_objects)
 		for(var/obj/screen/ability/spell/screen in ability_master.spell_objects)
 			var/spell/S = screen.spell

@@ -52,6 +52,7 @@
 	update_body()
 	Create_Advance_Skills()//
 	Skills= new/datum/realskill_set(src)
+	Generate_Craftable_Items()
 
 /mob/living/carbon/human/Destroy()
 	GLOB.human_mob_list -= src
@@ -62,7 +63,7 @@
 /mob/living/carbon/human/Stat()
 	. = ..()
 	if(statpanel("Status"))
-
+		stat("Time Of Day:","[time_of_day]")
 		if(Skills&&Skills.skills.len)
 			stat("ST:","[Skills.get_skill(/datum/realskills/strength).points]")
 			stat("IT:","[Skills.get_skill(/datum/realskills/intelligence).points]")

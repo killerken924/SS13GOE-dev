@@ -123,7 +123,14 @@
 					Anal_Sex(src,C,C)
 		src.Sex(C)
 	else
-		..()
+		var/craftingitem=0
+		for(var/datum/craftable_item/I in craftable_items)
+			if(href_list["[I.name]"])
+				Attempt_Craft(I)
+				//Crafting_Menu()
+				craftingitem=1
+		if(!craftingitem)
+			..()
 
 
 /mob/living/carbon/human/proc/Put_In_Genitals(obj/item/I,mob/living/carbon/human/user)
