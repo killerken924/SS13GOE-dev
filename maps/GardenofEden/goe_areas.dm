@@ -84,8 +84,11 @@
 	base_turf = /turf/space
 
 /area/goe/Escape_shuttle_Landing
-	name="Escape_shuttle_Station"
+	name="Escape_shuttle_Landing"
 	icon_state="Escape_shuttle_Landing"
 
-
+/area/goe/Escape_shuttle_Intermission
+	name="Escape_shuttle_Intermission"
+	icon_state="Escape_shuttle_Landing"
+	base_turf = /turf/space
 

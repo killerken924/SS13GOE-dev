@@ -8,7 +8,7 @@
 
 	station_levels = list(1, 2)//, 3)
 	contact_levels = list(1, 2)//, 3)
-	player_levels = list(1, 2, 3)
+	player_levels = list(1, 2, 3,4)
 
 	//allowed_spawns = list("Arrivals Shuttle")
 
@@ -28,6 +28,8 @@
 	welcome_sound = 'sound/effects/cowboysting.ogg'
 	Default_Shuttle_Docked=/area/goe/Escape_shuttle_Station
 	Default_Shuttle_Landed=/area/goe/Escape_shuttle_Landing
+	Default_Shuttle_Intermission=/area/goe/Escape_shuttle_Intermission
+	Intermission_Z=4
 
 	procgeneration_levels=list(3)
 	procgeneration_materials=list(1=list("Floor"=/turf/simulated/floor/asteroid,"Wall"=/turf/simulated/mineral))

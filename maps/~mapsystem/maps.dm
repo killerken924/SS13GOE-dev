@@ -159,7 +159,8 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	var/list/procgeneration_cords=list("xmin"=1,"xmax"=255,"ymin"=1,"ymax=255")
 	var/area/Default_Shuttle_Docked
 	var/area/Default_Shuttle_Landed
-
+	var/area/Default_Shuttle_Intermission
+	var/Intermission_Z
 /datum/map/New()
 	if(!map_levels)
 		map_levels = station_levels.Copy()
