@@ -32,7 +32,7 @@ var/list/advancedshuttle_landmarks=list()
 	var/shuttle_name="Planetary Shuttle"
 /turf/simulated/floor/main_shuttle_floor/verb/shuttlemove()
 	if(shuttle)
-		shuttle.Move()
+		shuttle.Start_Warp()
 
 
 /turf/simulated/floor/main_shuttle_floor/Initialize()//New()
@@ -45,7 +45,3 @@ var/list/advancedshuttle_landmarks=list()
 			shuttle_list[shuttle_name]=shuttle
 	..()
 
-/mob/living/carbon/human/verb/get_advancedshuttle_landmarks()
-	to_chat(src,"advancedshuttle_landmarks.len=[advancedshuttle_landmarks.len]")
-	for(var/C in advancedshuttle_landmarks)
-		to_chat(src,"[C]")

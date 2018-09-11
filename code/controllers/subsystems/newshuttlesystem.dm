@@ -1,4 +1,4 @@
-/*var/list/moving_newshuttles=list()
+/var/list/moving_advanced_shuttles=list()
 PROCESSING_SUBSYSTEM_DEF(newshuttlesystem)
 	name = "newshuttlesystem"
 	init_order = INIT_ORDER_CAVES
@@ -7,10 +7,8 @@ PROCESSING_SUBSYSTEM_DEF(newshuttlesystem)
 	//var/change_by=0.1
 	//wait = 1
 /datum/controller/subsystem/processing/newshuttlesystem/fire()
-	if(moving_newshuttles&&moving_newshuttles.len)
-		for(var/datum/newshuttle/S in moving_newshuttles)
-			if(!S.moving&&S.location!=S.intermission)
-				moving_newshuttles-=S
+	if(moving_advanced_shuttles&&moving_advanced_shuttles.len)
+		for(var/datum/advancedshuttle/S in moving_advanced_shuttles)
 			if(S.moving)
 				if(S.Can_Drop())
-					S.Move_to_Destination()	*/
+					S.Drop_From_Warp()
