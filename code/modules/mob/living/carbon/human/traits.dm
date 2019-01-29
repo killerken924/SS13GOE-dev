@@ -24,6 +24,18 @@
 	namecode="Likes_Anal"
 	pointcost=1
 
+/datum/newtraits/homosexual
+	name="Homosexual"
+	desc="You are Homosexual"
+	namecode="Homosexual"
+	pointcost=1
+
+/datum/newtraits/attractive
+	name="Attractive"
+	desc="You are attractive"
+	namecode="Attractive"
+	pointcost=1
+
 /datum/newtraits/large_vagina
 	name="Large Vagina"
 	desc="You have a large vagina, you could put a lot in there."

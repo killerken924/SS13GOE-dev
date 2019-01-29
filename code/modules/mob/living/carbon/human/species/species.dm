@@ -219,6 +219,8 @@
 
 	var/list/prone_overlay_offset = list(0, 0) // amount to shift overlays when lying
 	var/job_skill_buffs = list()				// A list containing jobs (/datum/job), with values the extra points that job recieves.
+	var/gendered	//This is used to see if the mob uses icon shifts based on gender, ex.. A female human is smaller than male.
+	var/gendered_overide//This is used to overide the gendered var, special case .
 
 /*
 These are all the things that can be adjusted for equipping stuff and

@@ -47,7 +47,10 @@
 		dna.s_base = s_base
 		sync_organ_dna()
 	make_blood()
+
 	Update_Genitals()
+	if(gender==MALE) makepenis()
+	else if(gender==FEMALE) makevagina()
 	sanity=maxsanity
 	update_body()
 	Create_Advance_Skills()//

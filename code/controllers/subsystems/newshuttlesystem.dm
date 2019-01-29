@@ -1,4 +1,5 @@
 /var/list/moving_advanced_shuttles=list()
+/var/list/warming_up_advanced_shuttles=list()
 PROCESSING_SUBSYSTEM_DEF(newshuttlesystem)
 	name = "newshuttlesystem"
 	init_order = INIT_ORDER_CAVES
@@ -12,3 +13,9 @@ PROCESSING_SUBSYSTEM_DEF(newshuttlesystem)
 			if(S.moving)
 				if(S.Can_Drop())
 					S.Drop_From_Warp()
+	//Handle warm up
+	if(warming_up_advanced_shuttles&&warming_up_advanced_shuttles.len)
+		for(var/datum/advancedshuttle/S in warming_up_advanced_shuttles)
+			if(S.warming_up)
+				if(world.time>S.start_warm_up_time+S.warm_up_time)//if warmed up
+					S.Warm_Up()

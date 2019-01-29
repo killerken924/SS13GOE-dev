@@ -51,6 +51,8 @@
 		pulse_mod++
 	if(oxy < BLOOD_VOLUME_BAD) //MOAR
 		pulse_mod++
+	if(owner.gender==MALE&&owner.erect) //Having an erection does this
+		pulse_mod++
 
 	if(owner.status_flags & FAKEDEATH || owner.chem_effects[CE_NOPULSE])
 		pulse = Clamp(PULSE_NONE + pulse_mod, PULSE_NONE, PULSE_2FAST) //pretend that we're dead. unlike actual death, can be inflienced by meds

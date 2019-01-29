@@ -55,6 +55,50 @@
 		msg += "[extra_species_text]<br>"
 
 	msg += "<br>"
+	//nudity check
+	var/can_see_genitals=1
+	for(var/obj/item/I in list(wear_suit,w_uniform,wear_underwear))
+		if(I.body_parts_covered&LOWER_TORSO)//If the clothes cover the groin
+			can_see_genitals=0
+	if(can_see_genitals)
+		to_chat(world,"nudity check examine")
+		switch(gender)
+			if(MALE)
+				//Erection aspect
+				var/PenisSizeFluff
+				if(erect&&current_penis_size!=penis_size)//If he is erect but not fully
+					PenisSizeFluff="flaccid"
+				else if(erect&&current_penis_size==penis_size)
+					PenisSizeFluff="erect"
+				else if(!erect)
+					PenisSizeFluff=pick("unerect")
+
+				//Size Aspect
+				var/PenisSizeFluff2
+				switch(current_penis_size)
+					if(1 to 2)
+						PenisSizeFluff2="quite small"
+					if(3 to 4)
+						PenisSizeFluff2="about average"
+					if(5)
+						PenisSizeFluff2="quite large"
+					if(6)
+						PenisSizeFluff2="huge"
+				var/icon/penis_icon=get_penis_icon()
+				msg += "<span class='sex'> You can see [T.his] [PenisSizeFluff] [Genitals], it is [PenisSizeFluff2]. \icon[penis_icon]</span> \n"
+			if(FEMALE)
+				msg += "<span class='sex'>You can see [T.his] [Genitals], its a [vagina_type] \icon[get_vagina_icon()]</span>\n"
+
+	if(gender==FEMALE)
+		var/can_see_breasts=1
+		for(var/obj/item/I in list(wear_suit,w_uniform,wear_underwear))
+			if(I.body_parts_covered&UPPER_TORSO)//If the clothes cover the groin
+				can_see_breasts=0
+		if(can_see_breasts)
+			var/obj/item/organ/external/chest/C=get_organ(BP_CHEST)
+			if(C.breast_size)
+				var/icon/breast_icon=get_breast_icon()
+				msg += "<span class='sex'>You can see [T.his] breasts. \icon[breast_icon]</span> \n"
 
 	//uniform
 	if(w_uniform && !skipjumpsuit)

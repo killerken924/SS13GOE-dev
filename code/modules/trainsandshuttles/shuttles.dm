@@ -32,7 +32,7 @@ var/list/advancedshuttle_landmarks=list()
 	var/shuttle_name="Planetary Shuttle"
 /turf/simulated/floor/main_shuttle_floor/verb/shuttlemove()
 	if(shuttle)
-		shuttle.Start_Warp()
+		shuttle.Start_Warm_Up()
 
 
 /turf/simulated/floor/main_shuttle_floor/Initialize()//New()

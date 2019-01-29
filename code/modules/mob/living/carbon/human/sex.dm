@@ -19,7 +19,8 @@
 /mob/living/carbon/human/proc/Has_Clothes_That_Prevent_Sex()
 	var/list/L=list()
 	for(var/obj/item/I in list(wear_suit,w_uniform,wear_underwear))
-		L+=I
+		if(I.body_parts_covered&LOWER_TORSO)
+			L+=I
 	if(L.len)
 		return 1
 	else
@@ -165,12 +166,24 @@
 
 	if(Sex_Delay>world.time)
 		return//visible_message
-
+	//PENIS STUFF
+	var/PenisSizeMod=Male.current_penis_size/3
+	var/PenisSizeFluff
+	if(Male.erect&&Male.current_penis_size!=Male.penis_size)//If he is erect but not fully
+		PenisSizeFluff="semi-erect"
+	else if(Male.erect&&Male.current_penis_size==Male.penis_size)
+		PenisSizeFluff="erect"
+	else if(!Male.erect)
+		PenisSizeFluff=pick("flaccid","limp","unerect")
+	//END OF PENIS STUFF
 	if(Male==Aggresor)
 		playsound(Female,pick('sound/sex/splat.ogg','sound/sex/squish.ogg'), 100, 1)
-		Female.visible_message("<span class='sex'>[Male] [pick("Fucks","Penetrates","Perforates","Sticks","Probes","Enjoys")] [Female]'s [Female.Genitals]</span>")
+		Female.visible_message("<span class='sex'>[Male] [pick("Fucks","Penetrates","Perforates","Sticks","Probes","Enjoys")] [Female]'s [Female.Genitals] with his [PenisSizeFluff] [Male.Genitals]</span>")
 		Male.Lust-=rand(0.8,2)
-		Female.Lust-=rand(0.2,1.5)
+
+		Male.sexual_act(4,10)
+
+		Female.Lust-=rand(0.2,1.5)+PenisSizeMod
 		Sex_Delay=rand(0.1,2)+world.time
 
 		sex_move(Female,Male,"Male_Female")
@@ -178,11 +191,15 @@
 		if(Female.Lust<=rand(3,10)&&Female.stat == CONSCIOUS)
 			var/filename="sound/sex/femalemoan/[rand(1,33)].ogg"
 			playsound(Female,file(filename),100,1)
+
 	if(Female==Aggresor)
 		playsound(Female,pick('sound/sex/splat.ogg','sound/sex/squish.ogg'), 60, 1)
-		Female.visible_message("<span class='sex'>[Female] [pick("Fucks","Enjoys","Rides","Sits on","Engulfs","Uses")] [Male]'s [Male.Genitals]</span>")
+		Female.visible_message("<span class='sex'>[Female] [pick("Fucks","Enjoys","Rides","Sits on","Engulfs","Uses")] [Male]'s [PenisSizeFluff] [Male.Genitals]</span>")
+
 		Male.Lust-=rand(0.5,1.7)
-		Female.Lust-=rand(0.4,1.9)
+		Male.sexual_act(3,9)
+
+		Female.Lust-=rand(0.4,1.9)+PenisSizeMod
 		Sex_Delay=rand(0.1,2)+world.time
 
 		sex_move(Female,Male,"Female_Male")
@@ -214,11 +231,22 @@
 
 	if(Sex_Delay>world.time)
 		return
+	//PENIS STUFF
+	var/PenisSizeFluff
+	if(Male.erect&&Male.current_penis_size!=Male.penis_size)//If he is erect but not fully
+		PenisSizeFluff="semi-erect"
+	else if(Male.erect&&Male.current_penis_size==Male.penis_size)
+		PenisSizeFluff="erect"
+	else if(!Male.erect)
+		PenisSizeFluff=pick("flaccid","limp","unerect")
+	//END OF PENIS STUFF
+
 	var/taker_likes_anal=Taker.traits.Find(/datum/newtraits/likes_anal)
 	if(Male)
 		playsound(Taker,pick('sound/sex/splat.ogg','sound/sex/squish.ogg'), 100, 1)
-		Taker.visible_message("<span class='sex'>[Male] [pick("Fucks","Penetrates","Perforates","Sticks","Probes","Enjoys","Clogs")] [Taker]'s [pick("Anus","Ass","Asshole")]</span>")
+		Taker.visible_message("<span class='sex'>[Male] [pick("Fucks","Penetrates","Perforates","Sticks","Probes","Enjoys","Clogs")] [Taker]'s [pick("Anus","Ass","Asshole")] with his [PenisSizeFluff] [Male.Genitals]</span>")
 		Male.Lust-=rand(8,15)/10
+		Male.sexual_act(1,5)
 		Sex_Delay=rand(0.1,2)+world.time
 		if(Taker.traits.len)
 			if(taker_likes_anal)
@@ -227,17 +255,67 @@
 					var/filename="sound/sex/femalemoan/[rand(1,33)].ogg"
 					playsound(Taker,file(filename),100,1)
 	if(Male.Lust<=0&&Male.timeuntilcancum<world.time)//Male Cum
-		Taker.visible_message("<span class='sex'><font size=2>[Male] [pick("Cums in","Fills Up")] [Taker]'s [pick("Anus","Ass","Asshole")]</font></span>")
+		Taker.visible_message("<span class='sex'><font size=2>[Male] [pick("Cums in","Fills Up")] [Taker]'s [pick("Anus","Ass","Asshole")] with his [PenisSizeFluff] [Male.Genitals]</font></span>")
 		Male.OnCum(0)
 	if(Taker.Lust<=0&&Taker.timeuntilcancum<world.time&&taker_likes_anal)//Female Cum
 		Taker.OnCum(1)
 	sex_move(Taker,Aggresor,"Male_Female")
 
 /mob/living/carbon/human/proc/Handle_Sex()
+	check_nearby_possible_mates()
 	Update_Genitals()
 	if(!Lust&&timeuntilcancum<world.time)
 		Lust=rand(10,30)+Times_Came*2
+		turnoncooldown=0
+	turnon-=0.5
+	if(turnon<0)
+		turnon=0
+	else if(turnon>turnonmax)
+		turnon=turnonmax
+	switch(gender)
+		if(MALE)
+			Handle_Penis()
+		if(FEMALE)
+			return
 	return
+
+/mob/living/carbon/human/proc/Handle_Penis()
+	var/oldpenissize=current_penis_size
+	var/obj/item/organ/internal/heart/H = internal_organs_by_name[BP_HEART]
+	if(H.pulse==PULSE_NONE)//No pulse, no boner
+		current_penis_size=penis_size
+		erect=0
+	else
+		var/newpenis=0
+		//var/penisdelta=6-penis_size
+		switch(turnon)
+			if(0 to 20)
+				newpenis=penis_size
+				erect=0
+			if(20 to 60)
+				newpenis=round(2*penis_size/3)// 2/3 errect
+				erect=1
+			if(60 to 100) // fully errect
+				newpenis=penis_size
+				erect=1
+		current_penis_size=newpenis
+	if(oldpenissize!=current_penis_size)//No need to update icons unless the penis changes
+		update_icons()
+		if(oldpenissize<current_penis_size&&erect)
+			Handle_Erection_Fluff_Text()
+
+/mob/living/carbon/human/var/Lasterectionnotification=0
+
+/mob/living/carbon/human/proc/Handle_Erection_Fluff_Text()
+	if(Lasterectionnotification<world.time)
+		if(prob(50))
+			var/fluffword=pick("erection","hard on")
+			to_chat(src,"<span class='sex'>I appear to have an [fluffword]</span>")
+		else
+			var/fluffword=pick("fuck","bust a nut","cum","pop a load","ejaculate","relieve this erection","relieve this hard on" )
+			to_chat(src,"<span class='sex'>I need to [fluffword] </span>")
+		Lasterectionnotification=world.time+30
+		DoScreenJitter(1,5,5)
 
 /mob/living/carbon/human/proc/OnCum(audible=1)
 	apply_effect(rand(5,50),WEAKEN)
@@ -252,6 +330,7 @@
 	DoScreenJitter(1,10,15)
 	timeuntilcancum=CumTimer+world.time
 	Times_Came+=1
+	turnoncooldown=30
 
 /mob/living/carbon/human/proc/PleaseSex(amount)
 	if(amount)
@@ -280,6 +359,9 @@
 			var/obj/item/organ/external/groin/G=E
 			G.MakeGenitals()
 			Genitals=G.genital
+	//if(gender==MALE)
+	//	makepenis()
+
 /mob/living/carbon/human/proc/sex_move(mob/living/carbon/human/Female,mob/living/carbon/human/Male,type)
 	set waitfor=0
 	var/pixel_y_dif=3
@@ -298,3 +380,145 @@
 			sleep(rand(3))
 			Male.pixel_x-=pixel_x_dif
 	return
+
+/mob/living/carbon/human/proc/handle_lewd_sight()
+	update_possible_mates()
+
+/*mob/living/carbon/human/proc/update_possible_mates()
+	var/mob/living/carbon/human/H
+	var/Gay=traits.Find(/datum/newtraits/homosexual)
+	for(H in view(10, src))
+		if(H==src)
+			continue
+		if(!InActualView(H))
+			return
+		if(!Gay)
+			if(H.gender!=gender)
+				if((find_in_possible_mates(H)&&find_in_possible_mates(H).last_update<world.time)||(find_in_possible_mates(H).last_stat!=DEAD&&H.stat==DEAD))//If this person was already in this list, and if this person can be updated in the list, and if they are dead, update
+					var/datum/possible_mate/PM=find_in_possible_mates(H)
+					PM.attractiveness=H.get_sexualized_aspects(src)//update attractive
+					PM.name=H.name//update name
+					PM.last_stat=H.stat
+				else if(!find_in_possible_mates(H))
+					var/datum/possible_mate/PM=new/datum/possible_mate(H.get_sexualized_aspects(src),H)//make the mate
+					possible_mates+=PM//add the mate
+		else
+			if(H.gender==gender)
+				if((find_in_possible_mates(H)&&find_in_possible_mates(H).last_update<world.time)||(find_in_possible_mates(H).last_stat!=DEAD&&H.stat==DEAD))//If this person was already in this list, and if this person can be updated in the list, and if they are dead, update
+					var/datum/possible_mate/PM=find_in_possible_mates(H)
+					PM.attractiveness=H.get_sexualized_aspects(src)//update attractive
+					PM.name=H.name//update name
+					PM.last_stat=H.stat
+				else if(!find_in_possible_mates(H))
+					var/datum/possible_mate/PM=new/datum/possible_mate(H.get_sexualized_aspects(src),H)//make the mate
+					possible_mates+=PM//add the mate
+					*/
+
+/mob/living/carbon/human/proc/get_sexualized_aspects(var/mob/living/carbon/human/Viewer)
+	var/attractive_level=0
+	switch(gender)
+		if(MALE)
+			//POSITIVES
+			if(organ_not_covered(LOWER_TORSO))//Can see genitals
+				attractive_level++
+			if(organ_not_covered(UPPER_TORSO))//Can see pecks				attractive_level++
+				attractive_level+=0.5
+			if(in_underwear())//if wearing underwear, and you can see it
+				attractive_level++
+			if(traits.Find(/datum/newtraits/attractive))//if he has the trait attractive
+				attractive_level++
+			//NEGATIVES
+			if(has_bloody_body())// if his body is bloody
+				attractive_level--
+			if(bloody_hands)// if his hands are bloody
+				attractive_level--
+			if(stat==DEAD)// if he is dead
+				attractive_level-=2
+
+			if(pale)//If he is abnormaly pale
+				attractive_level--
+			//JOB STUFF
+			if(job)
+				//POSITIVE
+				if(get_job_by_title(job).economic_modifier>get_job_by_title(Viewer.job).economic_modifier)//If he has a higher chance of having more money
+					attractive_level+=0.5
+				if(get_job_by_title(job).head_position)//If he is in a head position				attractive_level++
+					attractive_level++
+				if(get_job_by_title(job)==get_job_by_title(Viewer.job))//If he has the same job
+					attractive_level+=0.5
+				//NEGATIVE
+				if(get_job_by_title(Viewer.job).economic_modifier>get_job_by_title(job).economic_modifier)//If you have a higher chance of having more money
+					attractive_level-=0.5
+				if(get_job_by_title(Viewer.job).head_position&&!get_job_by_title(job).head_position)//If you're a head but he isn't
+					attractive_level--
+			else
+				attractive_level--// No job
+
+		if(FEMALE)
+			//POSITIVES
+			if(organ_not_covered(LOWER_TORSO))//Can see genitals
+				attractive_level++
+			if(organ_not_covered(UPPER_TORSO))//Can see boobs
+				attractive_level+=2
+			if(in_underwear())//if wearing underwear, and you can see it
+				attractive_level++
+			if(traits.Find(/datum/newtraits/attractive))//if she has the trait attractive
+				attractive_level++
+			//NEGATIVES
+			if(has_bloody_body())// if her body is bloody
+				attractive_level--
+			if(bloody_hands)// if her hands are bloody
+				attractive_level--
+			if(stat==DEAD)// if she is dead
+				attractive_level-=2
+			if(pale)//If she is abnormaly pale
+				attractive_level--
+			//job stuff
+			if(job)
+				//POSITIVE
+				if(get_job_by_title(job).economic_modifier>get_job_by_title(Viewer.job).economic_modifier)//If he has a higher chance of having more money
+					attractive_level+=0.5
+				if(get_job_by_title(job).head_position)//If he is in a head position				attractive_level++
+					attractive_level++
+				if(get_job_by_title(job)==get_job_by_title(Viewer.job))//If he has the same job
+					attractive_level+=0.5
+				//NEGATIVE
+				if(get_job_by_title(Viewer.job).economic_modifier>get_job_by_title(job).economic_modifier)//If you have a higher chance of having more money
+					attractive_level-=0.5
+				if(get_job_by_title(Viewer.job).head_position&&!get_job_by_title(job).head_position)//If you're a head but he isn't
+					attractive_level--
+			else
+				attractive_level--// No job
+	if(attractive_level<0)
+		attractive_level=0
+	return attractive_level
+
+/mob/living/carbon/human/proc/organ_not_covered(var/O)
+	if(O)
+		var/passed=1
+		for(var/obj/item/I in list(wear_suit,w_uniform,shoes,belt,gloves,glasses,head,l_ear,r_ear,wear_id,r_store,l_store,s_store,wear_underwear,wear_bra))
+			if(I.body_parts_covered&O)//If the objects cover O
+				passed=0
+		if(passed)
+			return 1
+		else
+			return 0
+	return 0
+
+/mob/living/carbon/human/proc/in_underwear()
+	if(wear_underwear&&!(w_uniform&&wear_suit))//if wearing underwear, and you can see it
+		return 1
+	return 0
+
+/mob/living/carbon/human/proc/in_bra()
+	if(wear_bra&&!(w_uniform&&wear_suit))//if wearing underwear, and you can see it
+		return 1
+	return 0
+
+/mob/living/carbon/human/proc/has_bloody_body()
+	for(var/obj/item/I in list(wear_suit,w_uniform,shoes,belt,gloves,glasses,head,l_ear,r_ear,wear_id,r_store,l_store,s_store,wear_underwear,wear_bra))
+		if(I.was_bloodied)
+			return TRUE
+	return FALSE
+
+
