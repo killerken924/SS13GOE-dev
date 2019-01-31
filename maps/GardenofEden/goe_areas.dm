@@ -58,8 +58,9 @@
 /area/goe/miningunexplored_procedural
 	name="Mining unexplored"
 	icon_state="Miningunexplored_procedural"
-	area_flags = AREA_FLAG_EXTERNAL
-	has_gravity = FALSE
+	//area_flags = AREA_FLAG_EXTERNAL
+	//has_gravity = FALSE
+	outside=TRUE
 
 /area/goe/miningexplored
 	name="Mining explored"
@@ -77,4 +78,19 @@
 	icon_state="Mining2"
 	base_turf = /turf/simulated/open
 
+/area/goe/shuttle
+	var/use_previoius_area_base_turf=1
+
+/area/goe/shuttle/Escape_shuttle_Station
+	name="Escape_shuttle_Station"
+	icon_state="Escape_shuttle_Station"
+
+/area/goe/shuttle/Escape_shuttle_Landing
+	name="Escape_shuttle_Landing"
+	icon_state="Escape_shuttle_Landing"
+
+/area/goe/shuttle/Escape_shuttle_Intermission
+	name="Escape_shuttle_Intermission"
+	icon_state="Escape_shuttle_Landing"
+	base_turf = /turf/space
 

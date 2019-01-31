@@ -139,7 +139,8 @@ Please contact me on #coderbus IRC. ~Carn x
 #define R_HAND_LAYER			25
 #define FIRE_LAYER				26		//If you're on fire
 #define TARGETED_LAYER			27		//BS12: Layer for the target overlay from weapon targeting system
-#define TOTAL_LAYERS			27
+#define PENIS_LAYER				28
+#define TOTAL_LAYERS			28//use to be 27
 //////////////////////////////////
 
 /mob/living/carbon/human
@@ -153,8 +154,9 @@ Please contact me on #coderbus IRC. ~Carn x
 	overlays.Cut()
 
 	var/list/visible_overlays = overlays_standing
-
-	if (icon_update)
+	visible_overlays=update_sexual_icons(visible_overlays)
+	var/iconupdate=1
+	if (icon_update||iconupdate)
 		if(is_cloaked())
 
 			icon = 'icons/mob/human.dmi'

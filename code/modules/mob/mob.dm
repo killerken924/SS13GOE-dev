@@ -262,7 +262,7 @@
 	if((is_blind(src) || usr.stat) && !isobserver(src))
 		to_chat(src, "<span class='notice'>Something is there but you can't see it.</span>")
 		return 1
-
+	visible_message("<span class='warning'>[src] looks at [A]</span>")
 	face_atom(A)
 	A.examine(src)
 

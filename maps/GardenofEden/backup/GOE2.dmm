@@ -85,11 +85,11 @@
 "bG" = (/obj/machinery/light/spot{dir = 4},/obj/structure/table/reinforced,/turf/simulated/floor/tiled/white,/area/goe/cafeteria_kitchen)
 "bH" = (/obj/structure/ladder,/turf/simulated/floor/tiled/dark,/area/goe/ladder_way_2)
 "bI" = (/obj/machinery/power/apc{dir = 1; name = "North Bump"; pixel_y = 30},/turf/simulated/floor/tiled/white,/area/goe/cafeteria)
-"bJ" = (/obj/effect/wingrille_spawn/reinforced/full,/turf/simulated/floor/tiled/dark,/area/goe/shuttle/Escape_shuttle_Station)
-"bK" = (/turf/simulated/wall,/area/goe/shuttle/Escape_shuttle_Station)
-"bL" = (/turf/simulated/floor/tiled/dark,/area/goe/shuttle/Escape_shuttle_Station)
+"bJ" = (/obj/effect/wingrille_spawn/reinforced/full,/turf/simulated/floor/tiled/dark,/area/goe/Escape_shuttle_Station)
+"bK" = (/turf/simulated/wall,/area/goe/Escape_shuttle_Station)
+"bL" = (/turf/simulated/floor/tiled/dark,/area/goe/Escape_shuttle_Station)
 "bM" = (/obj/effect/landmark/map_data{height = 2},/turf/space,/area/space)
-"bN" = (/obj/machinery/door/airlock/external,/turf/simulated/floor/tiled/dark,/area/goe/shuttle/Escape_shuttle_Station)
+"bN" = (/obj/machinery/door/airlock/external,/turf/simulated/floor/tiled/dark,/area/goe/Escape_shuttle_Station)
 "bO" = (/turf/simulated/wall,/area/goe/miningunexplored)
 "bP" = (/obj/machinery/door/airlock/external,/turf/simulated/floor/plating,/area/goe/mining2)
 "bQ" = (/obj/machinery/light/spot{dir = 1},/turf/simulated/floor/tiled/dark,/area/goe/mining2)
@@ -108,7 +108,7 @@
 "cd" = (/obj/machinery/door/airlock/command,/turf/simulated/floor/tiled/dark,/area/goe/bridge2)
 "ce" = (/obj/effect/wingrille_spawn/reinforced,/turf/space,/area/goe/bridge2)
 "cf" = (/obj/machinery/light/spot{dir = 1},/turf/simulated/floor/tiled/dark,/area/goe/bridge2)
-"cg" = (/turf/simulated/floor/main_shuttle_floor,/area/goe/shuttle/Escape_shuttle_Station)
+"cg" = (/turf/simulated/floor/main_shuttle_floor,/area/goe/Escape_shuttle_Station)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

@@ -10,12 +10,13 @@ var/time_of_day_change_by=0.1
 	name = "time of day"
 	schedule_interval = 20 // every 2 seconds
 	start_delay = 5
+	Update_Outside_Turfs()
+/datum/controller/process/timeofday/proc/Update_Outside_Turfs()
 	var/list/turfs2pickfrm=turfs.Copy()//outside
 	for(var/turf/T in turfs2pickfrm)
 		var/area/A=get_area(T)
 		if(!A.outside)
 			turfs2pickfrm-=T
-	world.log<<"length=[turfs2pickfrm.len]"
 	outside_turfs=turfs2pickfrm
 
 /datum/controller/process/timeofday/doWork()
@@ -23,16 +24,18 @@ var/time_of_day_change_by=0.1
 	time_of_day+=time_of_day_change_by/10
 	if(time_of_day>=24)
 		time_of_day=1
-	var/turfs_len=outside_turfs.len
 	#define DIVISOR 400
 	if(time_of_day_num_2_word(oldtimeofday)!=time_of_day_num_2_word(time_of_day))
 		update_turfs++
+		Update_Outside_Turfs()
+	var/turfs_len=outside_turfs.len
 	if(update_turfs)
 		for(var/v=1;v<turfs_len;v++)// in 1 to turfs_len)
 			spawn ceil(v/DIVISOR) // 100,000 turfs = 50 seconds (when DIVISOR = 200)
-				var/turf/T=outside_turfs[v]
-				if(T.time_of_day_turf != time_of_day_num_2_word())
-					T.adjust_lighting_overlay_to_daylight()
+				if(outside_turfs[v])
+					var/turf/T=outside_turfs[v]
+					if(T.time_of_day_turf != time_of_day_num_2_word())
+						T.adjust_lighting_overlay_to_daylight()
 		update_turfs=0
 
 /proc/update_tod_lighting()

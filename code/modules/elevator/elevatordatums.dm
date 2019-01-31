@@ -9,11 +9,10 @@
 	var/y_size=1
 	var/list/SelectableFloor=list()
 	var/direction=NORTH
-	/*var/list/areas_to_use = list(
+	var/list/areas_to_use = list(
 		/area/goe/mining_lift_1,
 		/area/goe/mining_lift_2
-		)*/
-	var/list/areas_to_use=list()
+		)
 	var/datum/elevatorfloor/current_floor=null
 	var/datum/elevatorfloor/next_floor=null
 	var/moving=0
@@ -33,20 +32,6 @@
 		for(var/atom/A in T)
 			if(!Button.Find(A))
 				qdel(T)
-		/*
-		switch(direction)
-			if(NORTH)
-				if(T.y-mainturf.y==y_size)//So if the turf is far north and the direciton is north, place a door here.
-					Doors+=new/obj/structure/elevator_doors(T)
-			if(SOUTH)
-				if(mainturf.y-T.y==y_size)//So if the turf is far south and the direciton is south, place a door here.
-					Doors+=new/obj/structure/elevator_doors(T)
-			if(EAST)
-				if(T.x-mainturf.x==x_size)//So if the turf is far east and the direciton is east, place a door here.
-					Doors+=new/obj/structure/elevator_doors(T)
-			if(WEST)
-				if(mainturf.x-T.x==x_size)//So if the turf is far wes and the direciton is west, place a door here.
-					Doors+=new/obj/structure/elevator_doors(T)*/
 	//Handle other floors and areas
 	for(var/zcalc=0;zcalc<=depth-1;zcalc++)
 		for(var/turf/T in block(locate(mainturf.x-x_size,mainturf.y-y_size,mainturf.z+zcalc),locate(mainturf.x+x_size,mainturf.y+y_size,mainturf.z+zcalc)))
@@ -56,7 +41,7 @@
 			Floors+=T
 		SelectableFloor+=new/datum/elevatorfloor(mainturf.z+zcalc)
 		for(var/turf/T in Floors)
-			var/areatype=areas_to_use[T.z]
+			var/areatype=areas_to_use[T.z]//
 			var/area/A=new areatype(T)
 			var/datum/elevatorfloor/flr=SelectableFloor[T.z]
 			if(!flr.area_ref)

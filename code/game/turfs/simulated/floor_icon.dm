@@ -16,7 +16,6 @@ var/list/flooring_cache = list()
 			icon_state = flooring_override
 		else
 			icon_state = flooring.icon_base
-			to_chat(world,"[src.type]")
 			if(flooring.has_base_range)
 				icon_state = "[icon_state][rand(0,flooring.has_base_range)]"
 				flooring_override = icon_state

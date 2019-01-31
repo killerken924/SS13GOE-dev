@@ -19,6 +19,7 @@
 	if(src.client)
 		Clear_Vision()
 		Handle_Vision_Cone()
+		handle_lewd_sight()
 		if(resting||sleeping||stat==UNCONSCIOUS)
 			return
 		for(var/mob/M in cone(src, OPPOSITE_DIR(src.dir), view(10, src)))
@@ -62,4 +63,8 @@
 		return
 	else
 		fov_icon.alpha=255
+/mob/living/proc/InActualView(atom/A)
+	if((!(A in Hidden_Objs)&&!(A in Hidden_Mobs))&&A in view(src,10))//if they are not hidden, and in the view area
+		return TRUE
+	return FALSE
 

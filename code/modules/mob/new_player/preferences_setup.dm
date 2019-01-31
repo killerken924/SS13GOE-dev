@@ -89,19 +89,9 @@
 /datum/preferences/proc/update_preview_icon()
 	var/mob/living/carbon/human/dummy/mannequin/mannequin = get_mannequin(client_ckey)
 	copy_to(mannequin,TRUE) //FALSE)
-	if(mannequin.traits.len)
-		for(var/datum/newtraits/T in mannequin.traits)
-			to_chat(world,"[T.name] 1")
-	else
-		to_chat(world,"no mannequin.traits 1")
 	mannequin.delete_inventory(TRUE)
 	dress_preview_mob(mannequin)
 
-	if(mannequin.traits.len)
-		for(var/datum/newtraits/T in mannequin.traits)
-			to_chat(world,"[T.name] 2")
-	else
-		to_chat(world,"no mannequin.traits 2")
 
 	preview_icon = icon('icons/effects/128x48.dmi', bgstate)
 	preview_icon.Scale(48+32, 16+32)
