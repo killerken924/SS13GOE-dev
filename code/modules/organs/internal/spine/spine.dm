@@ -10,7 +10,7 @@
 	relative_size = 20
 	var/list/controled_limbs =list()
 	var/have_felt_last=0
-	can_internal_bleed=0
+	can_internal_bleed=0//spines can't bleed
 /obj/item/organ/internal/spine/is_broken()
 	if(damage>=min_broken_damage)
 		return TRUE
@@ -18,7 +18,7 @@
 	//return (damage >= min_broken_damage
 /obj/item/organ/internal/spine/take_damage(amount, var/silent=0)
 	..(amount,silent)
-	if(is_broken())
+	if(is_broken()&&owner.stat==CONSCIOUS)
 		if(!have_felt_last)
 			var/numbfluff
 			switch(organ_tag)
@@ -73,8 +73,10 @@
 	controled_limbs=	list(BP_L_FOOT, BP_R_FOOT,BP_L_LEG, BP_R_LEG)
 
 /obj/item/organ/internal/spine/Process()
+	var/obj/item/organ/internal/brain/B=owner.internal_organs_by_name["brain"]
+
 	if(owner)
-		if(is_broken()||has_control==NO_SPINAL_CONTROL)
+		if(is_broken()||has_control==NO_SPINAL_CONTROL||!B.functioning)
 			for(var/bptag in controled_limbs)
 				var/obj/item/organ/external/E=owner.get_organ(bptag)
 				if(E)

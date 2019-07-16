@@ -28,15 +28,27 @@ var/time_of_day_change_by=0.1
 	if(time_of_day_num_2_word(oldtimeofday)!=time_of_day_num_2_word(time_of_day))
 		update_turfs++
 		Update_Outside_Turfs()
-	var/turfs_len=outside_turfs.len
 	if(update_turfs)
-		for(var/v=1;v<turfs_len;v++)// in 1 to turfs_len)
+		var/v
+		for(v=1;v<=outside_turfs.len;v++)
 			spawn ceil(v/DIVISOR) // 100,000 turfs = 50 seconds (when DIVISOR = 200)
+				if(v>outside_turfs.len)
+					break
 				if(outside_turfs[v])
 					var/turf/T=outside_turfs[v]
 					if(T.time_of_day_turf != time_of_day_num_2_word())
 						T.adjust_lighting_overlay_to_daylight()
 		update_turfs=0
+
+//		DEBUG REMOVE
+/mob/living/carbon/human/verb/turflen()
+	to_chat(world,"turfs.len =[turfs.len]")
+	to_chat(world,"outside_turfs.len =[outside_turfs.len]")
+	to_chat(world,"turf_need_tod_lighting_update.len =[turf_need_tod_lighting_update.len]")
+//		DEBUG REMOVE
+/mob/living/carbon/human/verb/indextester(n as num)
+	var/turf/T=outside_turfs[n]
+	to_chat(world,"[T]")
 
 /proc/update_tod_lighting()
 	for(var/turf/T in turfs)

@@ -443,6 +443,8 @@
 	return
 
 /datum/reagent/drink/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
+	//		DEBUG REMOVE
+	to_chat(world,"removed=[removed],hydration*remove=[hydration]")
 	//
 	M.hydration += hydration * removed
 	//

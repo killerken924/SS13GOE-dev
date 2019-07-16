@@ -184,7 +184,16 @@
 #define INCAPACITATION_DISABLED (INCAPACITATION_KNOCKDOWN|INCAPACITATION_STUNNED)
 #define INCAPACITATION_DEFAULT (INCAPACITATION_RESTRAINED|INCAPACITATION_BUCKLED_FULLY|INCAPACITATION_DISABLED)
 #define INCAPACITATION_ALL (~INCAPACITATION_NONE)
+//Bones
 
+#define BONE_R_UPPERARM	"r_upper_arm_bone"
+#define BONE_L_UPPERARM	"l_upper_arm_bone"
+#define BONE_R_LOWERARM	"r_lower_arm_bone"
+#define BONE_L_LOWERARM	"l_lower_arm_bone"
+#define BONE_R_WRIST "r_wrist_bone"
+#define BONE_L_WRIST	"l_wrist_bone"
+
+//
 // Organs.
 #define BP_NECK 	"neck"
 #define BP_MOUTH    "mouth"

@@ -26,7 +26,7 @@
 			if(0 to 150)
 				nutrition_stamina_mod=0.025
 				hunger_icon.icon_state="hunger2"
-	if(Hunger_Notification_Timer<world.time)
+	if(Hunger_Notification_Timer<world.time&&stat==CONSCIOUS)
 		switch(nutrition)
 			if(250 to 350)
 				to_chat(src, "<span class='notice'>You are hungry.</span>") //hungry
@@ -84,7 +84,7 @@
 			if(0 to 150)
 				thirst_icon.icon_state="thirst2"
 				hydration_stamina_mod=0.025
-	if(Thirst_Notification_Timer<world.time)
+	if(Thirst_Notification_Timer<world.time&&stat==CONSCIOUS)
 		switch(hydration)
 			if(250 to 350)
 				to_chat(src, "<span class='notice'>You are thirsty.</span>")

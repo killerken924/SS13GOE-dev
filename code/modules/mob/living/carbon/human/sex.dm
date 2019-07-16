@@ -71,7 +71,7 @@
 	if(get_dist(src,C)==1&&!Has_Clothes_That_Prevent_Sex())
 		dat+={"
 		<A href='?src=\ref[src];Handjob=1'>Handjob</a><HR>"}
-	C << browse(dat, "window=op")
+	C << browse(dat, "window=op;size=300x600;can_resize=0")
 	onclose(C, "op")
 
 /mob/living/carbon/human/Topic(href, href_list)//OnTopic(mob/living/carbon/C, href_list)

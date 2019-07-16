@@ -130,6 +130,14 @@
 		else
 			visible_message("<span class='warning'>[src.name] [pick("shits","poops","deficates")] on top of the [T]</span>")
 			return 2
+
+	if(Has_Clothes_That_Prevent_Sex())//If you are not shitting in a toliet, and you have clothes on that cover your ass
+		visible_message("<span class='warning'>[src.name] [pick("shits","poops","deficates")] [gender==MALE ? "himself" : "herself"]</span>")
+	else
+		visible_message("<span class='warning'>[src.name] [pick("shits","poops","deficates")]</span>")
+
+
+
 	return 1
 
 

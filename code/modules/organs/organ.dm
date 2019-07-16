@@ -119,13 +119,13 @@ var/list/organ_cache = list()
 			germ_level += rand(2,6)
 		if(germ_level >= INFECTION_LEVEL_THREE)
 			die()
-
+	/*
 	else if(owner && owner.bodytemperature >= 170)	//cryo stops germs from moving and doing their bad stuffs
-		//** Handle antibiotics and curing infections
+		// Handle antibiotics and curing infections
 		handle_antibiotics()
 		handle_rejection()
 		handle_germ_effects()
-
+	*/
 	//check if we've hit max_damage
 	if(damage >= max_damage)
 		die()

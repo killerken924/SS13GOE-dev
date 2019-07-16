@@ -40,7 +40,7 @@
 				owner.DoPee()
 
 /obj/item/organ/internal/bladder/proc/do_bladder()
-	if(!owner.get_organ(parent_organ).has_control&&Bladder_Contents.total_volume)
+	if(!owner.get_organ(parent_organ).has_control&&Bladder_Contents.total_volume>3)
 		owner.DoPee()
 		return
 	if(Bladder_Contents.total_volume>max_units)
@@ -65,7 +65,7 @@
 	if(B.Bladder_Contents.total_volume)
 		var/peeamount=max(1,B.Bladder_Contents.total_volume)
 		var/turf/Peelocation=get_step(src,dir)
-		if(Genitals=="Vagina")
+		if(Genitals=="Vagina"||(resting||sleeping||stat==UNCONSCIOUS))
 			Peelocation=src.loc	//peeamount
 		var/datum/reagents/tempcont=new(B.Bladder_Contents.total_volume,src)
 		B.Bladder_Contents.trans_to_holder(tempcont,peeamount)
@@ -90,14 +90,23 @@
 		else
 			visible_message("<span class='warning'>[src.name] [pick("pisses","pees","urinates")] on top of the [T]</span>")
 			return 2
-	if(Peelocation.density==1)
-		if(Genitals=="Penis")
-			return 1
+
+	if(Peelocation.density==1&&Genitals=="Penis")
 		for(var/obj/structure/urinal/U in src.loc)
 			visible_message("<span class='warning'>[src.name] [pick("pisses","pees","urinates")] into the [U]</span>")
 			return 0
-		return 2
-	return 1
+		return 2//If there is a something infront of, you piss on your tile
+	if(Genitals=="Penis")//If there is nothing infront of you, and no toliets or urinals on you. And you have a penis. You piss infront of you
+		if(Has_Clothes_That_Prevent_Sex())//If your penis is covered, you can't piss infront of you
+			visible_message("<span class='warning'>[src.name] [pick("pisses","pees")] [gender==MALE ? "himself" : "herself"]</span>")
+			return 2
+		visible_message("<span class='warning'>[src.name] [pick("pisses","pees","urinates")]</span>")
+		return 1
+	if(Has_Clothes_That_Prevent_Sex())//Different text if you have clothes on
+		visible_message("<span class='warning'>[src.name] [pick("pisses","pees")] [gender==MALE ? "himself" : "herself"]</span>")
+	else
+		visible_message("<span class='warning'>[src.name] [pick("pisses","pees","urinates")] </span>")
+	return 2//If your a woman, and no toliets on you, you piss on your tile.
 
 /mob/living/carbon/human/proc/CanPee()
 	if(src.Has_Clothes_That_Prevent_Sex())

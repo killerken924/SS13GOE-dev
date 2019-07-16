@@ -83,15 +83,23 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		if(!Swing(H))
 			return 0
 		var/clickcooldown
+		var/is_stabby
+		if( (damage_flags() & DAM_SHARP)&&!(damage_flags() & DAM_EDGE) )
+			is_stabby=1
 		if(attack_delay)
 			clickcooldown=attack_delay//+swing_stamina
 		else
-			clickcooldown=src.w_class*3+swing_stamina
+			var/stab_mod
+			if(is_stabby)//You can attack faster if you are stabbing
+				stab_mod=rand(2,4)
+			clickcooldown=src.w_class*3+swing_stamina-stab_mod
 		clickcooldown-=H.ap/5// so if you have full stamina you would be 2 faster, if you had 1 stamina it would be .2 faster
 
 		user.setClickCooldown(clickcooldown)
 		//Taking stamina
 		var/stamina_take=src.w_class+swing_stamina//if the item size was LARGE, it would take 2 stamina, if it was normal, 1.5
+		if(is_stabby)//takes less stamina if you stab
+			stamina_take-=0.5
 		if(strength_skill&&strength_skill.points)
 			stamina_take-=strength_skill.points/10//if you had max strength it would take 1.5 less, so if it was an large item, it would take 0.5 stamina, if it was normal
 		if(wep_skll)

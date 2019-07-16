@@ -88,15 +88,20 @@ mob/living/carbon/proc/custom_pain(var/message, var/power, var/force, var/obj/it
 	if(world.time < next_pain_time)
 		return
 	var/maxdam = 0
+	var/organ_max_damage = 0
 	var/obj/item/organ/external/damaged_organ = null
+	var/has_collapsed=0
 	for(var/obj/item/organ/external/E in organs)
 		if(!E.can_feel_pain()) continue
 		var/dam = E.get_damage()
+
 		// make the choice of the organ depend on damage,
 		// but also sometimes use one of the less damaged ones
 		if(dam > maxdam && (maxdam == 0 || prob(70)) )
 			damaged_organ = E
 			maxdam = dam
+			organ_max_damage=E.max_damage
+
 	if(damaged_organ && chem_effects[CE_PAINKILLER] < maxdam)
 		if(maxdam > 10 && paralysis)
 			paralysis = max(0, paralysis - round(maxdam/10))
@@ -104,34 +109,59 @@ mob/living/carbon/proc/custom_pain(var/message, var/power, var/force, var/obj/it
 			drop_item()
 		var/burning = damaged_organ.burn_dam > damaged_organ.brute_dam
 		var/msg
-		switch(maxdam)
-			if(1 to 10)
+		//switch(maxdam)
+		var/damage_2_max_damage_ratio=round((maxdam/organ_max_damage)*100)// Say the organ has 15 damage, and the max damage is 100, you have 0.15. You then multiply it by 100 and round it
+		switch(damage_2_max_damage_ratio)
+			//if(1 to 10)
+			if(10 to 33)
 				msg =  "Your [damaged_organ.name] [burning ? "burns" : "hurts"]."
 				DoScreenJitter(rand(1,5),rand(1,7),rand(1,7))
-			if(11 to 90)
+			//if(11 to 90)
+			if(34 to 66)
 				msg = "Your [damaged_organ.name] [burning ? "burns" : "hurts"] badly!"
 				DoScreenJitter(rand(1,5),rand(1,40),rand(1,40))
-			if(91 to 10000)
+			//if(91 to 10000)
+			if(67 to INFINITY)
 				msg = "OH GOD! Your [damaged_organ.name] is [burning ? "on fire" : "hurting terribly"]!"
 				DoScreenJitter(rand(1,5),rand(1,50),rand(1,50))
-		if(prob(maxdam/5))
+		if(prob(maxdam/5)&&damage_2_max_damage_ratio>=33&&!has_collapsed)
 			do_pain_sounds(maxdam,"[burning ? "burn" : "brute"]")
-
+			if(!lying)
+				custom_emote(VISIBLE_MESSAGE, "collapses!")
+			Weaken(5)
+			has_collapsed=1
 		custom_pain(msg, maxdam, prob(10), damaged_organ, TRUE)
-	// Damage to internal organs hurts a lot.
+	// Damage to internal organs hurts a lot
+
+
+	//var/pain = 10
 	for(var/obj/item/organ/internal/I in internal_organs)
 		if(prob(1) && !((I.status & ORGAN_DEAD) || I.robotic >= ORGAN_ROBOT) && I.damage > 5)
 			var/obj/item/organ/external/parent = get_organ(I.parent_organ)
-			var/pain = 10
-			var/message = "You feel a dull pain in your [parent.name]"
-			if(I.is_bruised())
-				pain = 25
-				message = "You feel a pain in your [parent.name]"
-			if(I.is_broken())
-				pain = 50
-				message = "You feel a sharp pain in your [parent.name]"
-			src.custom_pain(message, pain, affecting = parent)
+			var/message
+			var/internal_organ_damage=I.damage
+			var/internal_organ_max_damage=I.max_damage
+			var/damage_2_max_damage_ratio=round((internal_organ_damage/internal_organ_max_damage)*100)// Say the organ has 15 damage, and the max damage is 100, you have 0.15. You then multiply it by 100 and round it
+			switch(damage_2_max_damage_ratio)
+				if(1 to 9)
+					message="You feel dull pain in your [parent.name]"
+				if(10 to 33)
+					//pain=33
+					message="You feel pain in your [parent.name]"
+				if(34 to 66)
+					//pain=66
+					message="You feel [prob(50) ? uppertext(pick("terrible","serious","acute")) : pick("terrible","serious","acute") ]  pain in your [parent.name]"
+				if(67 to INFINITY)
+					//pain=90
+					message="You feel [uppertext(pick("horrendous","horrifying","extreme","unsurpassable"))] pain in your [parent.name]"
 
+			if(prob(internal_organ_damage/5)&&damage_2_max_damage_ratio>=33&&!has_collapsed)
+				do_pain_sounds(maxdam,"brute")
+				if(!lying)
+					custom_emote(VISIBLE_MESSAGE, "collapses!")
+				Weaken(5)
+				has_collapsed=1
+			custom_pain(message, maxdam, prob(10), damaged_organ, TRUE)
 
 	if(prob(1))
 		switch(getToxLoss())

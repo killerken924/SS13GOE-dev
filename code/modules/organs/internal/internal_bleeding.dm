@@ -35,7 +35,7 @@
 	return
 /obj/item/organ/internal/proc/internal_bleeding_check()
 	var/dmg_amt=max_damage/5
-	if(!bleeding&&can_internal_bleed)
+	if(!bleeding && can_internal_bleed)
 		switch(damage)
 			if(dmg_amt*2 to dmg_amt*3)
 				if(prob(1))
@@ -53,11 +53,15 @@
 /obj/item/organ/internal
 	var/can_internal_bleed=1
 /obj/item/organ/internal/proc/make_internal_bleed(amount)
+//		DEBUG REMOVE
+	world.log<<"Internal Bleed [src]"
+	to_chat(world,"Internal Bleed [src]")
 	if(!can_internal_bleed)
 		return 0
 	if(amount&&amount>0)
 		bleeding+=amount
 		bleeding=max(INTERNAL_BLEEDING_SEVERITY_SEVERE,bleeding)
+
 /obj/item/organ/internal/proc/clamp_internal_bleed()
 	bleeding=0
 	return

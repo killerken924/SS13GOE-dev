@@ -169,7 +169,7 @@
 			if(isadvancedweapon(O))
 				var/obj/item/weapon/advanced_weapon/W=O
 				if(Get_Adv_Skill(W.weapon_skill))
-					to_chat(world,"cunt")
+					to_chat(world,"weapon skill check thingy")
 					return Get_Adv_Skill(W.weapon_skill).points
 				else
 					return 0

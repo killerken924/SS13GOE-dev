@@ -28,7 +28,7 @@
 	emergency_shuttle_called_message = "An emergency escape shuttle has been sent."
 	emergency_shuttle_recall_message = "The emergency shuttle has been recalled"
 
-	welcome_sound = 'sound/effects/cowboysting.ogg'
+	//welcome_sound = 'sound/effects/cowboysting.ogg'
 
 /obj/turbolift_map_holder/PlanetSide
 	name = "planetside map placeholder"

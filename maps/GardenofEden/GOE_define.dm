@@ -25,7 +25,9 @@
 	emergency_shuttle_leaving_dock = "The emergency escape shuttle has departed from %dock_name%."
 	emergency_shuttle_called_message = "An emergency escape shuttle has been sent."
 	emergency_shuttle_recall_message = "The emergency shuttle has been recalled"
-	welcome_sound = 'sound/effects/cowboysting.ogg'
+
+	//welcome_sound = 'sound/effects/cowboysting.ogg'
+
 	Default_Shuttle_Docked=/area/goe/shuttle/Escape_shuttle_Station
 	Default_Shuttle_Landed=/area/goe/shuttle/Escape_shuttle_Landing
 	Default_Shuttle_Intermission=/area/goe/shuttle/Escape_shuttle_Intermission

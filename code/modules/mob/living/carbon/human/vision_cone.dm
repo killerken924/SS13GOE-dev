@@ -58,7 +58,7 @@
 	if(istype(src,/mob/living/carbon/human/dummy/mannequin))
 		return 1
 	fov_icon.dir=src.dir
-	if(resting||sleeping||stat==UNCONSCIOUS||client.eye != client.mob)
+	if(resting||sleeping||stat==UNCONSCIOUS||client.eye != client.mob||lying)
 		fov_icon.alpha=0
 		return
 	else

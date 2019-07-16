@@ -35,7 +35,9 @@
 		else
 			ep-=0.01
 	if(ap<=1)
-		if(prob(30))
+		if(prob(15))
+			if(!lying)
+				custom_emote(VISIBLE_MESSAGE, "collapses!")
 			Weaken(5)
 	return
 /mob/living/carbon/human/Regen_Ap()//var/datum/realskills/strength_skill=H.Skills.get_skill(/datum/realskills/strength)

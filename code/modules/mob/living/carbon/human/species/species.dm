@@ -197,7 +197,14 @@
 		BP_L_FOOT = list("path" = /obj/item/organ/external/foot),
 		BP_R_FOOT = list("path" = /obj/item/organ/external/foot/right)
 		)
-
+	var/list/has_bones =list(
+		BONE_R_UPPERARM=/obj/item/organ/bone/arm_bone/upper/r,
+		BONE_L_UPPERARM=/obj/item/organ/bone/arm_bone/upper/l,
+		BONE_R_LOWERARM=/obj/item/organ/bone/arm_bone/lower/r,
+		BONE_L_LOWERARM=/obj/item/organ/bone/arm_bone/lower/l,
+		BONE_R_WRIST=/obj/item/organ/bone/wrist/r,
+		BONE_L_WRIST=/obj/item/organ/bone/wrist/l,
+		)
 	// The basic skin colours this species uses
 	var/list/base_skin_colours
 
@@ -319,6 +326,24 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 
 	H.sync_organ_dna()
 
+/datum/species/proc/create_bones(var/mob/living/carbon/human/H) //Handles creation of mob organs.
+	for(var/obj/item/organ/bone/bone in H.contents)
+		if(bone in H.bones)
+			qdel(bone)
+	if(H.bones)				H.bones.Cut()
+	if(H.bones_by_name)		H.bones_by_name.Cut()
+	H.bones=list()
+	H.bones_by_name=list()
+
+	for(var/bone_tag in has_bones)
+		var/bone_type= has_bones[bone_tag]
+		var/obj/item/organ/bone/B = new bone_type(H)
+		H.bones_by_name[bone_tag] = B
+
+	for(var/name in H.bones_by_name)
+		H.bones |= H.bones_by_name[name]
+
+	H.sync_organ_dna()
 /datum/species/proc/hug(var/mob/living/carbon/human/H,var/mob/living/target)
 
 	var/t_him = "them"

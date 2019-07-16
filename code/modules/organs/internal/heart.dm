@@ -63,15 +63,19 @@
 		return
 	else //and if it's beating, let's see if it should
 		var/should_stop = prob(80) && owner.get_blood_circulation() < BLOOD_VOLUME_SURVIVE //cardiovascular shock, not enough liquid to pump
-		should_stop = should_stop || prob(max(0, owner.getBrainLoss() - owner.maxHealth * 0.75)) //brain failing to work heart properly
+		//should_stop = should_stop || prob(max(0, owner.getBrainLoss() - owner.maxHealth * 0.75)) //brain failing to work heart properly
 		should_stop = should_stop || (prob(10) && owner.shock_stage >= 120) //traumatic shock
 		should_stop = should_stop || (prob(10) && pulse == PULSE_THREADY) //erratic heart patterns, usually caused by oxyloss
 		if(should_stop) // The heart has stopped due to going into traumatic or cardiovascular shock.
 			to_chat(owner, "<span class='danger'>Your heart has stopped!</span>")
+			if(!owner.lying)
+				owner.custom_emote(VISIBLE_MESSAGE, "collapses!")
+			owner.Weaken(5)
 			pulse = PULSE_NONE
 			return
 	if(pulse && oxy <= BLOOD_VOLUME_SURVIVE && !owner.chem_effects[CE_STABLE])	//I SAID MOAR OXYGEN
 		pulse = PULSE_THREADY
+		owner.custom_pain(pick("Your chest hurts really bad","Your chest hurts like mad","Your chest hurts terribly"),100, 1, owner.get_organ(parent_organ),TRUE)
 		return
 
 	pulse = Clamp(PULSE_NORM + pulse_mod, PULSE_SLOW, PULSE_2FAST)
@@ -147,11 +151,11 @@
 							var/min_eff_damage = max(0, W.damage - 10) / 6 //still want a little bit to drip out, for effect
 							blood_max += max(min_eff_damage, W.damage - 30) / 40
 						else*/
-						blood_max += W.damage / 40
+						blood_max += W.damage / 15//40
 
 			if(temp.status & ORGAN_ARTERY_CUT)
 				//var/bleed_amount = Floor((owner.vessel.total_volume / (temp.applied_pressure || !open_wound ? 400 : 250))*temp.arterial_bleed_severity)
-				var/openwoundmod=!open_wound ? 400 : 250
+				var/openwoundmod=	!open_wound ? 400 : 250
 				var/bleed_amount = Floor((owner.vessel.total_volume /openwoundmod)*temp.arterial_bleed_severity)
 				if(bleed_amount)
 					if(open_wound)
@@ -183,7 +187,9 @@
 					owner.drip(blood_max, get_turf(owner))
 		else
 			owner.drip(blood_max)
-
+		//DEBUG REMOVE LATER
+		to_chat(owner,"Blood Loss:[blood_max]")
+		to_chat(owner,"Pulse:[owner.get_pulse(1)]")
 /obj/item/organ/internal/heart/proc/is_working()
 	if(!is_usable())
 		return FALSE

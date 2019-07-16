@@ -18,8 +18,10 @@
 	var/req_skill=swinger.get_apropriate_weapon_skill(src)
 	if(swing_stamina>swinger.ap)//Fail because of no stamina
 		return 0
-	if(prob(30-req_skill*3))//Failure caused by failurechance and low skill
+	if(prob(5-req_skill*3))//Failure caused by failurechance and low skill
 		var/fail_chances=rand(1,3)
+		if(initial(edge)&&edge==0)//If you are using stabing motion with edged weapon
+			fail_chances=1
 		switch(fail_chances)
 			if(1)//This results in injuring the swinger
 				visible_message("<span class='danger'>[swinger] catastrophically fails the swing!</span>")

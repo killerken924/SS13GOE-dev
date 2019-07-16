@@ -11,7 +11,6 @@
 	if(blocked)
 		organ_prob_mod=blocked/4//Armor can help stop these things.
 	for(var/obj/item/organ/internal/I in internal_organs)
-
 		if(I.damage < I.max_damage && prob(I.relative_size-organ_prob_mod))
 			victims += I
 			if(pointy)//pointy is direct, so only one organ
@@ -27,10 +26,10 @@
 			spread_germs_to_organ(src,owner)
 		if(istype(victim,/obj/item/organ/internal/))
 			var/obj/item/organ/internal/I=victim
-			if(damage_amt>I.internal_bleed_threshold)
+			if(damage_amt>I.internal_bleed_threshold)// damage_amt
 				if(pointy)
 					switch(damage_amt)
-						if(I.internal_bleed_threshold to 15)
+						if(1 to 15)
 							if(prob(15))
 								I.make_internal_bleed(1)
 						if(15 to 30)
@@ -45,7 +44,7 @@
 
 				else if (edge)
 					switch(damage_amt)
-						if(I.internal_bleed_threshold to 15)
+						if(1 to 15)
 							if(prob(5))
 								I.make_internal_bleed(1)
 						if(15 to 30)
@@ -60,7 +59,7 @@
 
 				else if(blunt)
 					switch(damage_amt)
-						if(I.internal_bleed_threshold to 15)
+						if(1 to 15)
 							if(prob(5))
 								I.make_internal_bleed(1)
 						if(15 to 30)
@@ -75,4 +74,13 @@
 
 		brute /= 2
 		damage_amt /= 2
-		to_chat(world,"organ victim=[victim],damage_amt=[damage_amt]")
+//			DEBUG REMOVE
+/mob/living/carbon/human/verb/check_internal()
+	var/list/L=list(" ")
+	for(var/obj/item/organ/internal/I in internal_organs)
+		if(I.bleeding)
+			L+="<span class='warning'>[I], Amount:[I.bleeding] \icon[icon(I.icon,"[I.icon_state]")]</span>\n"
+	to_chat(src,jointext(L,null))
+
+
+

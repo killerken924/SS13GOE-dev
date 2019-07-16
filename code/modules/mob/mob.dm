@@ -755,6 +755,9 @@
 		regenerate_icons()
 	else if( lying != lying_prev )
 		update_icons()
+	if(ishuman(src))
+		var/mob/living/carbon/human/H=src
+		H.Handle_Vision_Cone()
 
 	return canmove
 

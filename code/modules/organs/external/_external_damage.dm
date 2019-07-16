@@ -88,6 +88,7 @@
 		if(pointy)
 			organ_damage_threshold *= 0.5
 		var/organ_damage_prob = 5 * damage_amt/organ_damage_threshold //more damage, higher chance to damage
+
 		if(pointy)
 			organ_damage_prob*=4
 		else if(edge)
@@ -97,11 +98,11 @@
 		//if ((cur_damage + damage_amt >= max_damage ||damage_amt >= organ_damage_threshold&& prob(organ_damage_prob)||)//|| damage_amt >= organ_damage_threshold) && prob(organ_damage_prob))
 		if(cur_damage + damage_amt >= max_damage)
 			damage_internal(brute, burn, damage_flags,used_weapon)
-
 		if(pointy)
 			if(prob(organ_damage_prob))
+				//			DEBUG REMOVE
+				to_chat(world,"Passed pointy")
 				damage_internal(brute, burn, damage_flags,used_weapon)
-
 		else if (edge)
 			if(damage_amt >= organ_damage_threshold	&& prob(organ_damage_prob))
 				damage_internal(brute, burn, damage_flags,used_weapon)

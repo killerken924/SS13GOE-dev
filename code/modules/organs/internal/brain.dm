@@ -20,6 +20,7 @@
 	var/damage_threshold_value
 	var/healed_threshold = 1
 	var/oxygen_reserve = 6
+	var/functioning=1
 
 /obj/item/organ/internal/brain/robotize()
 	replace_self_with(/obj/item/organ/internal/posibrain)
@@ -135,10 +136,16 @@
 
 /obj/item/organ/internal/brain/proc/past_damage_threshold(var/threshold)
 	return (get_current_damage_threshold() > threshold)
+/obj/item/organ/internal/brain/die()
+	functioning=0
+	owner.death(0,deathmessage="seizes up and falls limp...", show_dead_message = "You have died.")
+
 
 /obj/item/organ/internal/brain/Process()
 	if(owner)
-		if(damage > max_damage / 2 && healed_threshold)
+		if(damage >= max_damage)
+			die()
+		else if(damage > max_damage / 2 && healed_threshold)
 			spawn()
 				//alert(owner, "You have taken massive brain damage! You will not be able to remember the events leading up to your injury.", "Brain Damaged")
 				alert(owner, "You can remember the events leading up to your injury.", "Brain Damaged")
