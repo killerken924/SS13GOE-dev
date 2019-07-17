@@ -24,6 +24,8 @@
 	artery_name = "aorta"
 	cavity_name = "thoracic"
 	var/breast_size="C"
+	bone_name="ribcage"
+	protected=list("heart","lungs")//proteccts heart and lungs
 
 /obj/item/organ/external/chest/robotize()
 	if(..())

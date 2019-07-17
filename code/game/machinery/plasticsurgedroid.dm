@@ -1,3 +1,4 @@
+/*
 /obj/machinery/plastic_surgedroid
 	name = "Cosmetic Surgery Machine"
 	desc = "A stand up plastic surgery machine, neat."
@@ -63,7 +64,7 @@
 	.=input("Select Surgery","Surgery") in list("Breast Implant A","Breast Implant B","Breast Implant C","Breast Implant D","Breast Implant DD")
 	canmove = 1
 	return .
-/obj/machinery/plastic_surgedroid/proc/DoSurgery(type,user)
+obj/machinery/plastic_surgedroid/proc/DoSurgery(type,user)
 	insurgery=1
 	to_chat(patient,"<span class='danger'>you feel something lift up your shirt!</span>")
 	switch(type)
@@ -165,6 +166,7 @@
 	for(var/mob/O in hearers(src, null))
 		O.show_message("<span class='game say'><span class='name'>\The [src]</span> beeps, \"[message]\"</span>",2)
 	return
+*/
 
 
 

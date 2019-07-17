@@ -125,6 +125,7 @@ proc/show_advance_skills_window(var/mob/user, var/mob/living/carbon/human/M)
 	var/Agiskill=0
 	//These are the advance skills that come with the job
 	var/Job_MeleeSkill=0
+	var/Job_Surgical_Skill=0
 
 
 

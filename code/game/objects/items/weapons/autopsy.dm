@@ -158,7 +158,7 @@
 	if(istype(usr,/mob/living/carbon))
 		// place the item in the usr's hand if possible
 		usr.put_in_hands(P)
-
+/*				OLD SURGERY
 /obj/item/weapon/autopsy_scanner/do_surgery(mob/living/carbon/human/M, mob/living/user)
 	if(!istype(M))
 		return 0
@@ -187,3 +187,4 @@
 		chemtraces += initial(R.name)
 
 	return 1
+*/

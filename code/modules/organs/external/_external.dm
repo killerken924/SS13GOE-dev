@@ -82,6 +82,9 @@
 	// HUD element variable, see organ_icon.dm get_damage_hud_image()
 	var/image/hud_damage_image
 
+	//
+	var/bone_name
+
 /obj/item/organ/external/New(var/mob/living/carbon/holder)
 	..()
 	if(isnull(pain_disability_threshold))
@@ -958,7 +961,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 		for(var/obj/item/weapon/implant/I in implants)
 			I.exposed()
 
-/obj/item/organ/external/proc/fracture()
+/obj/item/organ/external/proc/fracture(var/hurt_internals=0)
 	//if(!config.bones_can_break)
 	//	return
 	if(robotic >= ORGAN_ROBOT)
@@ -989,6 +992,23 @@ Note that amputating the affected organ does in fact remove the infection from t
 	if(!splinted && owner && istype(owner.wear_suit, /obj/item/clothing/suit/space/rig))
 		var/obj/item/clothing/suit/space/rig/suit = owner.wear_suit
 		suit.handle_fracture(owner, src)
+	//New stuf
+	if(hurt_internals)
+		if(prob(30))
+			var/obj/item/organ/internal/I=pick(internal_organs)//Get random internal organ
+			I.make_internal_bleed(rand(1,6))//make it bleed
+		else
+			var/obj/item/organ/internal/I=pick(internal_organs)//Get random internal organ
+			I.take_damage(rand(1,15))
+
+	else if(prob(25))
+		if(prob(30))
+			var/obj/item/organ/internal/I=pick(internal_organs)//Get random internal organ
+			I.make_internal_bleed(rand(1,6))//make it bleed
+		else
+			var/obj/item/organ/internal/I=pick(internal_organs)//Get random internal organ
+			I.take_damage(rand(1,15))
+
 
 /obj/item/organ/external/proc/mend_fracture()
 	if(robotic >= ORGAN_ROBOT)

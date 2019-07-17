@@ -8,9 +8,14 @@
 
 	var/list/victims = list()
 	var/organ_prob_mod=0
+	var/passed_pierce_threshold=0//This is required for a pointy weapon to break through a bone.
+	if(pointy&&damage_amt>=pierce_threshold)
+		passed_pierce_threshold=1
 	if(blocked)
 		organ_prob_mod=blocked/4//Armor can help stop these things.
 	for(var/obj/item/organ/internal/I in internal_organs)
+		if(Find_Internal_In_Protected(I) && !src.is_broken() &&!passed_pierce_threshold) //If the organ is protected by the external organ bone, and that bone is not broken. And the damage is less than the pierce threshold It can not be damaged
+			continue
 		if(I.damage < I.max_damage && prob(I.relative_size-organ_prob_mod))
 			victims += I
 			if(pointy)//pointy is direct, so only one organ
@@ -21,9 +26,10 @@
 		victim.take_damage(damage_amt)
 		if(laser)
 			burn /= 2
+		//				OLD SURGERY
+		//else if(sharp)
+		//	spread_germs_to_organ(src,owner)
 
-		else if(sharp)
-			spread_germs_to_organ(src,owner)
 		if(istype(victim,/obj/item/organ/internal/))
 			var/obj/item/organ/internal/I=victim
 			if(damage_amt>I.internal_bleed_threshold)// damage_amt
@@ -79,8 +85,20 @@
 	var/list/L=list(" ")
 	for(var/obj/item/organ/internal/I in internal_organs)
 		if(I.bleeding)
-			L+="<span class='warning'>[I], Amount:[I.bleeding] \icon[icon(I.icon,"[I.icon_state]")]</span>\n"
+			L+="<span class='warning'>[I],Damage:[I.damage], Bleed Amount:[I.bleeding] \icon[icon(I.icon,"[I.icon_state]")]</span>\n"
 	to_chat(src,jointext(L,null))
 
 
+/obj/item/organ/external/proc/Find_Internal_In_Protected(obj/item/organ/internal/I)
+	for(var/obj/item/organ/internal/O in internal_organs)
+		if(O.organ_tag==I.organ_tag)
+			return TRUE
+	return FALSE
+
+/obj/item/organ/external
+	var/pierce_threshold//Amount of damaged a pointy weapon must do, to break through the protection
+	var/list/protected=list()//A list of internal organs that are protected by the bones of this external organ. The bone has to be broken for the protection to seize
+
+/obj/item/organ/external/chest
+	pierce_threshold=15
 

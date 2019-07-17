@@ -23,13 +23,13 @@ REAGENT SCANNER
 	matter = list(DEFAULT_WALL_MATERIAL = 200)
 	origin_tech = list(TECH_MAGNET = 1, TECH_BIO = 1)
 	var/mode = 1;
-
+/*				SURGERY
 /obj/item/device/healthanalyzer/do_surgery(mob/living/M, mob/living/user)
 	if(user.a_intent != I_HELP) //in case it is ever used as a surgery tool
 		return ..()
 	scan_mob(M, user) //default surgery behaviour is just to scan as usual
 	return 1
-
+*/
 /obj/item/device/healthanalyzer/attack(mob/living/M, mob/living/user)
 	user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 	scan_mob(M, user)

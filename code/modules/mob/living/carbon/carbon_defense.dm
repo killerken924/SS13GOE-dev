@@ -20,11 +20,23 @@
 
 	//Melee weapon embedded object code.
 	if(istype(created_wound) && I && I.damtype == BRUTE && !I.anchored && !is_robot_module(I))
-		var/weapon_sharp = (damage_flags & DAM_SHARP)
-		var/weapon_edge = (damage_flags & DAM_EDGE)
+		//var/weapon_sharp = (damage_flags & DAM_SHARP)
+		//var/weapon_edge = (damage_flags & DAM_EDGE)
+		embed_chance(I, user, effective_force, damage_flags,created_wound,blocked,hit_zone)
+
+
+	if(!ishuman(src))
+		//var/stamina_take
+		Do_Stamina(effective_force/10)
+	return 1
+
+
 		//var/weapon_point = weapon_sharp &&!weapon_edge
 
-		var/damage = effective_force //just the effective damage used for sorting out embedding, no further damage is applied here
+		//var/damage = effective_force //just the effective damage used for sorting out embedding, no further damage is applied here
+		//			DEBUG REMOVE
+
+		/*
 		if (blocked)
 			damage *= blocked_mult(blocked)
 
@@ -41,7 +53,4 @@
 		if(embed_chance>0)
 			if(damage > embed_threshold && prob(embed_chance))//(weapon_sharp && damage > (10*I.w_class))
 				src.embed(I, hit_zone, supplied_wound = created_wound)
-	if(!ishuman(src))
-		//var/stamina_take
-		Do_Stamina(effective_force/10)
-	return 1
+		*/

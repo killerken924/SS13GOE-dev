@@ -16,6 +16,7 @@
 		return
 	else
 		..()
+
 /mob/living/carbon/human/proc/Has_Clothes_That_Prevent_Sex()
 	var/list/L=list()
 	for(var/obj/item/I in list(wear_suit,w_uniform,wear_underwear))
@@ -25,6 +26,7 @@
 		return 1
 	else
 		return 0
+
 /mob/living/carbon/human/proc/Can_Sex(type="Sex",mob/living/carbon/human/Taker,mob/living/carbon/human/Giver)
 	if(type)
 		if(Taker==Giver)
@@ -124,6 +126,33 @@
 					Anal_Sex(src,C,C)
 		src.Sex(C)
 	else
+		/*var/obj/item/organ/external/affected = src.get_organ(C.zone_sel.selecting)//Get organ
+		//surgery
+		if(get_dist(src,C)<2)
+			if(href_list["BoneBreak"])
+				world.log<<"BoneBreak"
+				if(held)//If item exists
+					if(held.damtype==BRUTE&&!held.sharp) //if its a blunt weapon
+						switch(C.Attempt_Break_Bone_Surgery(held,src))//Find result
+							if(1)//Success
+								visible_message("<span class='danger'>[C] breaks [src]'s [affected.bone_name] with the [held] successfully</span>")
+								C.ap-=rand(1,4)//Take stamina
+								affected.fracture()	//fracture bone
+
+							if(2)//Fail Prob
+								C.ap-=rand(1,4)//Take stamina
+								if(prob(33))
+									affected.fracture(1)//fracture bone, but fuck it up
+									visible_message("<span class='danger'>[C] breaks [src]'s [affected.bone_name] with the [held]</span>")
+								else
+									visible_message("<span class='danger'>[C] fails to breaks [src]'s [affected.bone_name] with the [held]</span>")
+									affected.take_damage(rand(1,15))
+									src.do_pain_sounds(15,"brute")//This should hurt
+					else
+						to_chat(C,"<span class='warning'>[pick(GLOB.failure_words)]</span>")
+				C.internal_surgery(src,held,affected)*/
+
+		//
 		var/craftingitem=0
 		for(var/datum/craftable_item/I in craftable_items)
 			if(href_list["[I.name]"])

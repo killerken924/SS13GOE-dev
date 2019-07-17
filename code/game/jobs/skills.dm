@@ -16,5 +16,9 @@
 		owneragility.points+=Agiskill
 
 /datum/job/proc/equip_advance_skills(var/mob/living/carbon/human/H)
+
+	var/datum/advance_skills/SurgerySkill=H.Get_Adv_Skill(/datum/advance_skills/surgery_skill)
+	SurgerySkill.points+=Job_Surgical_Skill
+
 	var/datum/advance_skills/MeleeSkills=H.Get_Adv_Skill(/datum/advance_skills/melee_fighting)
 	MeleeSkills.points+=Job_MeleeSkill

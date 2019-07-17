@@ -79,3 +79,5 @@ GLOBAL_LIST_INIT(numbers_as_words, list("One", "Two", "Three", "Four",
 	"Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve",
 	"Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
 	"Eighteen", "Nineteen"))
+
+GLOBAL_LIST_INIT(failure_words, list("I just can't","Nope","Not possible","Can't do that","Negative","Yeah...No","Failure....","Complete Failure...."))

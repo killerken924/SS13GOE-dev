@@ -48,6 +48,9 @@
 	Strskill=1
 	Intskill=4
 	Agiskill=1
+	Job_Surgical_Skill=5
+
+
 
 //Chemist is a medical job damnit	//YEAH FUCK YOU SCIENCE	-Pete	//Guys, behave -Erro
 /datum/job/chemist

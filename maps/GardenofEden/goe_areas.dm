@@ -40,6 +40,20 @@
 /area/goe/bridge2
 	name="Bridge2"
 	icon_state="bridge2"
+//Medical Stuff
+
+/area/goe/medical_rooms1
+	name="Medical Rooms1"
+	icon_state="medical_rooms1"
+
+/area/goe/medical_rooms2
+	name="Medical Rooms2"
+	icon_state="medical_rooms2"
+
+/area/goe/medical
+	name="Medical"
+	icon_state="medical"
+
 //Mining Stuff
 /area/goe/mining1
 	name="Mining1"

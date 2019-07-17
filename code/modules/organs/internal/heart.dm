@@ -128,6 +128,7 @@
 		var/blood_max = 0
 		var/list/do_spray = list()
 		handle_internal_bleeding()
+
 		for(var/obj/item/organ/external/temp in owner.organs)
 
 			if(temp.robotic >= ORGAN_ROBOT)
@@ -152,7 +153,6 @@
 							blood_max += max(min_eff_damage, W.damage - 30) / 40
 						else*/
 						blood_max += W.damage / 15//40
-
 			if(temp.status & ORGAN_ARTERY_CUT)
 				//var/bleed_amount = Floor((owner.vessel.total_volume / (temp.applied_pressure || !open_wound ? 400 : 250))*temp.arterial_bleed_severity)
 				var/openwoundmod=	!open_wound ? 400 : 250
@@ -163,6 +163,11 @@
 						do_spray += "the [temp.artery_name] in \the [owner]'s [temp.name]"
 					else
 						owner.vessel.remove_reagent(/datum/reagent/blood, bleed_amount)
+		//SURGERY SHIT
+
+		for(var/datum/surgical_wound/S in owner.surgical_wounds)
+			if(S.bleed_amount&&!S.bleed_stopped)
+				blood_max+=S.bleed_amount
 
 		switch(pulse)
 			if(PULSE_SLOW)

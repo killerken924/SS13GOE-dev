@@ -896,13 +896,23 @@ var/global/list/damage_icon_parts = list()
 /mob/living/carbon/human/proc/update_surgery(var/update_icons=1)
 	overlays_standing[SURGERY_LEVEL] = null
 	var/image/total = new
+	for(var/datum/surgical_wound/S in surgical_wounds)
+		var/image/I = image("icon"=S._icon, "icon_state"=S._iconstate, "layer"=-SURGERY_LEVEL)
+		total.overlays += I
+	total.appearance_flags = RESET_COLOR
+	overlays_standing[SURGERY_LEVEL] = total
+	if(update_icons)   update_icons()
+
+	/*
+	overlays_standing[SURGERY_LEVEL] = null
+	var/image/total = new
 	for(var/obj/item/organ/external/E in organs)
 		if(E.robotic < ORGAN_ROBOT && E.how_open())
 			var/image/I = image("icon"='icons/mob/surgery.dmi', "icon_state"="[E.icon_name][round(E.how_open())]", "layer"=-SURGERY_LEVEL)
 			total.overlays += I
 	total.appearance_flags = RESET_COLOR
 	overlays_standing[SURGERY_LEVEL] = total
-	if(update_icons)   update_icons()
+	if(update_icons)   update_icons()*/
 
 //Human Overlays Indexes/////////
 #undef MUTATIONS_LAYER

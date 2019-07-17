@@ -129,13 +129,14 @@ var/global/list/string_slot_flags = list(
 	for(var/path in paths)
 		var/datum/sprite_accessory/marking/M = new path()
 		GLOB.body_marking_styles_list[M.name] = M
-
+	/*				OLD SURGERY
 	//Surgery Steps - Initialize all /datum/surgery_step into a list
 	paths = typesof(/datum/surgery_step)-/datum/surgery_step
 	for(var/T in paths)
 		var/datum/surgery_step/S = new T
 		surgery_steps += S
 	sort_surgeries()
+	*/
 
 	//List of job. I can't believe this was calculated multiple times per tick!
 	paths = typesof(/datum/job)-/datum/job

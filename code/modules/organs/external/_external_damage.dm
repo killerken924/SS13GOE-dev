@@ -100,8 +100,6 @@
 			damage_internal(brute, burn, damage_flags,used_weapon)
 		if(pointy)
 			if(prob(organ_damage_prob))
-				//			DEBUG REMOVE
-				to_chat(world,"Passed pointy")
 				damage_internal(brute, burn, damage_flags,used_weapon)
 		else if (edge)
 			if(damage_amt >= organ_damage_threshold	&& prob(organ_damage_prob))

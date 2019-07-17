@@ -16,8 +16,10 @@
 			playsound(src.loc,pick(soundsofswing), 50, 1)
 
 	var/req_skill=swinger.get_apropriate_weapon_skill(src)
+
 	if(swing_stamina>swinger.ap)//Fail because of no stamina
 		return 0
+
 	if(prob(5-req_skill*3))//Failure caused by failurechance and low skill
 		var/fail_chances=rand(1,3)
 		if(initial(edge)&&edge==0)//If you are using stabing motion with edged weapon
@@ -71,6 +73,12 @@
 		return swsounds
 	return 0
 
+/obj/item/proc/handle_swinging(mob/living/carbon/human/swinger)
+	if(swing_stamina>swinger.ap)//Fail because of no stamina
+		return 0
+	if( (sharp&&edge) || (damtype==BRUTE&&!sharp) )//If its an edged sharp weapon, or a blunt weapon. You have to swing
+		return Swing(swinger)
+	return 1
 
 
 

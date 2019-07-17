@@ -40,8 +40,18 @@ avoid code duplication. This includes items that may sometimes act as a standard
 /mob/living/attackby(obj/item/I, mob/user)
 	if(!ismob(user))
 		return 0
+	/*		OLD SURGERY
 	if(can_operate(src,user) && I.do_surgery(src,user)) //Surgery
-		return 1
+		return 1*/
+	if(ishuman(src)&&ishuman(user))
+		var/mob/living/carbon/human/H=src
+		var/mob/living/carbon/human/Huser=user
+		if(I.can_do_surgery(H,Huser,I))
+			if(Huser.do_surgery(H,I))
+				return 1
+			return 0
+	//		DEBUG REMOVE
+
 	to_chat(world,"attack")
 	return I.attack(src, user, user.zone_sel.selecting)
 
@@ -80,8 +90,9 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		var/mob/living/carbon/human/H=user
 		var/datum/realskills/strength_skill=H.Skills.get_skill(/datum/realskills/strength)
 		var/wep_skll=H.get_apropriate_weapon_skill(src)
-		if(!Swing(H))
+		if(!handle_swinging(H))
 			return 0
+
 		var/clickcooldown
 		var/is_stabby
 		if( (damage_flags() & DAM_SHARP)&&!(damage_flags() & DAM_EDGE) )
@@ -89,9 +100,9 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		if(attack_delay)
 			clickcooldown=attack_delay//+swing_stamina
 		else
-			var/stab_mod
+			var/stab_mod=0
 			if(is_stabby)//You can attack faster if you are stabbing
-				stab_mod=rand(2,4)
+				stab_mod=rand(0.25,0.75)
 			clickcooldown=src.w_class*3+swing_stamina-stab_mod
 		clickcooldown-=H.ap/5// so if you have full stamina you would be 2 faster, if you had 1 stamina it would be .2 faster
 
@@ -99,7 +110,7 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		//Taking stamina
 		var/stamina_take=src.w_class+swing_stamina//if the item size was LARGE, it would take 2 stamina, if it was normal, 1.5
 		if(is_stabby)//takes less stamina if you stab
-			stamina_take-=0.5
+			stamina_take-=0.3
 		if(strength_skill&&strength_skill.points)
 			stamina_take-=strength_skill.points/10//if you had max strength it would take 1.5 less, so if it was an large item, it would take 0.5 stamina, if it was normal
 		if(wep_skll)
@@ -121,12 +132,7 @@ avoid code duplication. This includes items that may sometimes act as a standard
 
 //Called when a weapon is used to make a successful melee attack on a mob. Returns the blocked result
 /obj/item/proc/apply_hit_effect(mob/living/target, mob/living/user, var/hit_zone,var/powermod)
-	if(hitsound||hitsounds&&hitsounds.len)
-		if(hitsounds&&hitsounds.len)
-			playsound(loc, pick(hitsounds), 50, 1, -1)
-		else if(hitsound)
-			playsound(loc,hitsound, 50, 1, -1)
-
+	handle_hit_sounds(target,user,hit_zone,powermod)
 
 	var/power = force
 	if(powermod)
@@ -136,3 +142,9 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		power *= 2
 	return target.hit_with_weapon(src, user, power, hit_zone)
 
+/obj/item/proc/handle_hit_sounds(mob/living/target, mob/living/user, var/hit_zone,var/powermod)
+	if(hitsound||hitsounds&&hitsounds.len)
+		if(hitsounds&&hitsounds.len)
+			playsound(loc, pick(hitsounds), 50, 1, -1)
+		else if(hitsound)
+			playsound(loc,hitsound, 50, 1, -1)

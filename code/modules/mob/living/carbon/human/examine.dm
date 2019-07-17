@@ -61,7 +61,6 @@
 		if(I.body_parts_covered&LOWER_TORSO)//If the clothes cover the groin
 			can_see_genitals=0
 	if(can_see_genitals)
-		to_chat(world,"nudity check examine")
 		switch(gender)
 			if(MALE)
 				//Erection aspect

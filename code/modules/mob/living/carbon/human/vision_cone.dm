@@ -55,6 +55,8 @@
 /mob/dead/InCone(mob/center = usr, dir = NORTH)
 	return
 /mob/living/carbon/human/proc/Handle_Vision_Cone()
+	if(!src.client)
+		return 0
 	if(istype(src,/mob/living/carbon/human/dummy/mannequin))
 		return 1
 	fov_icon.dir=src.dir
